@@ -44,11 +44,18 @@ class TileGame(Tree):
 
             if currentStateString == self.targetStateString:
                 print("Answer Found!")
-
+                result = []
                 while currentState != "":
-                    print('----------------------------')
-                    print(self.convertStringToMatrix(currentState.name))
+                    result.append(str(self.convertStringToMatrix(currentState.name)))
                     currentState = currentState.parent
+                f = open("output.txt", "w")
+                f.write('Test Case 5 - Given Start State\n')
+                for matrix in reversed(result):
+                    f.write('----------------------------\n')
+                    f.write(matrix)
+                    f.write('\n')
+                f.write('Goal state')
+                f.close()
 
                 return True
 
@@ -61,7 +68,6 @@ class TileGame(Tree):
                 obj = Tree(child)
                 obj.name = child
                 obj.parent = currentState
-                # print(obj.name, "is the child of", obj.parent)
                 statesToExplore.append(obj)
             
         return False
