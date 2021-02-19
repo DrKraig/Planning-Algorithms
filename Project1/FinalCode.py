@@ -178,6 +178,8 @@ class TileGame(Tree):
         return matrix
 
 
+#################################################
+#Uncomment any of these below chunks of line to run the code.
 
 #Test Case 1:
 # matrixA = [[1,2,3,4],[5,6,0,8], [9,10,7,12], [13,14,11,15]]
