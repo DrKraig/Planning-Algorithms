@@ -1,16 +1,26 @@
+
 import re
 import numpy as np
 import copy 
 
-
 class Tree:
+    '''
+
+    Tree class : This class is built to store .parent property for every state that is being generated.
+
+    '''
     def __init__(self, node):
         self.name = node
         self.parent = ""
 
 class TileGame(Tree):
+    '''
 
+    TileGame class : This class defines all the functions required to play the tile game given a initial state.
+
+    '''
     def __init__(self, initialState):
+
         self.initialState = initialState
         self.rows = len(self.initialState)
         self.cols = len(self.initialState[0])
@@ -33,7 +43,10 @@ class TileGame(Tree):
         return matrix
 
     def bfs(self,matrixA):
-
+        """
+        Input: A given matrix/ Initial State of any size. (nxn)
+        Output: A text file generated with the path from the initial state to the final state.
+        """
         currentStateString = self.convertMatrixToString(matrixA)
         node = Tree(currentStateString)
         statesToExplore = [node]
