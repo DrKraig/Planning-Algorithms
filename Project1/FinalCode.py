@@ -4,23 +4,22 @@ import numpy as np
 import copy 
 
 class Tree:
-    '''
-
-    Tree class : This class is built to store .parent property for every state that is being generated.
-
-    '''
+    """
+    Tree class : This class is built to store the parent property for every state that is being generated.
+    """
     def __init__(self, node):
         self.name = node
         self.parent = ""
 
 class TileGame(Tree):
-    '''
-
-    TileGame class : This class defines all the functions required to play the tile game given a initial state.
-
-    '''
+    """
+    TileGame class : This class defines all the functions required to play the tile game given an initial state.
+    """
     def __init__(self, initialState):
-
+        
+        """
+        Description: Defining initial constants - Visited array, Rows, Cols, Target String.
+        """
         self.initialState = initialState
         self.rows = len(self.initialState)
         self.cols = len(self.initialState[0])
@@ -44,8 +43,9 @@ class TileGame(Tree):
 
     def bfs(self,matrixA):
         """
-        Input: A given matrix/ Initial State of any size. (nxn)
+        Input: A given matrix/ initial state of any size. (nxn)
         Output: A text file generated with the path from the initial state to the final state.
+
         """
         currentStateString = self.convertMatrixToString(matrixA)
         node = Tree(currentStateString)
@@ -86,7 +86,11 @@ class TileGame(Tree):
         return False
 
     def getNewStates(self, currentStateString):
+        """
+        Input: The hashed state of the matrix.
+        Output: New possible states of the matrix.
 
+        """
         currentState = self.convertStringToMatrix(currentStateString)
         result = []
         i,j = self.getBlankTile(currentState)
@@ -123,6 +127,9 @@ class TileGame(Tree):
         return result
 
     def swapTiles(self, i,j, matrix, mode):
+        """
+        Description: Swapping the number with 0 position
+        """
         if mode == 0:   
             matrix[i][j], matrix[i-1][j] = matrix[i-1][j], matrix[i][j]
         elif mode == 1:
@@ -134,12 +141,18 @@ class TileGame(Tree):
         return matrix
 
     def getBlankTile(self, matrix):
+        """
+        Description: Getting the position of the blank Tile
+        """
         for i in range(self.rows):
             for j in range(self.cols):
                 if matrix[i][j] == 0:
                     return i,j
 
     def convertMatrixToString(self, matrix):
+        """
+        Description: Hashing the matrix to string.
+        """
         string = ""
 
         for i in range(self.rows):
@@ -150,6 +163,9 @@ class TileGame(Tree):
         return string
     
     def convertStringToMatrix(self, string):
+        """
+        Description: UnHashing the string to matrix.
+        """
         matrix = []
 
         listOfWords = re.sub( r"([A-Z])", r" \1", string).split()
