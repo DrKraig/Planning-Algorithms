@@ -14,7 +14,7 @@ Note:  Other libraries used are inbuilt.</br>
     3. Navigate to this directory using 'cd ENPM661/Project1'
     4. If OS is windows, type 'python FinalCode.py'
     4. If OS is Ubuntu, type 'python3 FinalCode.py'
-    5. Check the generated file in the 'Output Text Files' directory called output(N).txt' for Nth test case.
+    5. Check the generated file in the 'Output Text Files' directory called 'output(N).txt' for Nth test case.
 
 
 ## A few instresting things about this prorgam.
