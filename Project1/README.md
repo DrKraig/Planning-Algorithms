@@ -1,4 +1,4 @@
-<h1>Project 1 - 15 Puzzle Challenge</h1>
+<h1>Project 1 - 15 Puzzle Challenge!</h1>
 
   <h1>Pre-requisites to run the code:</h1>
 
