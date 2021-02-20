@@ -1,4 +1,4 @@
-# ENPM661
+# ENPM661 - 'Planning for Autonmous Robotics'
 A list of all asssignments &amp; projects in ENPM661 'Planning for Autonmous Robotics'
 
   <h2>Projects performed so far- </h2>
