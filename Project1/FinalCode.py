@@ -197,14 +197,14 @@ class TileGame(Tree):
 # print(start.bfs(matrixC))
 
 #Test Case 4:
-# matrixD = [[5,1,2,3],[0,6,7,4], [9,10,11,8], [13,14,15,12]]
-# start = TileGame(matrixD)
-# print(start.bfs(matrixD))
+matrixD = [[5,1,2,3],[0,6,7,4], [9,10,11,8], [13,14,15,12]]
+start = TileGame(matrixD)
+print(start.bfs(matrixD))
 
 #Test Case 5:
-matrixE = [[1,6,2,3],[9,5,7,4], [0,10,11,8], [13,14,15,12]]
-start = TileGame(matrixE)
-print(start.bfs(matrixE))
+# matrixE = [[1,6,2,3],[9,5,7,4], [0,10,11,8], [13,14,15,12]]
+# start = TileGame(matrixE)
+# print(start.bfs(matrixE))
 
 
 
