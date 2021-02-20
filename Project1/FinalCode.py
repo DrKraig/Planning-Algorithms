@@ -1,4 +1,16 @@
 #https://github.com/SamPusegaonkar/ENPM661/tree/main/Project1
+
+###########################################
+#Worst Case Time complexity is O(N) - Where N is the number of states visited to reach the target state.
+
+#Explnation: A while loop is been run to store all the possible states to be explored.
+###########################################
+#Space Complexity is O(N) - Where N is the number of states.
+
+#Explnation: A hash table has been used to store all the visited states.
+###########################################
+
+
 import re
 import numpy as np
 import copy 
