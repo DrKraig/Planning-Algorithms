@@ -1,4 +1,3 @@
-# ENPM661 - Planning for Autonomous Robots
 <h1>Project 1</h1>
 
   <h1>Pre-requisites to run the code:</h1>
@@ -13,6 +12,6 @@ Note:  Other libraries used are inbuilt.</br>
     1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
     2. Open command prompt or terminal.
     3. Navigate to this directory using 'cd ENPM661/Project1'
-    4. If OS is windows, type python FinalCode.py
-    4. If OS is Ubuntu, type python3 FinalCode.py
+    4. If OS is windows, type 'python FinalCode.py'
+    4. If OS is Ubuntu, type 'python3 FinalCode.py'
     5 Check the generated file in the current directory called 'output.txt'
