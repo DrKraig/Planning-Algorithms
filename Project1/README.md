@@ -20,7 +20,8 @@ Note:  Other libraries used are inbuilt.</br>
 ## A few instresting things about this prorgam.
   1. No List has been created to store parent child information. Instead a completely seperate data structure is built to store this.
   2. For each state a parent node has been created so that once the final state is found, a solution could be backtracked.
- 
+  3. Because there is no list, solution for each test case is generated within milliseconds! - Optimal Time is obtained & is discussed in detail in the code itself.
+
 Note: Outputs of all test cases are located below.</br>
 
 <h2> Test Case 5 </h2>
