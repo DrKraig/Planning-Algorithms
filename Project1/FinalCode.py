@@ -27,7 +27,7 @@ class TileGame(Tree):
     """
     TileGame class : This class defines all the functions required to play the tile game given an initial state.
     """
-    def __init__(self, initialState):
+    def __init__(self, initialState, filename, title):
         
         """
         Description: Defining initial constants - Visited array, Rows, Cols, Target String.
@@ -36,6 +36,8 @@ class TileGame(Tree):
         self.rows = len(self.initialState)
         self.cols = len(self.initialState[0])
         self.visited = {}
+        self.filename = filename
+        self.title = title
         self.matchingNumToString = {1:"One", 2:"Two", 3:"Three", 0:"Zero", 4:"Four", 5:"Five", 6:"Six", 7:"Seven", 8:"Eight", 9:"Nine", 10:"Ten", 11:"Eleven", 12:"Twel", 13:"Thir", 14:"Fourt", 15:"Fif"}
         self.matchingStringToNum = {"One":1, "Two":2, "Three":3, "Zero":0, "Four":4, "Five":5, "Six":6, "Seven":7, "Eight":8, "Nine":9, "Ten":10, "Eleven":11, "Twel":12, "Thir":13, "Fourt":14, "Fif":15}
         self.targetState = self.generateTargetState(self.initialState)
@@ -73,8 +75,9 @@ class TileGame(Tree):
                 while currentState != "":
                     result.append(str(self.convertStringToMatrix(currentState.name)))
                     currentState = currentState.parent
-                f = open("output.txt", "w")
-                f.write('Test Case 5 - Given Start State\n')
+                f = open(self.filename, "w")
+                string = self.title +  ' - Given Start State\n'
+                f.write(string)
                 for matrix in reversed(result):
                     f.write('----------------------------\n')
                     f.write(matrix)
@@ -191,32 +194,31 @@ class TileGame(Tree):
 
 
 #################################################
-#Uncomment any of these below chunks of line to run the code for a test case.
 
 #Test Case 1:
-# matrixA = [[1,2,3,4],[5,6,0,8], [9,10,7,12], [13,14,11,15]]
-# start = TileGame(matrixA)
-# print(start.bfs(matrixA))
+matrixA = [[1,2,3,4],[5,6,0,8], [9,10,7,12], [13,14,11,15]]
+start = TileGame(matrixA, "./Output Text Files/Output1.txt", "Test Case 1")
+print(start.bfs(matrixA))
 
 #Test Case 2:
-# matrixB = [[1,0,3,4],[5,2,7,8], [9,6,10,11], [13,14,15,12]]
-# start = TileGame(matrixB)
-# print(start.bfs(matrixB))
+matrixB = [[1,0,3,4],[5,2,7,8], [9,6,10,11], [13,14,15,12]]
+start = TileGame(matrixB, "./Output Text Files/Output2.txt", "Test Case 2")
+print(start.bfs(matrixB))
 
 #Test Case 3:
-# matrixC = [[0,2,3,4],[1,5,7,8], [9,6,11,12], [13,10,14,15]]
-# start = TileGame(matrixC)
-# print(start.bfs(matrixC))
+matrixC = [[0,2,3,4],[1,5,7,8], [9,6,11,12], [13,10,14,15]]
+start = TileGame(matrixC, "./Output Text Files/Output3.txt", "Test Case 3")
+print(start.bfs(matrixC))
 
 #Test Case 4:
 matrixD = [[5,1,2,3],[0,6,7,4], [9,10,11,8], [13,14,15,12]]
-start = TileGame(matrixD)
+start = TileGame(matrixD, "./Output Text Files/Output4.txt", "Test Case 4")
 print(start.bfs(matrixD))
 
 #Test Case 5:
-# matrixE = [[1,6,2,3],[9,5,7,4], [0,10,11,8], [13,14,15,12]]
-# start = TileGame(matrixE)
-# print(start.bfs(matrixE))
+matrixE = [[1,6,2,3],[9,5,7,4], [0,10,11,8], [13,14,15,12]]
+start = TileGame(matrixE, "./Output Text Files/Output5.txt", "Test Case 5")
+print(start.bfs(matrixE))
 
 
 
