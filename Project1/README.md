@@ -17,8 +17,11 @@ Note:  Other libraries used are inbuilt.</br>
     5. Check the generated file in the current directory called 'output.txt'
     6. For running other test cases, uncomment the lines (184-200) from the FinalCode.py file.
 
+## A few instresting things about this prorgam.
+  1. No List has been created to store parent child information. Instead a completely seperate data structure is built to store this.
+  2. For each state a parent node has been created so that once the final state is found, a solution could be backtracked.
+ 
 Note: Outputs of all test cases are located below.</br>
-
 
 <h2> Test Case 5 </h2>
 
