@@ -29,7 +29,6 @@ class Graph:
         for i in range(self.height):
             for j in range(self.width):
                 currentNode = Node(i,j)
-                # pygame.draw.rect(gridDisplay, (0,0,150), (j, i, 10, 10 ),2)
                 pygame.draw.rect(gridDisplay,(255,255,255),[(self.CELL_MARGIN + self.CELL_WIDTH) * j + self.CELL_MARGIN,(self.CELL_MARGIN + self.CELL_HEIGHT) * i + self.CELL_MARGIN,self.CELL_WIDTH, self.CELL_HEIGHT])
                 pygame.display.update()
                 neighbours = self.getNeighbours(currentNode)
@@ -116,7 +115,7 @@ for row in range(300):
         grid[row].append(0)
 
 pygame.init()
-gridDisplay = pygame.display.set_mode((400, 300))
+gridDisplay = pygame.display.set_mode((1000, 750))
 pygame.display.set_caption("First Game")
 
 done = False
@@ -125,7 +124,7 @@ clock = pygame.time.Clock()
 obj = Graph()
 obj.generateGraph()
 start = Node(0,0)
-end = Node(600,800)
+end = Node(50,50)
 robot = Graph()
 robot.performDijkstra(start, end)
 
