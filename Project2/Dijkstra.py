@@ -1,4 +1,3 @@
-import heapq
 import pygame
 import sys
 
@@ -55,19 +54,19 @@ class Graph:
         
         #BottomLeft 
         if j > 0 and i < (self.height-1):
-            neighbours[tuple([i+1, j-1])] = 2
+            neighbours[tuple([i+1, j-1])] = 1.41
         
         #BottomRight 
         if j < (self.width-1) and i < (self.height-1):
-            neighbours[tuple([i+1, j+1])] = 2
+            neighbours[tuple([i+1, j+1])] = 1.41
         
         #TopLeft 
         if i > 0 and j > 0:
-            neighbours[tuple([i-1, j-1])] = 2
+            neighbours[tuple([i-1, j-1])] = 1.41
 
         #TopRight 
         if i > 0 and j < (self.width -1):
-            neighbours[tuple([i-1, j+1])] = 2
+            neighbours[tuple([i-1, j+1])] = 1.41
         
         # print(neighbours, "are the neighbours of",i,j)
         return neighbours
@@ -75,8 +74,8 @@ class Graph:
     def performDijkstra(self, start, end):
         priorityQueue = [start]
         while len(priorityQueue):
-            #Assuming this will work
-            currentNode = heapq.heappop(priorityQueue)
+            priorityQueue.sort(key = lambda x: x.distanceToReach)
+            currentNode = priorityQueue.pop(0)
             if currentNode.i == end.i and currentNode.j == end.j:
                 print("Found it!")
                 self.backTrack(currentNode)
@@ -92,7 +91,7 @@ class Graph:
                 neighbourNode.distanceToReach = currentDistance + newDistance
 
                 neighbourNode.parent = currentNode
-                heapq.heappush(priorityQueue, neighbourNode)
+                priorityQueue.append(neighbourNode)
 
         print("Cannot find a path :(")
 
@@ -103,8 +102,6 @@ class Graph:
             child = child.parent
         return True
         
-
-
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -125,7 +122,7 @@ clock = pygame.time.Clock()
 
 start = Node(0,0)
 start.distanceToReach = 0
-end = Node(1,1)
+end = Node(2,2)
 robot = Graph()
 robot.performDijkstra(start, end)
 
