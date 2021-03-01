@@ -12,8 +12,8 @@ class Node:
 
 class Graph:
     def __init__(self):
-        self.height= 100
-        self.width = 100
+        self.height= 300
+        self.width = 400
 
         self.CELL_MARGIN = .5
         self.CELL_WIDTH = 2
@@ -34,7 +34,7 @@ class Graph:
         i, j = currentNode.i, currentNode.j
         neighbours ={}
 
-        #Top
+        #Bottom
         if i > 0 and (not self.isAnObstacle(i-1, j)):
             #print("No Obstacle found at ", i-1, j)
             neighbours[tuple([i-1,j])] = 1
@@ -44,7 +44,7 @@ class Graph:
             #print("No Obstacle found at ", i, j-1)
             neighbours[tuple([i,j-1])] = 1
         
-        #Bottom
+        #Top
         if i < (self.height -1) and (not self.isAnObstacle(i+1, j)):
             #print("No Obstacle found at ", i+1, j)
             neighbours[tuple([i+1,j])] = 1
@@ -54,22 +54,22 @@ class Graph:
             #print("No Obstacle found at ", i, j+1)
             neighbours[tuple([i,j+1])] = 1
         
-        #BottomLeft 
+        #TopLeft 
         if j > 0 and i < (self.height-1) and (not self.isAnObstacle(i+1, j-1)):
             #print("No Obstacle found at ", i+1, j-1)
             neighbours[tuple([i+1, j-1])] = 1.41
         
-        #BottomRight 
+        #TopRight 
         if j < (self.width-1) and i < (self.height-1)and (not self.isAnObstacle(i+1, j+1)):
             #print("No Obstacle found at ", i+1, j+1)
             neighbours[tuple([i+1, j+1])] = 1.41
         
-        #TopLeft 
+        #BottomLeft
         if i > 0 and j > 0 and (not self.isAnObstacle(i-1, j-1)):
             #print("No Obstacle found at ", i-1, j-1)
             neighbours[tuple([i-1, j-1])] = 1.41
 
-        #TopRight 
+        #BottomRight 
         if i > 0 and j < (self.width -1) and (not self.isAnObstacle(i-1, j+1)):
             #print("No Obstacle found at ", i-1, j+1)
             neighbours[tuple([i-1, j+1])] = 1.41
@@ -78,6 +78,19 @@ class Graph:
         return neighbours
 
     def performDijkstra(self, start, end):
+
+        #Checking is start and end  are in obstancle.
+        if self.isAnObstacle(start.i,start.j) and self.isAnObstacle(end.i, end.j):
+            print("Starting and ending point are inside the obstacle!")
+            return
+        if self.isAnObstacle(start.i,start.j):
+            print("Starting point is inside the obstacle!")
+            return 
+        if self.isAnObstacle(end.i, end.j):
+            print("Ending point is inside the obstacle!")
+            return 
+
+
         priorityQueue = [start]
         while len(priorityQueue):
             priorityQueue.sort(key = lambda x: x.distanceToReach)
@@ -153,10 +166,16 @@ class Graph:
     def isAnObstacle(self,x,y):
         # return self.isInTestCircle(x,y) or self.isInTestCircleTwo(x,y)
         return self.isInEllipse(x,y) or self.isInBrokenRectangle(x,y) or self.isInCircle(x,y) or self.isInRectangle(x,y) or self.isInPolygon(x,y)
-        
-start = Node(1,1)
+
+i1 = int(input("Enter the ith coordiante of the starting point: "))
+j1 = int(input("Enter the jth coordiante of the starting point: "))
+
+i2 = int(input("Enter the ith coordiante of the ending point: "))
+j2 = int(input("Enter the jth coordiante of the ending point: "))
+
+start = Node(i1,j1)
 start.distanceToReach = 0
-end = Node(5,0)
+end = Node(i2,j2)
 robot = Graph()
 robot.performDijkstra(start, end)
 
