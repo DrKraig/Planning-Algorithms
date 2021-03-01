@@ -3,6 +3,9 @@ import sys
 
 HEIGHT = 300
 WIDTH = 400
+CELL_MARGIN = 1
+CELL_WIDTH = 2
+CELL_HEIGHT = 2
 
 class Node:
 
@@ -15,20 +18,7 @@ class Node:
 
 class Graph:
     def __init__(self):
-
-        self.CELL_MARGIN = .5
-        self.CELL_WIDTH = 2
-        self.CELL_HEIGHT = 2
-
-    # def generateGraph(self):
-    #     for i in range(self.height):
-    #         for j in range(self.width):
-    #             currentNode = Node(i,j)
-    #             #pygame.draw.rect(gridDisplay,(255,255,255),[(self.CELL_MARGIN + self.CELL_WIDTH) * j + self.CELL_MARGIN,(self.CELL_MARGIN + self.CELL_HEIGHT) * i + self.CELL_MARGIN,self.CELL_WIDTH, self.CELL_HEIGHT])
-    #             #pygame.display.update()
-    #             neighbours = self.getNeighbours(currentNode)
-    #             currentNode.neighbours = neighbours
-    #             print("Stored the neighbours", currentNode.neighbours, "for the node", currentNode.i, currentNode.j)
+        pass
 
     def getNeighbours(self, currentNode):
         print("-----------------------------------------------------")
@@ -108,8 +98,12 @@ class Graph:
                 i = neighbour[0]
                 j = neighbour[1]
                 neighbourNode = Node(i,j)
-                pygame.draw.rect(gridDisplay,(255,255,255),[(self.CELL_MARGIN + self.CELL_WIDTH) * j + self.CELL_MARGIN,(self.CELL_MARGIN + self.CELL_HEIGHT) * i + self.CELL_MARGIN,self.CELL_WIDTH, self.CELL_HEIGHT])
-                pygame.display.update()
+                if (i == start.i and j == start.j) or (i == end.i and j == end.j):
+                    pygame.draw.rect(gridDisplay,BLUE,[(CELL_MARGIN + CELL_WIDTH) * i + CELL_MARGIN,(CELL_MARGIN + CELL_HEIGHT) * (HEIGHT - j) + CELL_MARGIN,CELL_WIDTH, CELL_HEIGHT])
+                    pygame.display.update()
+                else:    
+                    pygame.draw.rect(gridDisplay,CYAN,[(CELL_MARGIN + CELL_WIDTH) * i + CELL_MARGIN,(CELL_MARGIN + CELL_HEIGHT) * (HEIGHT - j) + CELL_MARGIN,CELL_WIDTH, CELL_HEIGHT])
+                    pygame.display.update()
                 neighbourNode.distanceToReach = currentDistance + newDistance
                 neighbourNode.parent = currentNode
                 priorityQueue.append(neighbourNode)
@@ -179,23 +173,51 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-i1 = 140
-j1 = 40
+i1 = 100
+j1 = 30
 
-i2 = 140
-j2 = 41
+i2 = 110
+j2 = 20
 
 pygame.init()
-gridDisplay = pygame.display.set_mode((1000, 1000 ))
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 900
+gridDisplay = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Dijkstra's Algorithm")
 done = False
 clock = pygame.time.Clock()
 
+#PyGame Code
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+CYAN = (0, 255, 255)
+BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
+MAGENTA =(255,0,255)
+#Create Grid
 grid = []
-for row in range(300):
+for row in range(HEIGHT):
     grid.append([])
-    for column in range(400):
+    for column in range(WIDTH):
         grid[row].append(0)
+
+obj = Graph()
+#Make background White
+for row in range(HEIGHT):
+    for column in range(WIDTH):
+        if obj.isInCircle(row, column):
+            pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+        elif obj.isInRectangle(row, column):
+            pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+        elif obj.isInBrokenRectangle(row, column):
+            pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+        elif obj.isInEllipse(row, column):    
+            pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+        elif obj.isInPolygon(row, column):    
+            pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+        else:
+            pygame.draw.rect(gridDisplay, WHITE,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+
 
 #Algorithm Driver   
 start = Node(i1,j1)
@@ -204,32 +226,18 @@ end = Node(i2,j2)
 robot = Graph()
 robot.performDijkstra(start, end)
 
-#PyGame Code
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
 
 while not done:
-    for event in pygame.event.get():  # User did something
-        if event.type == pygame.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
-#         # elif event.type == pygame.MOUSEBUTTONDOWN:
-#         #     pos = pygame.mouse.get_pos()
-#         #     # Change the x/y screen coordinates to grid coordinates
-#         #     column = pos[0] // (WIDTH + MARGIN)
-#         #     row = pos[1] // (HEIGHT + MARGIN)
-#         #     # Set that location to one
-#         #     grid[row][column] = 1
-#         #     print("Click ", pos, "Grid coordinates: ", row, column)
+    for event in pygame.event.get():  
+        if event.type == pygame.QUIT:
+            done = True  
 
     for row in range(HEIGHT):
         for column in range(WIDTH):
-            color = WHITE
             if grid[row][column] == 1:
-                color = GREEN
+                pygame.draw.rect(gridDisplay, GREEN,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+    
     clock.tick(144)
- 
     pygame.display.flip()
  
 pygame.quit()
