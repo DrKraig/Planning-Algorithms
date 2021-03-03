@@ -5,6 +5,8 @@
     1. Python 3 should be installed on your system.
     2. PyGame - Install it using 'pip install pygame'
 
+Note:  Other libraries used are inbuilt.</br>
+
   <h2>Instructions to run the code:</h2>
   
     1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661

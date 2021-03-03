@@ -3,6 +3,11 @@ import math
 
 HEIGHT = 300
 WIDTH = 400
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+CYAN = (0, 255, 255)
+BLACK = (0, 0, 0)
+MAGENTA = (255,0,255)
 
 class Node:
 
@@ -161,19 +166,10 @@ x2 = 150
 y2 = 0
 
 pygame.init()
-WINDOW_WIDTH = 400
-WINDOW_HEIGHT = 300
-gridDisplay = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Dijkstra's Algorithm")
 done = False
 clock = pygame.time.Clock()
-
-#PyGame Code
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-CYAN = (0, 255, 255)
-BLACK = (0, 0, 0)
-MAGENTA = (255,0,255)
 
 #Create Grid
 grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]

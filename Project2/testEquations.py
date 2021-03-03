@@ -23,10 +23,6 @@ def isInEllipse(x,y):
     verticalRadius = b=30
     centerX = h=246
     centerY = k = 145
-    # if  (((x- centerX)**2)/horizontalRadius**2) + (((y- centerY)**2)/verticalRadius**2) <= 1:
-    #     return True
-    # else:
-    #     return False
     if ((math.pow((x - h), 2) / math.pow(a, 2)) + (math.pow((y - k), 2) / math.pow(b, 2))) < 1:
         return True
     else:
