@@ -1,4 +1,5 @@
 import pygame
+import math
 
 HEIGHT = 300
 WIDTH = 400
@@ -96,6 +97,7 @@ class Graph:
                 else:    
                     pygame.draw.rect(gridDisplay, CYAN, [i, HEIGHT - j, 2,2])
                     pygame.display.update()
+
                 neighbourNode.distanceToReach = currentDistance + newDistance
                 neighbourNode.parent = currentNode
                 priorityQueue.append(neighbourNode)
@@ -128,17 +130,17 @@ class Graph:
             return False
 
     def isInEllipse(self, x,y):
-        horizontalRadius = 60
-        verticalRadius = 30
-        centerX = 246
-        centerY = 145
-        if  (((x- centerX)**2)/horizontalRadius**2) + (((y- centerY)**2)/verticalRadius**2) - 1< 0:
+        horizontalRadius = a = 60
+        verticalRadius = b = 30
+        centerX = h = 246
+        centerY = k = 145
+        if ((math.pow((x - h), 2) / math.pow(a, 2)) + (math.pow((y - k), 2) / math.pow(b, 2))) < 1:
             return True
         else:
             return False
 
     def isInPolygon(self, x,y):
-        if (y + .99*x - 389.3) > 0  and (y - x + 181.6) < 0 and (y - 1.13*x - 260.75) < 0 and (y + 0.29*x - 240.6022) < 0 and (y + 250*x -95054) < 0 and (y - x + 266) > 0:
+        if (y + 0.99*x - 389.3) > 0  and (y - x + 181.6) < 0 and (y - 1.13*x - 260.75) < 0 and (y + 0.29*x - 240.89) < 0 and (y + 250*x -95054) < 0 and (y - x + 266) > 0:
             return True
         else:
             return False
@@ -152,11 +154,11 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-i1 = 10
-j1 = 10
+i1 = 354
+j1 = 140
 
-i2 = 20
-j2 = 20
+i2 = 354
+j2 = 300
 
 pygame.init()
 WINDOW_WIDTH = 400
@@ -170,9 +172,8 @@ clock = pygame.time.Clock()
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 CYAN = (0, 255, 255)
-BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
-MAGENTA =(255,0,255)
+MAGENTA = (255,0,255)
 
 #Create Grid
 grid = []
