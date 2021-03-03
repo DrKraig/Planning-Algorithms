@@ -155,7 +155,7 @@ class Graph:
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
 x1 = 150
-y1 = 150
+y1 = 70
 
 x2 = 0
 y2 = 0
