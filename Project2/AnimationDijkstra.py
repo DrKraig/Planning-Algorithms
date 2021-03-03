@@ -2,9 +2,6 @@ import pygame
 
 HEIGHT = 300
 WIDTH = 400
-CELL_MARGIN = 0
-CELL_WIDTH = 1
-CELL_HEIGHT = 1
 
 class Node:
 
@@ -94,7 +91,7 @@ class Graph:
                 j = neighbour[1]
                 neighbourNode = Node(i,j)
                 if (i == start.i and j == start.j) or (i == end.i and j == end.j):
-                    pygame.draw.rect(gridDisplay, BLUE, [i, j, 2,2])
+                    pygame.draw.rect(gridDisplay, BLACK, [i, HEIGHT - j, 2,2])
                     pygame.display.update()
                 else:    
                     pygame.draw.rect(gridDisplay, CYAN, [i, HEIGHT - j, 2,2])
@@ -155,11 +152,11 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-i1 = 0
-j1 = 0
+i1 = 10
+j1 = 10
 
-i2 = 246
-j2 = 180
+i2 = 20
+j2 = 20
 
 pygame.init()
 WINDOW_WIDTH = 400
@@ -216,7 +213,7 @@ while not done:
     for row in range(HEIGHT):
         for column in range(WIDTH):
             if grid[row][column] == 1:
-                pygame.draw.rect(gridDisplay, BLACK,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+                pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
     
     clock.tick(144)
     pygame.display.flip()
