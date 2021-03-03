@@ -157,7 +157,7 @@ class Graph:
 x1 = 150
 y1 = 70
 
-x2 = 0
+x2 = 150
 y2 = 0
 
 pygame.init()
