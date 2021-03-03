@@ -1,4 +1,4 @@
-
+import math
 def isInCircle(x,y):
     if (x - 90) **2 + (y-70)**2 - 1225 > 0:
         return False
@@ -18,17 +18,21 @@ def isInBrokenRectangle(x,y):
         return False
 
 def isInEllipse(x,y):
-    horizontalRadius = 60
-    verticalRadius = 30
-    centerX = 246
-    centerY = 145
-    if  ((x- centerX)**2)/horizontalRadius**2 + ((y- centerY)**2)/verticalRadius**2 - 1< 0:
+    print(x,y)
+    horizontalRadius = a= 60
+    verticalRadius = b=30
+    centerX = h=246
+    centerY = k = 145
+    # if  (((x- centerX)**2)/horizontalRadius**2) + (((y- centerY)**2)/verticalRadius**2) <= 1:
+    #     return True
+    # else:
+    #     return False
+    if ((math.pow((x - h), 2) // math.pow(a, 2)) + (math.pow((y - k), 2) // math.pow(b, 2))) < 1:
         return True
     else:
         return False
-
 def isInPolygon(x,y):
-    print(x,y)
+
 
     if (y + .99*x - 389.3) > 0  and (y - x + 181.6) < 0 and (y - 1.13*x - 260.75) < 0 and (y + 0.29*x - 240.6022) < 0 and (y + 250*x -95054) < 0 and (y - x + 266) > 0:
         return True
@@ -39,11 +43,11 @@ def isInPolygon(x,y):
 def isAnObstacle(x,y):
     return True if (isInPolygon(x,y) and isInCircle(x, y) and isInRectangle(x, y) and isInBrokenRectangle(x, y) and isInEllipse(x, y)) else False
 
-x = 285
-y = 105
+x = 246
+y = 139
 
 #print(isInCircle(x, y))
 # print(isInRectangle(x, y))
 # print(isInBrokenRectangle(x, y))
-# print(isInEllipse(x, y))
-print(isInPolygon(x,y))
+print(isInEllipse(x, y))
+# print(isInPolygon(x,y))
