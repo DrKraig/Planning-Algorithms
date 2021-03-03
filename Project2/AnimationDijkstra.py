@@ -18,7 +18,7 @@ class Node:
 
 class Graph:
     def __init__(self):
-        pass
+        self.visited = {}
 
     def getNeighbours(self, currentNode):
         print("-----------------------------------------------------")
@@ -83,14 +83,20 @@ class Graph:
 
         priorityQueue = [start]
         while len(priorityQueue):
+
             priorityQueue.sort(key = lambda x: x.distanceToReach)
             currentNode = priorityQueue.pop(0)
+
             if currentNode.i == end.i and currentNode.j == end.j:
                 print("Found a path!")
                 self.backTrack(currentNode)
                 print("Distance Required to reach from start to end is:", currentNode.distanceToReach)
                 return
-                 
+            
+            if tuple([currentNode.i, currentNode.j]) in self.visited:
+                continue
+            self.visited[tuple([currentNode.i, currentNode.j])] = True
+
             currentDistance = currentNode.distanceToReach
             neighbours = self.getNeighbours(currentNode)
 
@@ -162,10 +168,10 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-i1 = 100
-j1 = 30
+i1 = 0
+j1 = 0
 
-i2 = 110
+i2 = 20
 j2 = 20
 
 pygame.init()
