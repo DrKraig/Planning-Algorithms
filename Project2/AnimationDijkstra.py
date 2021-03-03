@@ -1,5 +1,4 @@
 import pygame
-import sys
 
 HEIGHT = 300
 WIDTH = 400
@@ -168,11 +167,11 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-i1 = 0
-j1 = 0
+i1 = 250
+j1 = 180
 
-i2 = 20
-j2 = 20
+i2 = 250
+j2 = 200
 
 pygame.init()
 WINDOW_WIDTH = 800
@@ -203,10 +202,7 @@ obj = Graph()
 print(HEIGHT)
 print(WIDTH)
 
-for row in range(HEIGHT):
-    for column in range(WIDTH):
-        pygame.draw.rect(gridDisplay, WHITE,[(CELL_MARGIN + CELL_WIDTH) * column + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (  row) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
-
+gridDisplay.fill(WHITE)
 for row in range(HEIGHT):
     for column in range(WIDTH):
         # if obj.isInEllipse(row, column):    
@@ -220,15 +216,16 @@ for row in range(HEIGHT):
         if obj.isInPolygon(row, column):    
             pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
 
-pygame.draw.ellipse(gridDisplay, MAGENTA, [WIDTH - 186, WIDTH - 176, 120, 60], 0)
+pygame.draw.rect(gridDisplay, MAGENTA, [300, 250, 120, 60], 0)
+pygame.draw.ellipse(gridDisplay, MAGENTA, [176, HEIGHT - 186, 120, 60], 0)
 
             
 #Algorithm Driver   
-start = Node(i1,j1)
-start.distanceToReach = 0
-end = Node(i2,j2)
-robot = Graph()
-robot.performDijkstra(start, end)
+# start = Node(i1,j1)
+# start.distanceToReach = 0
+# end = Node(i2,j2)
+# robot = Graph()
+# robot.performDijkstra(start, end)
 
 
 while not done:
