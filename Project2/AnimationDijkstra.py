@@ -145,7 +145,7 @@ class Graph:
             return False
 
     def isInPolygon(self, x,y):
-        if (y + 0.99*x - 389.3) > 0  and (y - x + 181.6) < 0 and (y - 1.13*x - 260.75) < 0 and (y + 0.29*x - 240.89) < 0 and (y + 250*x -95054) < 0 and (y - x + 266) > 0:
+        if ((y - 1.01*x + 181.62) < 0 and (y + 0.29*x - 239.89) < 0 and (y + 249.20*x -95054.25) < 0 and (y - x + 266) > 0 and (y + 0.99*x - 389.3) > 0 ) or ( (y - 1.13*x + 260.75) < 0  and (y + 249.20*x - 95054.25) < 0 and (y + .29*x - 240.60) > 0):
             return True
         else:
             return False
@@ -159,10 +159,10 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-x1 = 150
-y1 = 70
+x1 = 420
+y1 = 120
 
-x2 = 150
+x2 = 400
 y2 = 0
 
 pygame.init()

@@ -30,7 +30,8 @@ def isInEllipse(x,y):
 def isInPolygon(x,y):
 
     print(x,y)
-    if (y + 0.99*x - 389.3) > 0  and (y - x + 181.62) < 0 and (y - 1.13*x + 260.75) < 0 and (y + 0.29*x - 239.89) < 0 and (y + 250*x -95054) < 0 and (y - x + 266) > 0:
+    # if (y + 0.99*x - 389.3) > 0  and (y - x + 181.62) < 0 and (y - 1.13*x + 260.75) < 0 and (y + 0.29*x - 239.89) < 0 and (y + 250*x -95054) < 0 and (y - x + 266) > 0:
+    if ((y - 1.01*x + 181.62) < 0 and (y + 0.29*x - 239.89) < 0 and (y + 249.20*x -95054.25) < 0 and (y - x + 266) > 0 and (y + 0.99*x - 389.3) > 0 ) or ( (y - 1.13*x + 260.75) < 0  and (y + 249.20*x - 95054.25) < 0 and (y + .29*x - 240.60) > 0):
         return True
     else:
         return False
@@ -39,11 +40,11 @@ def isInPolygon(x,y):
 def isAnObstacle(x,y):
     return True if (isInPolygon(x,y) and isInCircle(x, y) and isInRectangle(x, y) and isInBrokenRectangle(x, y) and isInEllipse(x, y)) else False
 
-x = 290
-y = 170
+x = 385
+y = 145
 
 #print(isInCircle(x, y))
 # print(isInRectangle(x, y))
 # print(isInBrokenRectangle(x, y))
-print(isInEllipse(x, y))
-# print(isInPolygon(x,y))
+# print(isInEllipse(x, y))
+print(isInPolygon(x,y))
