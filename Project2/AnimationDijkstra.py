@@ -140,7 +140,7 @@ class Graph:
         verticalRadius = 30
         centerX = 246
         centerY = 145
-        if  ((x- centerX)**2)/horizontalRadius**2 + ((y- centerY)**2)/verticalRadius**2 - 1< 0:
+        if  (((x- centerX)**2)/horizontalRadius**2) + (((y- centerY)**2)/verticalRadius**2) - 1< 0:
             return True
         else:
             return False
@@ -151,17 +151,6 @@ class Graph:
         else:
             return False
 
-    # def isInTestCircle(self, x,y):
-    #     if (x - 2) **2 + (y-2)**2 - 1 < 0:
-    #         return True
-    #     else:
-    #         return False
-
-    # def isInTestCircleTwo(self, x,y):
-    #     if (x - 4) **2 + (y-1)**2 - 1 < 0:
-    #         return True
-    #     else:
-    #         return False
 
     def isAnObstacle(self,x,y):
         # return self.isInTestCircle(x,y) or self.isInTestCircleTwo(x,y)
@@ -180,8 +169,8 @@ i2 = 110
 j2 = 20
 
 pygame.init()
-WINDOW_WIDTH = 1200
-WINDOW_HEIGHT = 900
+WINDOW_WIDTH = 1600
+WINDOW_HEIGHT = 1200
 gridDisplay = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Dijkstra's Algorithm")
 done = False
@@ -205,20 +194,20 @@ obj = Graph()
 #Make background White
 for row in range(HEIGHT):
     for column in range(WIDTH):
+        pygame.draw.rect(gridDisplay, WHITE,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
+        if obj.isInEllipse(row, column):    
+            pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
         if obj.isInCircle(row, column):
             pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
-        elif obj.isInRectangle(row, column):
+        if obj.isInRectangle(row, column):
             pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
-        elif obj.isInBrokenRectangle(row, column):
+        if obj.isInBrokenRectangle(row, column):
             pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
-        elif obj.isInEllipse(row, column):    
+       
+        if obj.isInPolygon(row, column):    
             pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
-        elif obj.isInPolygon(row, column):    
-            pygame.draw.rect(gridDisplay, MAGENTA,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
-        else:
-            pygame.draw.rect(gridDisplay, WHITE,[(CELL_MARGIN + CELL_WIDTH) * row + CELL_MARGIN, (CELL_MARGIN + CELL_HEIGHT ) * (HEIGHT - column) + CELL_MARGIN, CELL_WIDTH,CELL_HEIGHT ])
-
-
+        
+            
 #Algorithm Driver   
 start = Node(i1,j1)
 start.distanceToReach = 0
