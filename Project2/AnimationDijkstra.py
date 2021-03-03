@@ -106,7 +106,7 @@ class Graph:
 
     def backTrack(self, child):
         while child != None:
-            print(child.i, child.j)
+            print(child.i, child.j, "GRID")
             grid[child.i][child.j] = 1
             child = child.parent
         return True
@@ -154,11 +154,11 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-i1 = 354
-j1 = 140
+x1 = 150
+y1 = 150
 
-i2 = 354
-j2 = 300
+x2 = 0
+y2 = 0
 
 pygame.init()
 WINDOW_WIDTH = 400
@@ -176,11 +176,7 @@ BLACK = (0, 0, 0)
 MAGENTA = (255,0,255)
 
 #Create Grid
-grid = []
-for row in range(HEIGHT):
-    grid.append([])
-    for column in range(WIDTH):
-        grid[row].append(0)
+grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
 
 #Make background White
 gridDisplay.fill(WHITE)
@@ -200,9 +196,9 @@ pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 270), (210, HEIGHT -27
 pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 240), (230, HEIGHT -240), (230, HEIGHT -230),(200,HEIGHT -230)])
             
 #Algorithm Driver   
-start = Node(i1,j1)
+start = Node(x1,y1)
 start.distanceToReach = 0
-end = Node(i2,j2)
+end = Node(x2,y2)
 robot = Graph()
 robot.performDijkstra(start, end)
 
@@ -211,8 +207,8 @@ while not done:
         if event.type == pygame.QUIT:
             done = True  
 
-    for row in range(HEIGHT):
-        for column in range(WIDTH):
+    for row in range(WIDTH):
+        for column in range(HEIGHT):
             if grid[row][column] == 1:
                 pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
     
