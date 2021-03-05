@@ -10,8 +10,14 @@ BLACK = (0, 0, 0)
 MAGENTA = (255,0,255)
 
 class Node:
-
+    """
+    Node class : This class is built to store the node information.
+    A node is simply a location on a map. For each node, its neighbours, parents & distance to reach that node is stored.
+    """
     def __init__(self, i ,j):
+        """
+        Description: Defining all properties for each node - Neighbours, Parents, Distance.
+        """
         self.i = i
         self.j = j
         self.distanceToReach = float('inf')
@@ -19,6 +25,9 @@ class Node:
         self.parent = None
 
 class Graph:
+    """
+    Graph class : This class defines all methods to generate a graph and perform Djikstra's Algorithm.
+    """
     def __init__(self):
         self.visited = {}
 
@@ -79,7 +88,11 @@ class Graph:
         pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 240), (230, HEIGHT -240), (230, HEIGHT -230),(200,HEIGHT -230)])
 
     def performDijkstra(self, start, end):
-
+        """
+        Description: Defining initial constants - Visited array, Rows, Cols, Target String.
+        Input: Starting and ending node for the robot to browse.
+        Output: A animation of nodes which are browsed and the path generated.
+        """
         #Checking is start and end  are in obstancle.
         if self.isAnObstacle(start.i,start.j) and self.isAnObstacle(end.i, end.j):
             print("Starting and ending point are inside the obstacle!")
@@ -128,6 +141,11 @@ class Graph:
         print("Cannot find a path :(")
 
     def backTrack(self, child):
+        """
+        Description: Backtracking from the finishing node to the start node.
+        Input: Ending Node
+        Output: A animation of the path generated.
+        """
         while child != None:
             print(child.i, child.j, "GRID")
             grid[child.i][child.j] = 1
@@ -169,6 +187,11 @@ class Graph:
             return False
 
     def isAnObstacle(self,x,y):
+        """
+        Description: Checks if the point (x,y) is inside an obstacle or not.
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
         return self.isInEllipse(x,y) or self.isInBrokenRectangle(x,y) or self.isInCircle(x,y) or self.isInRectangle(x,y) or self.isInPolygon(x,y)
 
 # i1 = int(input("Enter the ith coordiante of the starting point: "))
@@ -212,7 +235,7 @@ while not done:
             if grid[row][column] == 1:
                 pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
     
-    clock.tick(144)
+    clock.tick(2000)
     pygame.display.flip()
  
 pygame.quit()
