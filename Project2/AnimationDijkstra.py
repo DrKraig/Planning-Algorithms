@@ -60,6 +60,24 @@ class Graph:
         
         return neighbours
 
+    def generateGraph(self,):
+        #Make background White
+        gridDisplay.fill(WHITE)
+
+        pygame.draw.circle(gridDisplay, MAGENTA, [90,HEIGHT - 70], 35)
+        pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
+
+        #Weird Shape
+        pygame.draw.polygon(gridDisplay, MAGENTA, [(285, HEIGHT - 105), (324, HEIGHT -144), (354, HEIGHT -138),(380,HEIGHT -171), (380,HEIGHT -116),(328,HEIGHT -63)])
+
+        #Roatated Rect
+        pygame.draw.polygon(gridDisplay, MAGENTA, [(36, HEIGHT - 124), (160, HEIGHT -210), (170, HEIGHT -194),(48,HEIGHT -108)])
+
+        #Broken Rect
+        pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 280), (230, HEIGHT -280), (230, HEIGHT -270),(200,HEIGHT -270)])
+        pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 270), (210, HEIGHT -270), (210, HEIGHT -240),(200,HEIGHT -240)])
+        pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 240), (230, HEIGHT -240), (230, HEIGHT -230),(200,HEIGHT -230)])
+
     def performDijkstra(self, start, end):
 
         #Checking is start and end  are in obstancle.
@@ -159,11 +177,11 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-x1 = 420
-y1 = 120
+x1 = 0
+y1 = 0
 
-x2 = 400
-y2 = 0
+x2 = 100
+y2 = 10
 
 pygame.init()
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -174,22 +192,8 @@ clock = pygame.time.Clock()
 #Create Grid
 grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
 
-#Make background White
-gridDisplay.fill(WHITE)
-
-pygame.draw.circle(gridDisplay, MAGENTA, [90,HEIGHT - 70], 35)
-pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
-
-#Weird Shape
-pygame.draw.polygon(gridDisplay, MAGENTA, [(285, HEIGHT - 105), (324, HEIGHT -144), (354, HEIGHT -138),(380,HEIGHT -171), (380,HEIGHT -116),(328,HEIGHT -63)])
-
-#Roatated Rect
-pygame.draw.polygon(gridDisplay, MAGENTA, [(36, HEIGHT - 124), (160, HEIGHT -210), (170, HEIGHT -194),(48,HEIGHT -108)])
-
-#Broken Rect
-pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 280), (230, HEIGHT -280), (230, HEIGHT -270),(200,HEIGHT -270)])
-pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 270), (210, HEIGHT -270), (210, HEIGHT -240),(200,HEIGHT -240)])
-pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 240), (230, HEIGHT -240), (230, HEIGHT -230),(200,HEIGHT -230)])
+canvas = Graph()
+canvas.generateGraph()
             
 #Algorithm Driver   
 start = Node(x1,y1)
