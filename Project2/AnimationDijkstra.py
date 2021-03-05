@@ -1,6 +1,7 @@
 import pygame
 import math
 
+#Defining Graph Constants
 HEIGHT = 300
 WIDTH = 400
 WHITE = (255, 255, 255)
@@ -32,51 +33,63 @@ class Graph:
         self.visited = {}
 
     def getNeighbours(self, currentNode):
+        """
+        Description: Returns neighbours for the currentNode.
+        """
         i, j = currentNode.i, currentNode.j
         neighbours ={}
 
-        #Bottom
+        #Bottom Node
         if i > 0 and (not self.isAnObstacle(i-1, j)):
             neighbours[tuple([i-1,j])] = 1
         
-        #Left
+        #Left Node
         if j > 0 and (not self.isAnObstacle(i, j-1)):
             neighbours[tuple([i,j-1])] = 1
         
-        #Top
+        #Top Node
         if i < (HEIGHT -1) and (not self.isAnObstacle(i+1, j)):
             neighbours[tuple([i+1,j])] = 1
         
-        #Right
+        #Right Node
         if j < (WIDTH -1) and (not self.isAnObstacle(i, j+1)):
             neighbours[tuple([i,j+1])] = 1
         
-        #TopLeft 
+        #TopLeft Node
         if j > 0 and i < (HEIGHT-1) and (not self.isAnObstacle(i+1, j-1)):
             neighbours[tuple([i+1, j-1])] = 1.41
         
-        #TopRight 
+        #TopRight Node
         if j < (WIDTH-1) and i < (HEIGHT-1)and (not self.isAnObstacle(i+1, j+1)):
             neighbours[tuple([i+1, j+1])] = 1.41
         
-        #BottomLeft
+        #BottomLeft Node
         if i > 0 and j > 0 and (not self.isAnObstacle(i-1, j-1)):
             neighbours[tuple([i-1, j-1])] = 1.41
 
-        #BottomRight 
+        #BottomRight Node
         if i > 0 and j < (WIDTH -1) and (not self.isAnObstacle(i-1, j+1)):
             neighbours[tuple([i-1, j+1])] = 1.41
         
         return neighbours
 
     def generateGraph(self,):
+        """
+        Description: Checks if a point is in the Ellipse. 
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
         #Make background White
         gridDisplay.fill(WHITE)
 
+        #Circle
         pygame.draw.circle(gridDisplay, MAGENTA, [90,HEIGHT - 70], 35)
+        
+        #Ellipse
         pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
 
-        #Weird Shape
+        #Polygon
         pygame.draw.polygon(gridDisplay, MAGENTA, [(285, HEIGHT - 105), (324, HEIGHT -144), (354, HEIGHT -138),(380,HEIGHT -171), (380,HEIGHT -116),(328,HEIGHT -63)])
 
         #Roatated Rect
@@ -93,6 +106,7 @@ class Graph:
         Input: Starting and ending node for the robot to browse.
         Output: A animation of nodes which are browsed and the path generated.
         """
+
         #Checking is start and end  are in obstancle.
         if self.isAnObstacle(start.i,start.j) and self.isAnObstacle(end.i, end.j):
             print("Starting and ending point are inside the obstacle!")
@@ -146,6 +160,7 @@ class Graph:
         Input: Ending Node
         Output: A animation of the path generated.
         """
+
         while child != None:
             print(child.i, child.j, "GRID")
             grid[child.i][child.j] = 1
@@ -153,34 +168,64 @@ class Graph:
         return True
     
     def isInCircle(self, x,y):
+        """
+        Description: Checks if a point is in the circle. 
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
         if (x - 90) **2 + (y-70)**2 - 1225 > 0:
             return False
         else:
             return True
 
     def isInRectangle(self, x,y):
+        """
+        Description: Checks if a point is in the rotated rectangle. 
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
         if (y + 1.42*x - 176.55) > 0  and (y - 0.7*x - 74.39) > 0 and (y - 0.7*x - 98.81) < 0 and (y + 1.42*x - 438.06) < 0:
             return True
         else:
             return False
 
     def isInBrokenRectangle(self, x,y):
+        """
+        Description: Checks if a point is in the top rectangle. 
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
         if (x >= 200 and x <= 210 and y <= 280 and y >=230 ) or (x>= 210 and x <= 230 and y >=270 and y <= 280) or (y >= 230 and y <= 240 and x >= 210 and x <= 230):
             return True
         else:
             return False
 
     def isInEllipse(self, x,y):
-        horizontalRadius = a = 60
-        verticalRadius = b = 30
-        centerX = h = 246
-        centerY = k = 145
+        """
+        Description: Checks if a point is in the Ellipse. 
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
+        a = 60
+        b = 30
+        h = 246
+        k = 145
         if ((math.pow((x - h), 2) / math.pow(a, 2)) + (math.pow((y - k), 2) / math.pow(b, 2))) < 1:
             return True
         else:
             return False
 
     def isInPolygon(self, x,y):
+        """
+        Description: Checks if a point is in the polygon. 
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
         if ((y - 1.01*x + 181.62) < 0 and (y + 0.29*x - 239.89) < 0 and (y + 249.20*x -95054.25) < 0 and (y - x + 266) > 0 and (y + 0.99*x - 389.3) > 0 ) or ( (y - 1.13*x + 260.75) < 0  and (y + 249.20*x - 95054.25) < 0 and (y + .29*x - 240.60) > 0):
             return True
         else:
@@ -192,6 +237,7 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
+
         return self.isInEllipse(x,y) or self.isInBrokenRectangle(x,y) or self.isInCircle(x,y) or self.isInRectangle(x,y) or self.isInPolygon(x,y)
 
 # i1 = int(input("Enter the ith coordiante of the starting point: "))
@@ -206,15 +252,14 @@ y1 = 0
 x2 = 100
 y2 = 10
 
+#Create Grid
 pygame.init()
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Dijkstra's Algorithm")
+
 done = False
 clock = pygame.time.Clock()
-
-#Create Grid
 grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
-
 canvas = Graph()
 canvas.generateGraph()
             
@@ -225,6 +270,7 @@ end = Node(x2,y2)
 robot = Graph()
 robot.performDijkstra(start, end)
 
+#Running the simulation
 while not done:
     for event in pygame.event.get():  
         if event.type == pygame.QUIT:
