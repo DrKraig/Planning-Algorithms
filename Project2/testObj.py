@@ -41,35 +41,43 @@ class Graph:
 
         #Bottom Node
         if i > 0 and (not self.isAnObstacle(i-1, j)):
-            neighbours[tuple([i-1,j])] = 1
+            newNode = Node(i-1,j)
+            neighbours[newNode] = 1
         
         #Left Node
         if j > 0 and (not self.isAnObstacle(i, j-1)):
-            neighbours[tuple([i,j-1])] = 1
+            newNode = Node(i,j-1)
+            neighbours[newNode] = 1
         
         #Top Node
         if i < (HEIGHT -1) and (not self.isAnObstacle(i+1, j)):
-            neighbours[tuple([i+1,j])] = 1
+            newNode = Node(i+1,j)
+            neighbours[newNode] = 1
         
         #Right Node
         if j < (WIDTH -1) and (not self.isAnObstacle(i, j+1)):
-            neighbours[tuple([i,j+1])] = 1
+            newNode = Node(i,j+1)
+            neighbours[newNode] = 1
         
         #TopLeft Node
         if j > 0 and i < (HEIGHT-1) and (not self.isAnObstacle(i+1, j-1)):
-            neighbours[tuple([i+1, j-1])] = 1.41
+            newNode = Node(i+1,j-1)
+            neighbours[newNode] = 1.41
         
         #TopRight Node
         if j < (WIDTH-1) and i < (HEIGHT-1)and (not self.isAnObstacle(i+1, j+1)):
-            neighbours[tuple([i+1, j+1])] = 1.41
+            newNode = Node(i+1,j+1)
+            neighbours[newNode] = 1.41
         
         #BottomLeft Node
         if i > 0 and j > 0 and (not self.isAnObstacle(i-1, j-1)):
-            neighbours[tuple([i-1, j-1])] = 1.41
+            newNode = Node(i-1,j-1)
+            neighbours[newNode] = 1.41
 
         #BottomRight Node
         if i > 0 and j < (WIDTH -1) and (not self.isAnObstacle(i-1, j+1)):
-            neighbours[tuple([i-1, j+1])] = 1.41
+            newNode = Node(i-1,j+1)
+            neighbours[newNode] = 1.41
         
         return neighbours
 
@@ -117,7 +125,7 @@ class Graph:
         if self.isAnObstacle(end.i, end.j):
             print("Ending point is inside the obstacle!")
             return 
-
+        print("Finding path...")
         priorityQueue = [start]
         while len(priorityQueue):
 
@@ -137,10 +145,8 @@ class Graph:
             currentDistance = currentNode.distanceToReach
             neighbours = self.getNeighbours(currentNode)
             currentNode.neighbours = neighbours
-            for neighbour, newDistance in neighbours.items():
-                i = neighbour[0]
-                j = neighbour[1]
-                neighbourNode = Node(i,j)
+            for neighbourNode, newDistance in neighbours.items():
+
                 neighbourNode.distanceToReach = currentDistance + newDistance
                 neighbourNode.parent = currentNode
                 priorityQueue.append(neighbourNode)
@@ -149,10 +155,9 @@ class Graph:
         return False
 
     def visualizeDijkstra(self, start, end):
-
+        self.visited = {}
         priorityQueue = [start]
         while len(priorityQueue):
-            print("Inside")
             priorityQueue.sort(key = lambda x: x.distanceToReach)
             currentNode = priorityQueue.pop(0)
 
@@ -161,20 +166,15 @@ class Graph:
                 print("Distance Required to reach from start to end is:", currentNode.distanceToReach)
                 return
             
-            # if tuple([currentNode.i, currentNode.j]) in self.visited:
-            #     continue
-            # self.visited[tuple([currentNode.i, currentNode.j])] = True
+            if tuple([currentNode.i, currentNode.j]) in self.visited:
+                continue
+            self.visited[tuple([currentNode.i, currentNode.j])] = True
 
             currentDistance = currentNode.distanceToReach
-            print(currentNode.neighbours.items())
-            for neighbour, newDistance in currentNode.neighbours.items():
-                i = neighbour[0]
-                j = neighbour[1]
-                print(i,j)
-                neighbourNode = Node(i,j)
-
+            for neighbourNode, newDistance in currentNode.neighbours.items():
+                i = neighbourNode.i
+                j = neighbourNode.j
                 if (i-5 < start.i < i+5 and j-5 < start.j < j+5) or (i-5 < end.i < i+5 and j-5 < end.j < j+5):
-                    print("COLORING")
                     pygame.draw.rect(gridDisplay, BLACK, [i, HEIGHT - j, 2,2])
                     pygame.display.update()         
                 else:    
@@ -194,7 +194,7 @@ class Graph:
         """
 
         while child != None:
-            print(child.i, child.j, "GRID")
+            print(child.i, child.j, "Path")
             grid[child.i][child.j] = 1
             child = child.parent
         return True
@@ -279,36 +279,38 @@ class Graph:
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
 x1 = 0
-y1 = 10
+y1 = 0
 
-x2 = 10
+x2 = 60
 y2 = 10
 
-#Create Grid
-
-
-            
+#############################################           
 #Algorithm Driver   
 start = Node(x1,y1)
 start.distanceToReach = 0
 end = Node(x2,y2)
 robot = Graph()
+
+#Check if path can be found
 if robot.performDijkstra(start, end):
-    print("Visualizing Now")
-    pygame.init()
+
+    pygame.init() #Setup Pygame
     gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Dijkstra's Algorithm")
-
     exiting = False
     clock = pygame.time.Clock()
     grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
-    canvas = Graph()
+
+    canvas = Graph() #Create Canvas
     canvas.generateGraph()
     robot.visualizeDijkstra(start, end)
 else:
+    #No Path Found
     exiting = True
-print("Done with visualizing")
-#Running the simulation
+
+#############################################
+#Running the simulation in loop
+
 while not exiting:
     for event in pygame.event.get():  
         if event.type == pygame.QUIT:
@@ -323,4 +325,4 @@ while not exiting:
     pygame.display.flip()
  
 pygame.quit()
-
+#############################################
