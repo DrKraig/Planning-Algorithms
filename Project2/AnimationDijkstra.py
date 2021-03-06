@@ -142,7 +142,7 @@ class Graph:
                 j = neighbour[1]
                 neighbourNode = Node(i,j)
                 if (i == start.i and j == start.j) or (i == end.i and j == end.j):
-                    pygame.draw.rect(gridDisplay, BLACK, [i, HEIGHT - j, 2,2])
+                    pygame.draw.rect(gridDisplay, BLACK, [i, HEIGHT - j, 5,5])
                     pygame.display.update()
                 else:    
                     pygame.draw.rect(gridDisplay, CYAN, [i, HEIGHT - j, 2,2])
@@ -246,8 +246,8 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-x1 = 0
-y1 = 0
+x1 = 200
+y1 = 90
 
 x2 = 100
 y2 = 10
