@@ -37,7 +37,8 @@ Note:  Other libraries used are inbuilt.</br>
 <h2> Test Case 3 </h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/110245230-481dc380-7f30-11eb-877a-bbdd6b1f8560.gif" alt="Logo"/>
+  
+  <img src="https://user-images.githubusercontent.com/12711480/110245347-acd91e00-7f30-11eb-861e-2782e4ff6dc6.gif" alt="Logo"/>
 </p>
 
 <h2> Test Case 4 </h2>
@@ -49,5 +50,5 @@ Note:  Other libraries used are inbuilt.</br>
 <h2> Test Case 5 </h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/110245347-acd91e00-7f30-11eb-861e-2782e4ff6dc6.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/110245230-481dc380-7f30-11eb-877a-bbdd6b1f8560.gif" alt="Logo"/>
 </p>
