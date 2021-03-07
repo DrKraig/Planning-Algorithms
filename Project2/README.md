@@ -13,9 +13,9 @@ Note:  Other libraries used are inbuilt.</br>
     2. Open command prompt or terminal.
     3. Navigate to this directory using 'cd ENPM661/Project2'
     4. If OS is windows, type 'python Dijkstra.py'
-    5. If OS is Ubuntu, type 'python3 Dijkstra.py'
-    6. Input the co-ordinates for starting & ending point
-    7. Enjoy!
+    4. If OS is Ubuntu, type 'python3 Dijkstra.py'
+    5. Input the co-ordinates for starting & ending point
+    6. Enjoy!
 
 
 ## A few instresting things about this prorgam.
