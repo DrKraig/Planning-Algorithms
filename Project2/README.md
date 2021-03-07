@@ -22,3 +22,16 @@ Note:  Other libraries used are inbuilt.</br>
   1. For each and every node, its co-ordinates, neighbours, parent and the distance to reach that node is being stored.
   2. The parent node has been created so that once the final state is found, a solution could be backtracked.
   3. The math for finding out the line equations was found by plotting the map on GeoGebra.
+
+<h2> Test Case 1 </h2>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/12711480/110230542-be460a00-7edf-11eb-8b5d-17cbf5621c27.gif" alt="Logo"/>
+</p>
+
+<h2> Test Case 2 </h2>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/12711480/110238628-af2b8000-7f10-11eb-9862-0c627365af02.gif" alt="Logo"/>
+</p>
+
