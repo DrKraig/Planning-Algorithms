@@ -280,13 +280,6 @@ y1 = int(input("Enter the jth coordiante of the starting point: "))
 x2 = int(input("Enter the ith coordiante of the ending point: "))
 y2 = int(input("Enter the jth coordiante of the ending point: "))
 
-# x1 = 10
-# y1 = 10
-
-# x2 = 299
-# y2 = 199
-
-
 #############################################           
 #Algorithm Driver   
 start = Node(x1,y1)
