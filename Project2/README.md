@@ -26,12 +26,29 @@ Note:  Other libraries used are inbuilt.</br>
 <h2> Test Case 1 </h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/110230542-be460a00-7edf-11eb-8b5d-17cbf5621c27.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/110245177-1e649c80-7f30-11eb-8c37-7e5da186f337.gif" alt="Logo"/>
 </p>
-
 <h2> Test Case 2 </h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/110238628-af2b8000-7f10-11eb-9862-0c627365af02.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/110245227-46540000-7f30-11eb-9fa4-c52f53260e6e.gif" alt="Logo"/>
 </p>
 
+<h2> Test Case 3 </h2>
+
+<p align="center">
+  
+  <img src="https://user-images.githubusercontent.com/12711480/110245347-acd91e00-7f30-11eb-861e-2782e4ff6dc6.gif" alt="Logo"/>
+</p>
+
+<h2> Test Case 4 </h2>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/12711480/110245494-5d472200-7f31-11eb-87c2-6eeacfd0eff6.gif" alt="Logo"/>
+</p>
+
+<h2> Test Case 5 </h2>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/12711480/110245230-481dc380-7f30-11eb-877a-bbdd6b1f8560.gif" alt="Logo"/>
+</p>
