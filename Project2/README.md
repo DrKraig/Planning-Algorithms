@@ -18,14 +18,7 @@ Note:  Other libraries used are inbuilt.</br>
     6. Enjoy!
 
 
-##Videos are present in the ./Ouput folder. The output can also be viwed below in GIF format.
-
-## A few instresting things about this prorgam.
-  1. For each and every node, its co-ordinates, neighbours, parent and the distance to reach that node is being stored.
-  2. The parent node has been created so that once the final state is found, a solution could be backtracked.
-  3. The math for finding out the line, rectangle, circle and ellipse equations was found by plotting the map on GeoGebra.
-  4. The program will let you know if the starting point or ending point is inside the obstacle.
-  5. All the equations for the algebraic planes are defined in their approppriate methods in the file Dijkstra_point.py
+##Videos are present in the ./Ouput folder. The output can also be viewed below in GIF format.
 
 <h2> Test Case 1 </h2>
 
@@ -56,3 +49,11 @@ Note:  Other libraries used are inbuilt.</br>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/110245230-481dc380-7f30-11eb-877a-bbdd6b1f8560.gif" alt="Logo"/>
 </p>
+
+
+## A few instresting things about this prorgam.
+  1. For each and every node, its co-ordinates, neighbours, parent and the distance to reach that node is being stored.
+  2. The parent node has been created so that once the final state is found, a solution could be backtracked.
+  3. The math for finding out the line, rectangle, circle and ellipse equations was found by plotting the map on GeoGebra.
+  4. The program will let you know if the starting point or ending point is inside the obstacle.
+  5. All the equations for the algebraic planes are defined in their approppriate methods in the file Dijkstra_point.py
