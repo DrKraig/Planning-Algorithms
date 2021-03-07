@@ -43,7 +43,7 @@ Note:  Other libraries used are inbuilt.</br>
 <h2> Test Case 4 </h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/110245346-acd91e00-7f30-11eb-87f6-a79936c29a86.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/110245494-5d472200-7f31-11eb-87c2-6eeacfd0eff6.gif" alt="Logo"/>
 </p>
 
 <h2> Test Case 5 </h2>
