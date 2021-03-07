@@ -1,4 +1,5 @@
 #https://github.com/SamPusegaonkar/ENPM661/tree/main/Project2
+#Output Videos can be found in the ./Output folder.
 
 import pygame
 import math
@@ -114,7 +115,7 @@ class Graph:
         """
         Description: Defining initial constants - Visited array, Rows, Cols, Target String.
         Input: Starting and ending node for the robot to browse.
-        Output: A animation of nodes which are browsed and the path generated.
+        Output: Returns True or False to define if an optimal path can be found or not.
         """
 
         #Checking is start and end  are in obstancle.
@@ -157,6 +158,12 @@ class Graph:
         return False
 
     def visualizeDijkstra(self, start, end):
+        """
+        Description: Visualization of the algorithm.
+        Input: Starting and ending node for the robot to browse.
+        Output: A animation of nodes which are browsed and the path generated.
+        """
+
         self.visited = {}
         priorityQueue = [start]
         while len(priorityQueue):
