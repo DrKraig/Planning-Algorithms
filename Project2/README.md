@@ -18,7 +18,7 @@ Note:  Other libraries used are inbuilt.</br>
     6. Enjoy!
 
 
-<h2>Videos are present in the 'Output' folder. The output can also be viewed below in GIF format.</h2>
+<h2>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>
 
 <h2> Test Case 1 </h2>
 
