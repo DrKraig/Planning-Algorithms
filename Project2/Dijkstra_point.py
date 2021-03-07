@@ -274,17 +274,17 @@ class Graph:
 
         return self.isInEllipse(x,y) or self.isInBrokenRectangle(x,y) or self.isInCircle(x,y) or self.isInRectangle(x,y) or self.isInPolygon(x,y)
 
-# i1 = int(input("Enter the ith coordiante of the starting point: "))
-# j1 = int(input("Enter the jth coordiante of the starting point: "))
+x1 = int(input("Enter the ith coordiante of the starting point: "))
+y1 = int(input("Enter the jth coordiante of the starting point: "))
 
-# i2 = int(input("Enter the ith coordiante of the ending point: "))
-# j2 = int(input("Enter the jth coordiante of the ending point: "))
+x2 = int(input("Enter the ith coordiante of the ending point: "))
+y2 = int(input("Enter the jth coordiante of the ending point: "))
 
-x1 = 10
-y1 = 10
+# x1 = 10
+# y1 = 10
 
-x2 = 299
-y2 = 199
+# x2 = 299
+# y2 = 199
 
 
 #############################################           
