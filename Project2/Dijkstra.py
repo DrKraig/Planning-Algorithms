@@ -278,11 +278,12 @@ class Graph:
 # i2 = int(input("Enter the ith coordiante of the ending point: "))
 # j2 = int(input("Enter the jth coordiante of the ending point: "))
 
-x1 = 120
-y1 = 50
+x1 = 10
+y1 = 10
 
-x2 = 268
-y2 = 10
+x2 = 299
+y2 = 199
+
 
 #############################################           
 #Algorithm Driver   

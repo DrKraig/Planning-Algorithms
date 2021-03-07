@@ -13,12 +13,12 @@ Note:  Other libraries used are inbuilt.</br>
     2. Open command prompt or terminal.
     3. Navigate to this directory using 'cd ENPM661/Project2'
     4. If OS is windows, type 'python Dijkstra.py'
-    4. If OS is Ubuntu, type 'python3 Dijkstra.py'
-    5. Input the co-ordinates for starting & ending point
-    6. Enjoy!
+    5. If OS is Ubuntu, type 'python3 Dijkstra.py'
+    6. Input the co-ordinates for starting & ending point
+    7. Enjoy!
 
 
 ## A few instresting things about this prorgam.
   1. For each and every node, its co-ordinates, neighbours, parent and the distance to reach that node is being stored.
-  2. For each node a parent node has been created so that once the final state is found, a solution could be backtracked.
+  2. The parent node has been created so that once the final state is found, a solution could be backtracked.
   3. The math for finding out the line equations was found by plotting the map on GeoGebra.
