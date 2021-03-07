@@ -1,5 +1,5 @@
 #https://github.com/SamPusegaonkar/ENPM661/tree/main/Project2
-#Output Videos can be found in the ./Output folder.
+#Output Videos can be found in the 'Output Videos' folder.
 
 import pygame
 import math
