@@ -1,4 +1,4 @@
-#https://github.com/SamPusegaonkar/ENPM661/tree/main/Project2
+#https://github.com/SamPusegaonkar/ENPM661/tree/main/Project3
 #Output Videos can be found in the 'Output Videos' folder.
 
 import pygame
@@ -318,18 +318,18 @@ else:
 #############################################
 #Running the simulation in loop
 
-# while not exiting:
-#     for event in pygame.event.get():  
-#         if event.type == pygame.QUIT:
-#             exiting = True  
+while not exiting:
+    for event in pygame.event.get():  
+        if event.type == pygame.QUIT:
+            exiting = True  
 
-#     for row in range(WIDTH):
-#         for column in range(HEIGHT):
-#             if grid[row][column] == 1:
-#                 pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
+    for row in range(WIDTH):
+        for column in range(HEIGHT):
+            if grid[row][column] == 1:
+                pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
     
-#     clock.tick(2000)
-#     pygame.display.flip()
+    clock.tick(2000)
+    pygame.display.flip()
  
-# pygame.quit()
+pygame.quit()
 #############################################
