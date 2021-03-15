@@ -125,6 +125,17 @@ class Graph:
         if self.isAnObstacle(end.i, end.j):
             print("Ending point is inside the obstacle!")
             return 
+        
+        if self.isOutsideArena(start.i,start.j):
+            print("Starting point is outside the arena!")
+            print("Starting point should be between (0,0) and (400,300)")
+            return 
+        
+        if self.isOutsideArena(end.i,end.j):
+            print("Ending point is outside the arena!")
+            print("Ending point should be between (0,0) and (400,300)")
+            return 
+
         print("Finding path...")
         priorityQueue = [start]
         while len(priorityQueue):
@@ -265,6 +276,14 @@ class Graph:
         """
 
         return self.isInEllipse(x,y) or self.isInBrokenRectangle(x,y) or self.isInCircle(x,y) or self.isInRectangle(x,y)
+
+    def isOutsideArena(self, x, y):
+        """
+        Description: Checks if the point (x,y) is outside the areana or not.
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+        return True if x < 0 or y < 0 or x > 400 or y > 300 else False
 
 x1 = int(input("Enter the x coordiante of the starting point: "))
 y1 = int(input("Enter the y coordiante of the starting point: "))
