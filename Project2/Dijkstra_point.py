@@ -53,22 +53,22 @@ class Graph:
             neighbours[newNode] = 1
         
         #Top Node
-        if i < (HEIGHT -1) and (not self.isAnObstacle(i+1, j)):
+        if i < (WIDTH -1) and (not self.isAnObstacle(i+1, j)):
             newNode = Node(i+1,j)
             neighbours[newNode] = 1
         
         #Right Node
-        if j < (WIDTH -1) and (not self.isAnObstacle(i, j+1)):
+        if j < (HEIGHT -1) and (not self.isAnObstacle(i, j+1)):
             newNode = Node(i,j+1)
             neighbours[newNode] = 1
         
         #TopLeft Node
-        if j > 0 and i < (HEIGHT-1) and (not self.isAnObstacle(i+1, j-1)):
+        if j > 0 and i < (WIDTH-1) and (not self.isAnObstacle(i+1, j-1)):
             newNode = Node(i+1,j-1)
             neighbours[newNode] = 1.41
         
         #TopRight Node
-        if j < (WIDTH-1) and i < (HEIGHT-1)and (not self.isAnObstacle(i+1, j+1)):
+        if j < (HEIGHT-1) and i < (WIDTH-1)and (not self.isAnObstacle(i+1, j+1)):
             newNode = Node(i+1,j+1)
             neighbours[newNode] = 1.41
         
@@ -78,7 +78,7 @@ class Graph:
             neighbours[newNode] = 1.41
 
         #BottomRight Node
-        if i > 0 and j < (WIDTH -1) and (not self.isAnObstacle(i-1, j+1)):
+        if i > 0 and j < (HEIGHT -1) and (not self.isAnObstacle(i-1, j+1)):
             newNode = Node(i-1,j+1)
             neighbours[newNode] = 1.41
         
@@ -281,11 +281,11 @@ class Graph:
 
         return self.isInEllipse(x,y) or self.isInBrokenRectangle(x,y) or self.isInCircle(x,y) or self.isInRectangle(x,y) or self.isInPolygon(x,y)
 
-x1 = int(input("Enter the ith coordiante of the starting point: "))
-y1 = int(input("Enter the jth coordiante of the starting point: "))
+x1 = int(input("Enter the x coordiante of the starting point: "))
+y1 = int(input("Enter the y coordiante of the starting point: "))
 
-x2 = int(input("Enter the ith coordiante of the ending point: "))
-y2 = int(input("Enter the jth coordiante of the ending point: "))
+x2 = int(input("Enter the x coordiante of the ending point: "))
+y2 = int(input("Enter the y coordiante of the ending point: "))
 
 #############################################           
 #Algorithm Driver   
@@ -302,7 +302,7 @@ if robot.performDijkstra(start, end):
     pygame.display.set_caption("Dijkstra's Algorithm")
     exiting = False
     clock = pygame.time.Clock()
-    grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
+    grid = [[0 for j in range(HEIGHT+1)] for i in range(WIDTH+1)]
 
     canvas = Graph() #Create Canvas
     canvas.generateGraph()
