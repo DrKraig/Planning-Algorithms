@@ -149,8 +149,6 @@ class Graph:
 
             if currentNode.i == end.i and currentNode.j == end.j:
                 print("Found a path!")
-                #self.backTrack(currentNode)
-                #print("Distance Required to reach from start to end is:", currentNode.distanceToReach)
                 return True
             
             if tuple([currentNode.i, currentNode.j]) in self.visited:
@@ -196,11 +194,13 @@ class Graph:
             for neighbourNode, newDistance in currentNode.neighbours.items():
                 i = neighbourNode.i
                 j = neighbourNode.j
-                if (i-5 < start.i < i+5 and j-5 < start.j < j+5) or (i-5 < end.i < i+5 and j-5 < end.j < j+5):
-                    pygame.draw.rect(gridDisplay, BLACK, [i, HEIGHT - j, 2,2])
-                    pygame.display.update()         
+                if (start.i == i and start.j == j) or (end.i == i and end.j == j):
+                    pygame.draw.circle(gridDisplay, BLACK, [i,HEIGHT - j], 10)
+                    pygame.display.update()  
+                elif (i-20 < start.i < i+20 and j-20 < start.j < j+20) or (i-20 < end.i < i+20 and j-20 < end.j < j+20):       
+                    pygame.display.update()  
                 else:    
-                    pygame.draw.rect(gridDisplay, CYAN, [i, HEIGHT - j, 2,2])
+                    pygame.draw.circle(gridDisplay, CYAN, [i,HEIGHT - j], 10)
                     pygame.display.update()
                 heapq.heappush(priorityQueue, (neighbourNode.distanceToReach, neighbourNode))
 
@@ -214,7 +214,6 @@ class Graph:
         """
         while child != None:
             path.append((child.i, child.j))
-            # print(child.i, child.j, "Path")
             grid[child.i][child.j] = 1
             child = child.parent
         return True
@@ -226,7 +225,7 @@ class Graph:
         Output: True or False
         """
 
-        if (x - 90) **2 + (y-70)**2 - 1600 > 0:
+        if (x - 90) **2 + (y-70)**2 - 2500 > 0:
             return False
         else:
             return True
@@ -237,8 +236,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        clearance = 5
-        if (y + 1.42*x - 176.55 + clearance) > 0  and (y - 0.7*x - 74.39 + clearance )  > 0 and (y - 0.7*x - 98.81- clearance) < 0 and (y + 1.42*x - 438.06 - clearance) < 0:
+        clearance = 15
+        if (y + 1.42*x - 176.55 + clearance + 10) > 0  and (y - 0.7*x - 74.39 + clearance )  > 0 and (y - 0.7*x - 98.81 - clearance) < 0 and (y + 1.42*x - 438.06 - clearance - 10) < 0:
             return True
         else:
             return False
@@ -249,7 +248,7 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        clearance = 5
+        clearance = 15
         if (x >= (200 - clearance) and x <= (210 + clearance) and y <= (280+ clearance) and y >=(230 - clearance)) or (x>= (210 - clearance) and x <= (230+ clearance) and y >=(270- clearance) and y <= (280+ clearance)) or (y >= (230- clearance) and y <= (240+ clearance) and x >= (210- clearance) and x <= (230+ clearance)):
             return True
         else:
@@ -262,8 +261,8 @@ class Graph:
         Output: True or False
         """
 
-        a = 70
-        b = 35
+        a = 75
+        b = 45
         h = 246
         k = 145
         if ((math.pow((x - h), 2) / math.pow(a, 2)) + (math.pow((y - k), 2) / math.pow(b, 2))) < 1:
@@ -310,8 +309,7 @@ if robot.performDijkstra(start, end):
     pygame.display.set_caption("Dijkstra's Algorithm - Rigid Robot")
     exiting = False
     clock = pygame.time.Clock()
-    grid = [[0 for j in range(HEIGHT+1)] for i in range(WIDTH+1)]
-
+    grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
     canvas = Graph() #Create Canvas
     canvas.generateGraph()
     robot.visualizeDijkstra(start, end)
@@ -328,6 +326,12 @@ while not exiting:
         if event.type == pygame.QUIT:
             exiting = True  
 
+    for row in range(WIDTH):
+        for column in range(HEIGHT):
+            if grid[row][column] == 1:
+                pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
+
+    #Visualizing the final path
     for index in range(len(path)):
         x, y = path[index]
         pygame.draw.circle(gridDisplay, BLACK, [x,HEIGHT - y], 10)
@@ -338,6 +342,8 @@ while not exiting:
         prevX = x
         prevY = y
         
+ 
+
     clock.tick(2000)
     pygame.display.flip()
     exiting = True
