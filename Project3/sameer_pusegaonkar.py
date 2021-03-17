@@ -42,45 +42,46 @@ class Graph:
         """
         i, j = currentNode.i, currentNode.j
         neighbours ={}
+        RADIUS = 10
 
         #Bottom Node
-        if i > 0 and (not self.isAnObstacle(i-1, j)):
-            newNode = Node(i-1,j)
+        if i > RADIUS and (not self.isAnObstacle(i-RADIUS, j)):
+            newNode = Node(i-RADIUS,j)
             neighbours[newNode] = 1
         
         #Left Node
-        if j > 0 and (not self.isAnObstacle(i, j-1)):
-            newNode = Node(i,j-1)
+        if j > RADIUS and (not self.isAnObstacle(i, j-RADIUS)):
+            newNode = Node(i,j-RADIUS)
             neighbours[newNode] = 1
         
         #Top Node
-        if i < (WIDTH -1) and (not self.isAnObstacle(i+1, j)):
-            newNode = Node(i+1,j)
+        if i < (WIDTH -RADIUS) and (not self.isAnObstacle(i+RADIUS, j)):
+            newNode = Node(i+RADIUS,j)
             neighbours[newNode] = 1
         
         #Right Node
-        if j < (HEIGHT -1) and (not self.isAnObstacle(i, j+1)):
-            newNode = Node(i,j+1)
+        if j < (HEIGHT -RADIUS) and (not self.isAnObstacle(i, j+RADIUS)):
+            newNode = Node(i,j+RADIUS)
             neighbours[newNode] = 1
         
         #TopLeft Node
-        if j > 0 and i < (WIDTH-1) and (not self.isAnObstacle(i+1, j-1)):
-            newNode = Node(i+1,j-1)
+        if j > RADIUS and i < (WIDTH-RADIUS) and (not self.isAnObstacle(i+RADIUS, j-RADIUS)):
+            newNode = Node(i+RADIUS,j-RADIUS)
             neighbours[newNode] = 1.41
         
         #TopRight Node
-        if j < (HEIGHT-1) and i < (WIDTH-1)and (not self.isAnObstacle(i+1, j+1)):
-            newNode = Node(i+1,j+1)
+        if j < (HEIGHT-RADIUS) and i < (WIDTH-RADIUS)and (not self.isAnObstacle(i+RADIUS, j+RADIUS)):
+            newNode = Node(i+RADIUS,j+RADIUS)
             neighbours[newNode] = 1.41
         
         #BottomLeft Node
-        if i > 0 and j > 0 and (not self.isAnObstacle(i-1, j-1)):
-            newNode = Node(i-1,j-1)
+        if i > RADIUS and j > RADIUS and (not self.isAnObstacle(i-RADIUS, j-RADIUS)):
+            newNode = Node(i-RADIUS,j-RADIUS)
             neighbours[newNode] = 1.41
 
         #BottomRight Node
-        if i > 0 and j < (HEIGHT -1) and (not self.isAnObstacle(i-1, j+1)):
-            newNode = Node(i-1,j+1)
+        if i > RADIUS and j < (HEIGHT -RADIUS) and (not self.isAnObstacle(i-RADIUS, j+RADIUS)):
+            newNode = Node(i-RADIUS,j+RADIUS)
             neighbours[newNode] = 1.41
         
         return neighbours
