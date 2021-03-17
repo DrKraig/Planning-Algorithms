@@ -198,7 +198,10 @@ class Graph:
                     pygame.draw.circle(gridDisplay, BLACK, [i,HEIGHT - j], 10)
                     pygame.display.update()  
                 elif (i-20 < start.i < i+20 and j-20 < start.j < j+20) or (i-20 < end.i < i+20 and j-20 < end.j < j+20):       
-                    pygame.display.update()  
+                    pygame.display.update() 
+                elif self.isInStartingSquare(start, i, j) and not self.isinStartingCircle(start, i,j):
+                    pygame.draw.rect(gridDisplay, CYAN,[i, HEIGHT - j, 2,2])
+                    pygame.display.update()   
                 else:    
                     pygame.draw.circle(gridDisplay, CYAN, [i,HEIGHT - j], 10)
                     pygame.display.update()
@@ -217,7 +220,31 @@ class Graph:
             grid[child.i][child.j] = 1
             child = child.parent
         return True
-    
+
+    def isinStartingCircle(self, start, i,j):
+        """
+        Description: Checks if a point is in the starting circle from where the robot will start,
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
+        if (i - start.i) **2 + (j-start.j)**2 - 100 <= 0:
+            return True
+        else:
+            return False
+
+    def isInStartingSquare(self, start, i,j):
+        """
+        Description: Checks if a point is in the starting square from where the robot will start.
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
+        """
+
+        if (start.i-10 <= i <= start.i + 10) and (start.j -10 <= j <= start.j + 10):
+            return True
+        else:
+            return False
+
     def isInCircle(self, x,y):
         """
         Description: Checks if a point is in the circle. 
