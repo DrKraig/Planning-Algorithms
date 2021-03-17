@@ -224,7 +224,7 @@ class Graph:
         Output: True or False
         """
 
-        if (x - 90) **2 + (y-70)**2 - 1225 > 0:
+        if (x - 90) **2 + (y-70)**2 - 1600 > 0:
             return False
         else:
             return True
@@ -235,8 +235,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-
-        if (y + 1.42*x - 176.55) > 0  and (y - 0.7*x - 74.39) > 0 and (y - 0.7*x - 98.81) < 0 and (y + 1.42*x - 438.06) < 0:
+        clearance = 5
+        if (y + 1.42*x - 176.55 + clearance) > 0  and (y - 0.7*x - 74.39 + clearance )  > 0 and (y - 0.7*x - 98.81- clearance) < 0 and (y + 1.42*x - 438.06 - clearance) < 0:
             return True
         else:
             return False
@@ -247,8 +247,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-
-        if (x >= 200 and x <= 210 and y <= 280 and y >=230 ) or (x>= 210 and x <= 230 and y >=270 and y <= 280) or (y >= 230 and y <= 240 and x >= 210 and x <= 230):
+        clearance = 5
+        if (x >= (200 - clearance) and x <= (210 + clearance) and y <= (280+ clearance) and y >=(230 - clearance)) or (x>= (210 - clearance) and x <= (230+ clearance) and y >=(270- clearance) and y <= (280+ clearance)) or (y >= (230- clearance) and y <= (240+ clearance) and x >= (210- clearance) and x <= (230+ clearance)):
             return True
         else:
             return False
@@ -260,8 +260,8 @@ class Graph:
         Output: True or False
         """
 
-        a = 60
-        b = 30
+        a = 70
+        b = 35
         h = 246
         k = 145
         if ((math.pow((x - h), 2) / math.pow(a, 2)) + (math.pow((y - k), 2) / math.pow(b, 2))) < 1:
@@ -304,7 +304,7 @@ if robot.performDijkstra(start, end):
     pass
     pygame.init() #Setup Pygame
     gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Dijkstra's Algorithm")
+    pygame.display.set_caption("Dijkstra's Algorithm - Rigid Robot")
     exiting = False
     clock = pygame.time.Clock()
     grid = [[0 for j in range(HEIGHT+1)] for i in range(WIDTH+1)]
