@@ -4,6 +4,7 @@
 import pygame
 import math
 import heapq
+import time
 
 #Defining Graph Constants
 HEIGHT = 300
@@ -46,42 +47,42 @@ class Graph:
 
         #Bottom Node
         if i > RADIUS and (not self.isAnObstacle(i-RADIUS, j)):
-            newNode = Node(i-RADIUS,j)
+            newNode = Node(i-1,j)
             neighbours[newNode] = 1
         
         #Left Node
         if j > RADIUS and (not self.isAnObstacle(i, j-RADIUS)):
-            newNode = Node(i,j-RADIUS)
+            newNode = Node(i,j-1)
             neighbours[newNode] = 1
         
         #Top Node
         if i < (WIDTH -RADIUS) and (not self.isAnObstacle(i+RADIUS, j)):
-            newNode = Node(i+RADIUS,j)
+            newNode = Node(i+1,j)
             neighbours[newNode] = 1
         
         #Right Node
         if j < (HEIGHT -RADIUS) and (not self.isAnObstacle(i, j+RADIUS)):
-            newNode = Node(i,j+RADIUS)
+            newNode = Node(i,j+1)
             neighbours[newNode] = 1
         
         #TopLeft Node
         if j > RADIUS and i < (WIDTH-RADIUS) and (not self.isAnObstacle(i+RADIUS, j-RADIUS)):
-            newNode = Node(i+RADIUS,j-RADIUS)
+            newNode = Node(i+1,j-1)
             neighbours[newNode] = 1.41
         
         #TopRight Node
         if j < (HEIGHT-RADIUS) and i < (WIDTH-RADIUS)and (not self.isAnObstacle(i+RADIUS, j+RADIUS)):
-            newNode = Node(i+RADIUS,j+RADIUS)
+            newNode = Node(i+1,j+1)
             neighbours[newNode] = 1.41
         
         #BottomLeft Node
         if i > RADIUS and j > RADIUS and (not self.isAnObstacle(i-RADIUS, j-RADIUS)):
-            newNode = Node(i-RADIUS,j-RADIUS)
+            newNode = Node(i-1,j-1)
             neighbours[newNode] = 1.41
 
         #BottomRight Node
         if i > RADIUS and j < (HEIGHT -RADIUS) and (not self.isAnObstacle(i-RADIUS, j+RADIUS)):
-            newNode = Node(i-RADIUS,j+RADIUS)
+            newNode = Node(i-1,j+1)
             neighbours[newNode] = 1.41
         
         return neighbours
@@ -211,9 +212,9 @@ class Graph:
         Input: Ending Node
         Output: A animation of the path generated.
         """
-
         while child != None:
-            print(child.i, child.j, "Path")
+            path.append((child.i, child.j))
+            # print(child.i, child.j, "Path")
             grid[child.i][child.j] = 1
             child = child.parent
         return True
@@ -299,6 +300,7 @@ start = Node(x1,y1)
 start.distanceToReach = 0
 end = Node(x2,y2)
 robot = Graph()
+path = []
 
 #Check if path can be found
 if robot.performDijkstra(start, end):
@@ -313,6 +315,7 @@ if robot.performDijkstra(start, end):
     canvas = Graph() #Create Canvas
     canvas.generateGraph()
     robot.visualizeDijkstra(start, end)
+    path.reverse()
 else:
     #No Path Found
     exiting = True
@@ -325,13 +328,18 @@ while not exiting:
         if event.type == pygame.QUIT:
             exiting = True  
 
-    for row in range(WIDTH):
-        for column in range(HEIGHT):
-            if grid[row][column] == 1:
-                pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
-    
+    for index in range(len(path)):
+        x, y = path[index]
+        pygame.draw.circle(gridDisplay, BLACK, [x,HEIGHT - y], 10)
+        pygame.display.update()  
+        if index != 0 and index != len(path)-1:
+            pygame.draw.circle(gridDisplay, CYAN, [prevX,HEIGHT - prevY], 10)
+        time.sleep(.2)
+        prevX = x
+        prevY = y
+        
     clock.tick(2000)
     pygame.display.flip()
- 
+    exiting = True
 pygame.quit()
 #############################################
