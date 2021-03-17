@@ -3,6 +3,7 @@
 
 import pygame
 import math
+import heapq
 
 #Defining Graph Constants
 HEIGHT = 300
@@ -137,11 +138,12 @@ class Graph:
             return 
 
         print("Finding path...")
-        priorityQueue = [start]
+        priorityQueue = []
+        heapq.heappush(priorityQueue, (start.distanceToReach, start))
         while len(priorityQueue):
 
-            priorityQueue.sort(key = lambda x: x.distanceToReach)
-            currentNode = priorityQueue.pop(0)
+            currentNode = heapq.heappop(priorityQueue)
+            currentNode = currentNode[1]
 
             if currentNode.i == end.i and currentNode.j == end.j:
                 print("Found a path!")
@@ -160,8 +162,7 @@ class Graph:
 
                 neighbourNode.distanceToReach = currentDistance + newDistance
                 neighbourNode.parent = currentNode
-                priorityQueue.append(neighbourNode)
-
+                heapq.heappush(priorityQueue, (neighbourNode.distanceToReach, neighbourNode))
         print("Cannot find a path :(")
         return False
 
@@ -173,10 +174,12 @@ class Graph:
         """
 
         self.visited = {}
-        priorityQueue = [start]
+        priorityQueue = []
+        heapq.heappush(priorityQueue, (start.distanceToReach, start))
         while len(priorityQueue):
-            priorityQueue.sort(key = lambda x: x.distanceToReach)
-            currentNode = priorityQueue.pop(0)
+
+            currentNode = heapq.heappop(priorityQueue)
+            currentNode = currentNode[1]
 
             if currentNode.i == end.i and currentNode.j == end.j:
                 self.backTrack(currentNode)
@@ -197,10 +200,8 @@ class Graph:
                 else:    
                     pygame.draw.rect(gridDisplay, CYAN, [i, HEIGHT - j, 2,2])
                     pygame.display.update()
+                heapq.heappush(priorityQueue, (neighbourNode.distanceToReach, neighbourNode))
 
-                # neighbourNode.distanceToReach = currentDistance + newDistance
-                # neighbourNode.parent = currentNode
-                priorityQueue.append(neighbourNode)
         return 
 
     def backTrack(self, child):
