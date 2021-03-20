@@ -4,6 +4,7 @@
 import pygame
 import math
 import heapq
+import functools
 
 #Defining Graph Constants
 HEIGHT = 300
@@ -28,6 +29,9 @@ class Node:
         self.distanceToReach = float('inf')
         self.neighbours = {}
         self.parent = None
+        
+    def __lt__(self, other):
+        return self.distanceToReach < other.distanceToReach
 
 class Graph:
     """
