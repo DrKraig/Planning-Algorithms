@@ -1,4 +1,4 @@
-<h1>Project 2 - Implementation of Dijkstra's Algorithm with Animation!</h1>
+<h1>Project 2 - Implementation of Dijkstra's Algorithm for a point robot with Animation!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
