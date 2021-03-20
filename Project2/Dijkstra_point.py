@@ -305,7 +305,7 @@ if robot.performDijkstra(start, end):
 
     pygame.init() #Setup Pygame
     gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Dijkstra's Algorithm")
+    pygame.display.set_caption("Dijkstra's Algorithm - Point Robot")
     exiting = False
     clock = pygame.time.Clock()
     grid = [[0 for j in range(HEIGHT+1)] for i in range(WIDTH+1)]

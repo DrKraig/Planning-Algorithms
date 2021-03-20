@@ -16,17 +16,6 @@ CYAN = (0, 255, 255)
 BLACK = (0, 0, 0)
 MAGENTA = (255,0,255)
 
-# class ListNodeEntry:
-#   def __init__(self, node):
-#     self.node = node
-
-
-#   def node(self):
-#     return self.node
-
-
-
-@functools.total_ordering
 class Node:
     """
     Node class : This class is built to store the node information.
