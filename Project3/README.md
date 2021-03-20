@@ -1,4 +1,4 @@
-<h1>Project 3 - Implementation of Dijkstra's Algorithm on a rigit robot with Animation!</h1>
+<h1>Project 3 - Implementation of Dijkstra's Algorithm on a rigid robot with Animation!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
