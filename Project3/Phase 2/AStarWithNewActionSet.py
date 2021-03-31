@@ -66,60 +66,33 @@ class Graph:
     def getNewCoordiantes(self, i, j, theta, deltaTheta):
         MAGNITUDE = 10
         newTheta = theta + deltaTheta
-        print(theta, deltaTheta, newTheta)
-        if newTheta == 0:
-            i = i + MAGNITUDE
-            j = j
-        elif newTheta == 90:
-            i = i 
-            j = j + MAGNITUDE
-        elif newTheta == 180:
-            i = i - MAGNITUDE
-            j = j 
-        elif newTheta == 270:
-            i = i 
-            j = j - MAGNITUDE
-        elif 0 < newTheta < 90:
-            if deltaTheta == 0:
-                i += MAGNITUDE * math.cos(newTheta)
-                j += MAGNITUDE * math.sin(newTheta)
-            elif deltaTheta == 30:
-                i += MAGNITUDE * math.cos(deltaTheta)
-                j += MAGNITUDE * math.sin(deltaTheta)
-            elif deltaTheta == 60:
-                i += MAGNITUDE * math.cos(deltaTheta)
-                j += MAGNITUDE * math.sin(deltaTheta)
-            elif deltaTheta == -30:
-                i += MAGNITUDE * math.cos(abs(deltaTheta))
-                j -= MAGNITUDE * math.sin(abs(deltaTheta))
-            elif deltaTheta == -60:
-                i += MAGNITUDE * math.cos(abs(deltaTheta))
-                j -= MAGNITUDE * math.sin(abs(deltaTheta))
-        # elif 90 < newTheta < 180:
-        #     if deltaTheta == 0:
-        #         x -= MAGNITUDE * math.cos(newTheta)
-        #         y += MAGNITUDE * math.sin(newTheta)
-        #     elif deltaTheta == 30:
-        #         x += MAGNITUDE * math.cos(deltaTheta)
-        #         y += MAGNITUDE * math.sin(deltaTheta)
-        #     elif deltaTheta == 60:
-        #         x += MAGNITUDE * math.cos(deltaTheta)
-        #         y += MAGNITUDE * math.sin(deltaTheta)
-        #     elif deltaTheta == -30:
-        #         x += MAGNITUDE * math.cos(deltaTheta)
-        #         y -= MAGNITUDE * math.sin(deltaTheta)
-        #     elif deltaTheta == -60:
-        #         x += MAGNITUDE * math.cos(deltaTheta)
-        #         y -= MAGNITUDE * math.sin(deltaTheta)
-        # elif 180 < newTheta < 270:
-        # elif 270 < newTheta < 360:
-        
 
-        print(i,j, newTheta)
+
+        if newTheta > 0:
+            newTheta = newTheta % 360
+        elif newTheta < 0:
+            newTheta = (newTheta+360) % 360
+
+        newI = i + MAGNITUDE * math.cos( (math.pi/180) * newTheta)
+        newJ = j + MAGNITUDE * math.sin( (math.pi/180) * newTheta)
+
+        print(newI, newJ, newTheta)
+        
+        newI = self.getRoundedNumber(newI)
+        newJ = self.getRoundedNumber(newJ)
+        print(newI, newJ, newTheta)
+
         print("--------------------------------------")
 
-        return i, j, newTheta
+        return newI, newJ, newTheta
 
+    def getRoundedNumber(self, i):
+
+        decimal = i - int(i)
+        if decimal > 0.5:
+            return math.ceil(i)
+        elif decimal < 0.5:
+            return math.floor(i)
 
     def generateGraph(self,):
         """
@@ -216,7 +189,7 @@ class Graph:
             currentNode = heapq.heappop(priorityQueue)
             currentNode = currentNode[1]
 
-            if currentNode.i == end.i and currentNode.j == end.j:
+            if self.isInTargetArea(currentNode.i, currentNode.j):
                 self.backTrack(currentNode)
                 print("Distance Required to reach from start to end is:", currentNode.costToCome)
                 return
@@ -232,13 +205,14 @@ class Graph:
                 if (start.i == i and start.j == j) or (end.i == i and end.j == j):
                     pygame.draw.circle(gridDisplay, BLACK, [i,HEIGHT - j], 10)
                     pygame.display.update()  
-                elif (i-20 < start.i < i+20 and j-20 < start.j < j+20) or (i-20 < end.i < i+20 and j-20 < end.j < j+20):       
-                    pygame.display.update() 
-                elif self.isInStartingSquare(start, i, j) and not self.isinStartingCircle(start, i,j):
-                    pygame.draw.rect(gridDisplay, CYAN,[i, HEIGHT - j, 2,2])
-                    pygame.display.update()   
+                # elif (i-20 < start.i < i+20 and j-20 < start.j < j+20) or (i-20 < end.i < i+20 and j-20 < end.j < j+20):       
+                #     pygame.display.update() 
+                # elif self.isInStartingSquare(start, i, j) and not self.isinStartingCircle(start, i,j):
+                #     pygame.draw.rect(gridDisplay, CYAN,[i, HEIGHT - j, 2,2])
+                #     pygame.display.update()   
                 else:    
-                    pygame.draw.circle(gridDisplay, CYAN, [i,HEIGHT - j], 10)
+                    # pygame.draw.circle(gridDisplay, CYAN, [i,HEIGHT - j], 10)
+                    pygame.draw.line(gridDisplay, GREEN, [currentNode.i,HEIGHT - currentNode.j],  [i,HEIGHT - j],  1)
                     pygame.display.update()
                 heapq.heappush(priorityQueue, (neighbourNode.cost, neighbourNode))
 
@@ -398,31 +372,31 @@ else:
 #############################################
 #Running the simulation in loop
 
-# while not exiting:
-#     for event in pygame.event.get():  
-#         if event.type == pygame.QUIT:
-#             exiting = True  
+while not exiting:
+    for event in pygame.event.get():  
+        if event.type == pygame.QUIT:
+            exiting = True  
 
-#     for row in range(WIDTH):
-#         for column in range(HEIGHT):
-#             if grid[row][column] == 1:
-#                 pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
+    for row in range(WIDTH):
+        for column in range(HEIGHT):
+            if grid[row][column] == 1:
+                pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
 
-#     #Visualizing the final path
-#     for index in range(len(path)):
-#         x, y = path[index]
-#         pygame.draw.circle(gridDisplay, BLACK, [x,HEIGHT - y], 10)
-#         pygame.display.update()  
-#         if index != 0 and index != len(path)-1:
-#             pygame.draw.circle(gridDisplay, CYAN, [prevX,HEIGHT - prevY], 10)
-#         time.sleep(.01)
-#         prevX = x
-#         prevY = y
+    #Visualizing the final path
+    # for index in range(len(path)):
+    #     x, y = path[index]
+    #     pygame.draw.circle(gridDisplay, BLACK, [x,HEIGHT - y], 10)
+    #     pygame.display.update()  
+    #     if index != 0 and index != len(path)-1:
+    #         pygame.draw.circle(gridDisplay, CYAN, [prevX,HEIGHT - prevY], 10)
+    #     time.sleep(.1)
+    #     prevX = x
+    #     prevY = y
         
  
 
-#     clock.tick(2000)
-#     pygame.display.flip()
-#     exiting = True
-# pygame.quit()
+    clock.tick(2000)
+    pygame.display.flip()
+    exiting = True
+pygame.quit()
 #############################################
