@@ -90,10 +90,16 @@ class Graph:
 
         decimal = i - int(i)
         if decimal > 0.5:
-            return math.ceil(i)
+            if decimal >= 0.75:
+                return math.ceil(i)
+            else:
+                return int(i) +.5 
         elif decimal < 0.5:
-            return math.floor(i)
-
+            if decimal < 0.25:
+                return math.floor(i)
+            else:
+                return int(i) +.5 
+        return i 
     def generateGraph(self,):
         """
         Description: Checks if a point is in the Ellipse. 
@@ -154,7 +160,6 @@ class Graph:
             currentNode = heapq.heappop(priorityQueue)
             currentNode = currentNode[1]
             if self.isInTargetArea(currentNode.i, currentNode.j):
-                self.backTrack(currentNode)
                 print("Found a path!")
                 return True
             
@@ -205,14 +210,9 @@ class Graph:
                 if (start.i == i and start.j == j) or (end.i == i and end.j == j):
                     pygame.draw.circle(gridDisplay, BLACK, [i,HEIGHT - j], 10)
                     pygame.display.update()  
-                # elif (i-20 < start.i < i+20 and j-20 < start.j < j+20) or (i-20 < end.i < i+20 and j-20 < end.j < j+20):       
-                #     pygame.display.update() 
-                # elif self.isInStartingSquare(start, i, j) and not self.isinStartingCircle(start, i,j):
-                #     pygame.draw.rect(gridDisplay, CYAN,[i, HEIGHT - j, 2,2])
-                #     pygame.display.update()   
-                else:    
-                    # pygame.draw.circle(gridDisplay, CYAN, [i,HEIGHT - j], 10)
-                    pygame.draw.line(gridDisplay, GREEN, [currentNode.i,HEIGHT - currentNode.j],  [i,HEIGHT - j],  1)
+                else:  
+                    time.sleep(0.1)  
+                    pygame.draw.line(gridDisplay, CYAN, [currentNode.i,HEIGHT - currentNode.j],  [i,HEIGHT - j],  1)
                     pygame.display.update()
                 heapq.heappush(priorityQueue, (neighbourNode.cost, neighbourNode))
 
@@ -363,7 +363,7 @@ if robot.performDijkstra(start, end):
     grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
     canvas = Graph(start, end) #Create Canvas
     canvas.generateGraph()
-    #robot.visualizeDijkstra(start, end)
+    robot.visualizeDijkstra(start, end)
     path.reverse()
 else:
     #No Path Found
@@ -383,17 +383,17 @@ while not exiting:
                 pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
 
     #Visualizing the final path
-    # for index in range(len(path)):
-    #     x, y = path[index]
-    #     pygame.draw.circle(gridDisplay, BLACK, [x,HEIGHT - y], 10)
-    #     pygame.display.update()  
-    #     if index != 0 and index != len(path)-1:
-    #         pygame.draw.circle(gridDisplay, CYAN, [prevX,HEIGHT - prevY], 10)
-    #     time.sleep(.1)
-    #     prevX = x
-    #     prevY = y
+    for index in range(len(path)):
+        x, y = path[index]
+        pygame.draw.circle(gridDisplay, BLACK, [x,HEIGHT - y], 10)
+        pygame.display.update()  
+        if index != 0 and index != len(path)-1:
+            pygame.draw.line(gridDisplay, CYAN, [prevX,HEIGHT - prevY],  [x,HEIGHT - y],  1)
+            pygame.display.update()  
+        time.sleep(.1)
+        prevX = x
+        prevY = y
         
- 
 
     clock.tick(2000)
     pygame.display.flip()
