@@ -54,9 +54,7 @@ class Graph:
         neighbours ={}
         RADIUS = 10
 
-
         for deltaTheta in range(-60, 60, 30):
-            print(deltaTheta)
             x, y, newTheta = self.getNewCoordiantes(i, j , theta, deltaTheta)
             if (not self.isOutsideArena(x,y)) and (not self.isAnObstacle(x,y)):
                 newNode = Node(x, y, self.endI, self.endJ, newTheta)
@@ -67,7 +65,6 @@ class Graph:
         MAGNITUDE = 10
         newTheta = theta + deltaTheta
 
-
         if newTheta > 0:
             newTheta = newTheta % 360
         elif newTheta < 0:
@@ -75,14 +72,9 @@ class Graph:
 
         newI = i + MAGNITUDE * math.cos( (math.pi/180) * newTheta)
         newJ = j + MAGNITUDE * math.sin( (math.pi/180) * newTheta)
-
-        print(newI, newJ, newTheta)
         
         newI = self.getRoundedNumber(newI)
         newJ = self.getRoundedNumber(newJ)
-        print(newI, newJ, newTheta)
-
-        print("--------------------------------------")
 
         return newI, newJ, newTheta
 
@@ -156,17 +148,12 @@ class Graph:
         priorityQueue = []
         heapq.heappush(priorityQueue, (start.cost, start))
         while len(priorityQueue):
-            print("--------------------------------------------")
             currentNode = heapq.heappop(priorityQueue)
             currentNode = currentNode[1]
             if self.isInTargetArea(currentNode.i, currentNode.j):
                 print("Found a path!")
                 return True
             
-            if tuple([currentNode.i, currentNode.j]) in self.visited:
-                continue
-            self.visited[tuple([currentNode.i, currentNode.j])] = True
-
             currentDistance = currentNode.costToCome
             neighbours = self.getNeighbours(currentNode)
             currentNode.neighbours = neighbours
@@ -189,6 +176,9 @@ class Graph:
         self.visited = {}
         priorityQueue = []
         heapq.heappush(priorityQueue, (start.cost, start))
+        pygame.draw.circle(gridDisplay, BLACK, [start.i,HEIGHT - start.j], 10)
+        pygame.draw.circle(gridDisplay, BLACK, [end.i,HEIGHT - end.j], 10)
+        pygame.display.update()  
         while len(priorityQueue):
 
             currentNode = heapq.heappop(priorityQueue)
@@ -199,21 +189,14 @@ class Graph:
                 print("Distance Required to reach from start to end is:", currentNode.costToCome)
                 return
             
-            if tuple([currentNode.i, currentNode.j]) in self.visited:
-                continue
-            self.visited[tuple([currentNode.i, currentNode.j])] = True
-
             currentDistance = currentNode.costToCome
             for neighbourNode, newDistance in currentNode.neighbours.items():
                 i = neighbourNode.i
                 j = neighbourNode.j
-                if (start.i == i and start.j == j) or (end.i == i and end.j == j):
-                    pygame.draw.circle(gridDisplay, BLACK, [i,HEIGHT - j], 10)
-                    pygame.display.update()  
-                else:  
-                    time.sleep(0.1)  
-                    pygame.draw.line(gridDisplay, CYAN, [currentNode.i,HEIGHT - currentNode.j],  [i,HEIGHT - j],  1)
-                    pygame.display.update()
+                pygame.draw.line(gridDisplay, CYAN, [currentNode.i,HEIGHT - currentNode.j],  [i,HEIGHT - j],  2)
+                pygame.display.update()
+                time.sleep(0.1)  
+
                 heapq.heappush(priorityQueue, (neighbourNode.cost, neighbourNode))
 
         return 
@@ -239,8 +222,7 @@ class Graph:
         """
         while child != None:
             path.append((child.i, child.j))
-            #grid[child.i][child.j] = 1
-            print(child.i, child.j, "PAth")
+            print(child.i, child.j, "Path")
             child = child.parent
         return True
 
@@ -348,7 +330,7 @@ y2 = int(input("Enter the y coordiante of the ending point: "))
 end = Node(x2, y2, x2, y2, 0)
 start = Node(x1, y1, x2, y2, 0)
 start.costToCome = 0
-start.theta = 0
+start.theta = 30
 robot = Graph(start, end)
 path = []
 
@@ -377,24 +359,17 @@ while not exiting:
         if event.type == pygame.QUIT:
             exiting = True  
 
-    for row in range(WIDTH):
-        for column in range(HEIGHT):
-            if grid[row][column] == 1:
-                pygame.draw.rect(gridDisplay, BLACK,[row, HEIGHT - column, 2,2])
-
     #Visualizing the final path
     for index in range(len(path)):
         x, y = path[index]
-        pygame.draw.circle(gridDisplay, BLACK, [x,HEIGHT - y], 10)
-        pygame.display.update()  
-        if index != 0 and index != len(path)-1:
-            pygame.draw.line(gridDisplay, CYAN, [prevX,HEIGHT - prevY],  [x,HEIGHT - y],  1)
-            pygame.display.update()  
+        if index != 0:
+            pygame.draw.line(gridDisplay, MAGENTA, [prevX,HEIGHT - prevY],  [x,HEIGHT - y],  1)
+            pygame.display.update()
+
         time.sleep(.1)
         prevX = x
         prevY = y
         
-
     clock.tick(2000)
     pygame.display.flip()
     exiting = True
