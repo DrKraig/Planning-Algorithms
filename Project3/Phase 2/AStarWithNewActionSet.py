@@ -39,7 +39,7 @@ class Node:
 
 class Graph:
     """
-    Graph class : This class defines all methods to generate a graph and perform Djikstra's Algorithm.
+    Graph class : This class defines all methods to generate a graph and perform AStar Algorithm.
     """
     def __init__(self, start, end):
         self.visited = {}
@@ -124,7 +124,7 @@ class Graph:
         pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 270), (210, HEIGHT -270), (210, HEIGHT -240),(200,HEIGHT -240)])
         pygame.draw.polygon(gridDisplay, MAGENTA, [(200, HEIGHT - 240), (230, HEIGHT -240), (230, HEIGHT -230),(200,HEIGHT -230)])
 
-    def performDijkstra(self, start, end):
+    def performAStar(self, start, end):
         """
         Description: Defining initial constants - Visited array, Rows, Cols, Target String.
         Input: Starting and ending node for the robot to browse.
@@ -179,7 +179,7 @@ class Graph:
         print("Cannot find a path :(")
         return False
 
-    def visualizeDijkstra(self, start, end):
+    def visualizeAStar(self, start, end):
         """
         Description: Visualization of the algorithm.
         Input: Starting and ending node for the robot to browse.
@@ -353,17 +353,17 @@ robot = Graph(start, end)
 path = []
 
 #Check if path can be found
-if robot.performDijkstra(start, end):
+if robot.performAStar(start, end):
     pass
     pygame.init() #Setup Pygame
     gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Dijkstra's Algorithm - Rigid Robot")
+    pygame.display.set_caption("A* Algorithm - Rigid Robot")
     exiting = False
     clock = pygame.time.Clock()
     grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
     canvas = Graph(start, end) #Create Canvas
     canvas.generateGraph()
-    robot.visualizeDijkstra(start, end)
+    robot.visualizeAStar(start, end)
     path.reverse()
 else:
     #No Path Found
