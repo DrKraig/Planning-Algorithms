@@ -2,7 +2,8 @@
 A list of all asssignments &amp; projects in ENPM661 'Planning for Autonmous Robotics'
 
   <h2>Projects performed so far- </h2>
-    1. Python Programming Practice: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project0">Project 0</a></br>
-    2. 15 Puzzle Challenge: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project1">Project 1</a> </br>
-    3. Dijkstra's Algorithm on a point robot: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project2">Project 2</a> </br>
-    4. Dijkstra's Algorithm on a rigid robot: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project3">Project 3</a> </br>
+    0. Python Programming Practice: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project0">Project 0</a></br>
+    1. 15 Puzzle Challenge: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project1">Project 1</a> </br>
+    2. Dijkstra's Algorithm on a point robot: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project2">Project 2</a> </br>
+    3a. Dijkstra's Algorithm on a rigid robot: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project3/Phase%201">Project 3a</a> </br>
+    3b. A* Star Algorithm on a rigid robot: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project3/Phase%202">Project 3b</a> </br>
