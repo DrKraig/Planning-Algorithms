@@ -41,10 +41,11 @@ class Graph:
     """
     Graph class : This class defines all methods to generate a graph and perform AStar Algorithm.
     """
-    def __init__(self, start, end):
+    def __init__(self, start, end, MAGNITUDE):
         self.visited = {}
         self.endI = end.i
         self.endJ = end.j
+        self.MAGNITUDE = MAGNITUDE
 
     def getNeighbours(self, currentNode):
         """
@@ -62,7 +63,6 @@ class Graph:
         return neighbours
 
     def getNewCoordiantes(self, i, j, theta, deltaTheta):
-        MAGNITUDE = 10
         newTheta = theta + deltaTheta
 
         if newTheta > 0:
@@ -70,8 +70,8 @@ class Graph:
         elif newTheta < 0:
             newTheta = (newTheta+360) % 360
 
-        newI = i + MAGNITUDE * math.cos( (math.pi/180) * newTheta)
-        newJ = j + MAGNITUDE * math.sin( (math.pi/180) * newTheta)
+        newI = i + self.MAGNITUDE * math.cos( (math.pi/180) * newTheta)
+        newJ = j + self.MAGNITUDE * math.sin( (math.pi/180) * newTheta)
         
         newI = self.getRoundedNumber(newI)
         newJ = self.getRoundedNumber(newJ)
@@ -123,10 +123,11 @@ class Graph:
         Output: Returns True or False to define if an optimal path can be found or not.
         """
         
-        #Checking is start and end  are in obstancle.
+        #Checking is start and end are in obstancle.
         if self.isAnObstacle(start.i,start.j) and self.isAnObstacle(end.i, end.j):
             print("Starting and ending point are inside the obstacle!")
             return
+
         if self.isAnObstacle(start.i,start.j):
             print("Starting point is inside the obstacle!")
             return 
@@ -321,17 +322,21 @@ class Graph:
 
 x1 = int(input("Enter the x coordiante of the starting point: "))
 y1 = int(input("Enter the y coordiante of the starting point: "))
+thetaStart = int(input("Enter the start theta: "))
+print("#############################################")
 
 x2 = int(input("Enter the x coordiante of the ending point: "))
 y2 = int(input("Enter the y coordiante of the ending point: "))
+print("#############################################")
+
+MAGNITUDE = int(input("Enter the step size of the robot:  "))
 
 #############################################           
 #Algorithm Driver  
 end = Node(x2, y2, x2, y2, 0)
-start = Node(x1, y1, x2, y2, 0)
+start = Node(x1, y1, x2, y2, thetaStart)
 start.costToCome = 0
-start.theta = 30
-robot = Graph(start, end)
+robot = Graph(start, end, MAGNITUDE)
 path = []
 
 #Check if path can be found
@@ -343,7 +348,7 @@ if robot.performAStar(start, end):
     exiting = False
     clock = pygame.time.Clock()
     grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
-    canvas = Graph(start, end) #Create Canvas
+    canvas = Graph(start, end, MAGNITUDE) #Create Canvas
     canvas.generateGraph()
     robot.visualizeAStar(start, end)
     path.reverse()
@@ -363,7 +368,7 @@ while not exiting:
     for index in range(len(path)):
         x, y = path[index]
         if index != 0:
-            pygame.draw.line(gridDisplay, MAGENTA, [prevX,HEIGHT - prevY],  [x,HEIGHT - y],  1)
+            pygame.draw.line(gridDisplay, MAGENTA, [prevX,HEIGHT - prevY],  [x,HEIGHT - y],  2)
             pygame.display.update()
 
         time.sleep(.1)
