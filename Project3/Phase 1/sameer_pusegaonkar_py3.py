@@ -329,7 +329,7 @@ class Graph:
         """
         clearance = 15
         a = 60+clearance
-        b = 20+clearance
+        b = 30+clearance
         h = 246
         k = 145
         if ((math.pow((x - h), 2) / math.pow(a, 2)) + (math.pow((y - k), 2) / math.pow(b, 2))) <= 1:
