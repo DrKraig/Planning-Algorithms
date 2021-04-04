@@ -304,17 +304,17 @@ class Graph:
         """
         clearance = 15
 
-        rect1 = (y <= 280+clearance) and (y >= 270+clearance) and (x <= 230) and (x >= 200)
-        rect2 = (y >= 280) and (y >= 270) and (x <= 230+clearance) and (x >= 200-clearance)
-        rect3 = (y <= 270) and (y >= 240) and (x <= 210+clearance) and (x >= 200-clearance)
-        rect4 = (y <= 240+clearance) and (y >= 230-clearance) and (x <= 230) and (x >= 200)
-        rect5 = (y <= 240) and (y >= 230) and (x <= 230+clearance) and (x >= 200+clearance)
-        circ1 = (x-230)**2 + (y-280)**2 <= clearance**2
-        circ2 = (x-200)**2 + (y-280)**2 <= clearance**2
-        circ3 = (x-230)**2 + (y-270)**2 <= clearance**2
-        circ4 = (x-230)**2 + (y-240)**2 <= clearance**2
-        circ5 = (x-230)**2 + (y-230)**2 <= clearance**2
-        circ6 = (x-200)**2 + (y-230)**2 <= clearance**2
+    rect1 = (y <= 280 + clearance) and (y >= 270 - clearance) and (x <= 230) and (x >= 200)
+    rect2 = (y <= 280) and (y >= 270) and (x <= 230 + clearance) and (x >= 200 - clearance)
+    rect3 = (y <= 270) and (y >= 240) and (x <= 210 + clearance) and (x >= 200 - clearance)
+    rect4 = (y <= 240 + clearance) and (y >= 230 - clearance) and (x <= 230) and (x >= 200)
+    rect5 = (y <= 240) and (y >= 230) and (x <= 230 + clearance) and (x >= 200 - clearance)
+    circ1 = (x - 230) ** 2 + (y - 280) ** 2 <= clearance ** 2
+    circ2 = (x - 200) ** 2 + (y - 280) ** 2 <= clearance ** 2
+    circ3 = (x - 230) ** 2 + (y - 270) ** 2 <= clearance ** 2
+    circ4 = (x - 230) ** 2 + (y - 240) ** 2 <= clearance ** 2
+    circ5 = (x - 230) ** 2 + (y - 230) ** 2 <= clearance ** 2
+    circ6 = (x - 200) ** 2 + (y - 230) ** 2 <= clearance ** 2
 
         if rect1 or rect2 or rect3 or rect4 or rect5 or circ1 or circ2 or circ3 or circ4 or circ5 or circ6:
             return True
