@@ -1,4 +1,4 @@
-<h1>Project 3 - Implementation of Dijkstra's & AStar Algorithm for a rigid robot with Animation!</h1>
+<h1>Project 3 - Implementation of AStar Algorithm for a rigid robot with Animation!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
@@ -12,7 +12,6 @@ Note:  Other libraries used are inbuilt.</br>
     1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
     2. Open command prompt or terminal.
     3. Navigate to this directory using 'cd ENPM661/Project3/'
-    4. To Run Dijkstra, Navigate to 'cd Phase 1'. If OS is Ubuntu, type 'python3 Dijkstra.py'
     4. To Run AStar, Navigate to 'cd Phase 2'. If OS is Ubuntu, type 'python3 AStar.py'
     5. Enter the parameters of the  robot
     6. Enjoy!
