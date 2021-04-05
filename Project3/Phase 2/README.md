@@ -35,19 +35,19 @@ Note:  Other libraries used are inbuilt.</br>
 
 <p align="center">
   
-  <img src="https://user-images.githubusercontent.com/12711480/113526323-a36ec000-9587-11eb-822a-cc8be7bcae61.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/113526340-b2ee0900-9587-11eb-829e-3b46b1c54de0.gif" alt="Logo"/>
 </p>
 
 <h2> Test Case 4: Starting Coordinate = (15, 285, 60), Ending Coordinate = (385, 15), Step Size = 7</h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/113526340-b2ee0900-9587-11eb-829e-3b46b1c54de0.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/113526323-a36ec000-9587-11eb-822a-cc8be7bcae61.gif" alt="Logo"/>
 </p>
 
 <h2> Test Case 5: Starting Coordinate = (170, 285, 190), Ending Coordinate = (15, 285), Step Size = 10<</h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/113526468-2b54ca00-9588-11eb-8b31-99febe575231.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/113526837-82a76a00-9589-11eb-8f7e-e11b5eef473b.gif" alt="Logo"/>
 </p>
 
 <h2> Test Case 6: Starting Coordinate = (355, 285, 15), Ending Coordinate = (15, 285), Step Size = 10<</h2>
@@ -59,7 +59,7 @@ Note:  Other libraries used are inbuilt.</br>
 <h2> Test Case 7: Starting Coordinate = (245, 250, 180), Ending Coordinate = (15, 15), Step Size = 10<</h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/113526837-82a76a00-9589-11eb-8f7e-e11b5eef473b.gif" alt="Logo"/>
+  <img src="https://user-images.githubusercontent.com/12711480/113526468-2b54ca00-9588-11eb-8b31-99febe575231.gif" alt="Logo"/>
 </p>
 
 ## A few instresting things about this prorgam.
