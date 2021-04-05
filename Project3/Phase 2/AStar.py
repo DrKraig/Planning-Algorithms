@@ -45,11 +45,13 @@ class Graph:
     Graph class : This class defines all methods to generate a graph and perform AStar Algorithm.
     """
 
-    def __init__(self, start, end, MAGNITUDE):
+    def __init__(self, start, end, MAGNITUDE, RADIUS, CLEARANCE):
         self.visited = {}
         self.endI = end.i
         self.endJ = end.j
         self.MAGNITUDE = MAGNITUDE
+        self.RADIUS = RADIUS
+        self.CLEARANCE = CLEARANCE + self.RADIUS
 
     def getNeighbours(self, currentNode):
         """
@@ -57,7 +59,7 @@ class Graph:
         """
         i, j, theta = currentNode.i, currentNode.j, currentNode.theta
         neighbours = {}
-        RADIUS = 10
+        
 
         for deltaTheta in range(-60, 60, 30):
             x, y, newTheta = self.getNewCoordiantes(i, j, theta, deltaTheta)
@@ -263,8 +265,7 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        clearance = 15
-        r = 35 + clearance
+        r = 35 + self.CLEARANCE
         if (x - 90) ** 2 + (y - 70) ** 2 - r**2 >= 0:
             return False
         else:
@@ -276,19 +277,18 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        clearance = 15
-        circ1 = (x-48)**2 + (y-108)**2 <= clearance**2
-        circ2 = (x-170.876)**2 + (y-194.044)**2 <= clearance**2
-        circ3 = (x-159.4)**2 + (y-210.432)**2 <= clearance**2
-        circ4 = (x-36.524)**2 + (y-124.387)**2 <= clearance**2
+        circ1 = (x-48)**2 + (y-108)**2 <= self.CLEARANCE**2
+        circ2 = (x-170.876)**2 + (y-194.044)**2 <= self.CLEARANCE**2
+        circ3 = (x-159.4)**2 + (y-210.432)**2 <= self.CLEARANCE**2
+        circ4 = (x-36.524)**2 + (y-124.387)**2 <= self.CLEARANCE**2
         side1 = 0.7*x - y + 74.39 <= 0
-        eside1 = 0.7*x - y + 74.39 - 1.22*clearance <= 0
+        eside1 = 0.7*x - y + 74.39 - 1.22*self.CLEARANCE <= 0
         side2 = -1.43*x - y + 176.55 <= 0
-        eside2 = -1.43*x - y + 176.55 - 1.74*clearance <= 0
+        eside2 = -1.43*x - y + 176.55 - 1.74*self.CLEARANCE <= 0
         side3 = 0.7*x - y + 98.81 >= 0
-        eside3 = 0.7*x - y + 98.81 + 1.22*clearance >= 0
+        eside3 = 0.7*x - y + 98.81 + 1.22*self.CLEARANCE >= 0
         side4 = -1.43*x - y + 438.06 >= 0
-        eside4 = -1.43*x - y + 438.06 + 1.74*clearance >= 0
+        eside4 = -1.43*x - y + 438.06 + 1.74*self.CLEARANCE >= 0
         rect1 = eside1 and side2 and eside3 and side4
         rect2 = side1 and eside2 and side3 and eside4
 
@@ -303,19 +303,18 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        clearance = 15
 
-        rect1 = (y <= 280 + clearance) and (y >= 270 - clearance) and (x <= 230) and (x >= 200)
-        rect2 = (y <= 280) and (y >= 270) and (x <= 230 + clearance) and (x >= 200 - clearance)
-        rect3 = (y <= 270) and (y >= 240) and (x <= 210 + clearance) and (x >= 200 - clearance)
-        rect4 = (y <= 240 + clearance) and (y >= 230 - clearance) and (x <= 230) and (x >= 200)
-        rect5 = (y <= 240) and (y >= 230) and (x <= 230 + clearance) and (x >= 200 - clearance)
-        circ1 = (x - 230) ** 2 + (y - 280) ** 2 <= clearance ** 2
-        circ2 = (x - 200) ** 2 + (y - 280) ** 2 <= clearance ** 2
-        circ3 = (x - 230) ** 2 + (y - 270) ** 2 <= clearance ** 2
-        circ4 = (x - 230) ** 2 + (y - 240) ** 2 <= clearance ** 2
-        circ5 = (x - 230) ** 2 + (y - 230) ** 2 <= clearance ** 2
-        circ6 = (x - 200) ** 2 + (y - 230) ** 2 <= clearance ** 2
+        rect1 = (y <= 280 + self.CLEARANCE) and (y >= 270 - self.CLEARANCE) and (x <= 230) and (x >= 200)
+        rect2 = (y <= 280) and (y >= 270) and (x <= 230 + self.CLEARANCE) and (x >= 200 - self.CLEARANCE)
+        rect3 = (y <= 270) and (y >= 240) and (x <= 210 + self.CLEARANCE) and (x >= 200 - self.CLEARANCE)
+        rect4 = (y <= 240 + self.CLEARANCE) and (y >= 230 - self.CLEARANCE) and (x <= 230) and (x >= 200)
+        rect5 = (y <= 240) and (y >= 230) and (x <= 230 + self.CLEARANCE) and (x >= 200 - self.CLEARANCE)
+        circ1 = (x - 230) ** 2 + (y - 280) ** 2 <= self.CLEARANCE ** 2
+        circ2 = (x - 200) ** 2 + (y - 280) ** 2 <= self.CLEARANCE ** 2
+        circ3 = (x - 230) ** 2 + (y - 270) ** 2 <= self.CLEARANCE ** 2
+        circ4 = (x - 230) ** 2 + (y - 240) ** 2 <= self.CLEARANCE ** 2
+        circ5 = (x - 230) ** 2 + (y - 230) ** 2 <= self.CLEARANCE ** 2
+        circ6 = (x - 200) ** 2 + (y - 230) ** 2 <= self.CLEARANCE ** 2
 
         if rect1 or rect2 or rect3 or rect4 or rect5 or circ1 or circ2 or circ3 or circ4 or circ5 or circ6:
             return True
@@ -328,9 +327,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        clearance = 15
-        a = 60+clearance
-        b = 30+clearance
+        a = 60+self.CLEARANCE
+        b = 30+self.CLEARANCE
         h = 246
         k = 145
         if ((math.pow((x - h), 2) / math.pow(a, 2)) + (math.pow((y - k), 2) / math.pow(b, 2))) <= 1:
@@ -354,9 +352,9 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        clearance = 15
+        
 
-        return True if x < clearance or y < clearance or x > 400-clearance or y > 300-clearance else False
+        return True if x < self.CLEARANCE or y < self.CLEARANCE or x > 400-self.CLEARANCE or y > 300-self.CLEARANCE else False
 
 
 x1 = int(input("Enter the x coordiante of the starting point: "))
@@ -369,13 +367,15 @@ y2 = int(input("Enter the y coordiante of the ending point: "))
 print("#############################################")
 
 MAGNITUDE = int(input("Enter the step size of the robot:  "))
+RADIUS = int(input("Enter the radius of the robot:  "))
+CLEARANCE = int(input("Enter the clearance:  "))
 
 #############################################
 # Algorithm Driver
 end = Node(x2, y2, x2, y2, 0)
 start = Node(x1, y1, x2, y2, thetaStart)
 start.costToCome = 0
-robot = Graph(start, end, MAGNITUDE)
+robot = Graph(start, end, MAGNITUDE, RADIUS, CLEARANCE)
 path = []
 
 # Check if path can be found
@@ -387,7 +387,7 @@ if robot.performAStar(start, end):
     exiting = False
     clock = pygame.time.Clock()
     grid = [[0 for j in range(HEIGHT)] for i in range(WIDTH)]
-    canvas = Graph(start, end, MAGNITUDE)  # Create Canvas
+    canvas = Graph(start, end, MAGNITUDE, RADIUS, CLEARANCE)  # Create Canvas
     canvas.generateGraph()
     robot.visualizeAStar(start, end)
     path.reverse()
