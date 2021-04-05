@@ -18,45 +18,45 @@ Note:  Other libraries used are inbuilt.</br>
     6. Enjoy!
 
 
-<h2>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>
+<h1>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>
 
-<h2> Test Case 1 - Starting Co-ordinate = (15, 15, 0), Ending Co-ordinate = (385, 285), Step Size = 10 </h2>
+<h2> Test Case 1: Starting Co-ordinate = (15, 15, 0), Ending Co-ordinate = (385, 285), Step Size = 10 </h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/113526317-9f42a280-9587-11eb-8a1a-7a41fb66f769.gif" alt="Logo"/>
 </p>
-<h2> Test Case 2 - Starting Co-ordinate = (380, 250, 50), Ending Co-ordinate = (15, 15), Step Size = 10 </h2>
+<h2> Test Case 2: Starting Co-ordinate = (380, 250, 50), Ending Co-ordinate = (15, 15), Step Size = 10 </h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/113526321-a10c6600-9587-11eb-9355-6a076e05deda.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 3 - Starting Co-ordinate = (150, 285, 300), Ending Co-ordinate = (385, 15), Step Size = 5 </h2>
+<h2> Test Case 3: Starting Co-ordinate = (150, 285, 300), Ending Co-ordinate = (385, 15), Step Size = 5 </h2>
 
 <p align="center">
   
   <img src="https://user-images.githubusercontent.com/12711480/113526323-a36ec000-9587-11eb-822a-cc8be7bcae61.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 4 - Starting Co-ordinate = (15, 285, 60), Ending Co-ordinate = (385, 15), Step Size = 7</h2>
+<h2> Test Case 4: Starting Co-ordinate = (15, 285, 60), Ending Co-ordinate = (385, 15), Step Size = 7</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/113526340-b2ee0900-9587-11eb-829e-3b46b1c54de0.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 5 - Starting Co-ordinate = (170, 285, 190), Ending Co-ordinate = (15, 285), Step Size = 10<</h2>
+<h2> Test Case 5: Starting Co-ordinate = (170, 285, 190), Ending Co-ordinate = (15, 285), Step Size = 10<</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/113526468-2b54ca00-9588-11eb-8b31-99febe575231.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 6 - Starting Co-ordinate = (355, 285, 15), Ending Co-ordinate = (15, 285), Step Size = 10<</h2>
+<h2> Test Case 6: Starting Co-ordinate = (355, 285, 15), Ending Co-ordinate = (15, 285), Step Size = 10<</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/113526790-58ee4300-9589-11eb-8071-2a7ebe1989a4.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 7 - Starting Co-ordinate = (245, 250, 180), Ending Co-ordinate = (15, 15), Step Size = 10<</h2>
+<h2> Test Case 7: Starting Co-ordinate = (245, 250, 180), Ending Co-ordinate = (15, 15), Step Size = 10<</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/113526837-82a76a00-9589-11eb-8f7e-e11b5eef473b.gif" alt="Logo"/>
