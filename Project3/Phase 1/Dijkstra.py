@@ -54,42 +54,42 @@ class Graph:
         RADIUS = 10
 
         # Bottom Node
-        if i > RADIUS and (not self.isAnObstacle(i - RADIUS, j)):
+        if i > RADIUS and (not self.isAnObstacle(i - RADIUS, j)) and (not self.isOutsideArena(i - 1, j)):
             newNode = Node(i - 1, j)
             neighbours[newNode] = 1
 
         # Left Node
-        if j > RADIUS and (not self.isAnObstacle(i, j - RADIUS)):
+        if j > RADIUS and (not self.isAnObstacle(i, j - RADIUS)) and (not self.isOutsideArena(i, j - 1)):
             newNode = Node(i, j - 1)
             neighbours[newNode] = 1
 
         # Top Node
-        if i < (WIDTH - RADIUS) and (not self.isAnObstacle(i + RADIUS, j)):
+        if i < (WIDTH - RADIUS) and (not self.isAnObstacle(i + RADIUS, j)) and (not self.isOutsideArena(i + 1, j)):
             newNode = Node(i + 1, j)
             neighbours[newNode] = 1
 
         # Right Node
-        if j < (HEIGHT - RADIUS) and (not self.isAnObstacle(i, j + RADIUS)):
+        if j < (HEIGHT - RADIUS) and (not self.isAnObstacle(i, j + RADIUS)) and (not self.isOutsideArena(i, j + 1)):
             newNode = Node(i, j + 1)
             neighbours[newNode] = 1
 
         # TopLeft Node
-        if j > RADIUS and i < (WIDTH - RADIUS) and (not self.isAnObstacle(i + RADIUS, j - RADIUS)):
+        if j > RADIUS and i < (WIDTH - RADIUS) and (not self.isAnObstacle(i + RADIUS, j - RADIUS)) and (not self.isOutsideArena(i + 1, j - 1)):
             newNode = Node(i + 1, j - 1)
             neighbours[newNode] = 1.41
 
         # TopRight Node
-        if j < (HEIGHT - RADIUS) and i < (WIDTH - RADIUS) and (not self.isAnObstacle(i + RADIUS, j + RADIUS)):
+        if j < (HEIGHT - RADIUS) and i < (WIDTH - RADIUS) and (not self.isAnObstacle(i + RADIUS, j + RADIUS)) and (not self.isOutsideArena(i + 1, j + 1)):
             newNode = Node(i + 1, j + 1)
             neighbours[newNode] = 1.41
 
         # BottomLeft Node
-        if i > RADIUS and j > RADIUS and (not self.isAnObstacle(i - RADIUS, j - RADIUS)):
+        if i > RADIUS and j > RADIUS and (not self.isAnObstacle(i - RADIUS, j - RADIUS)) and (not self.isOutsideArena(i - 1, j - 1)):
             newNode = Node(i - 1, j - 1)
             neighbours[newNode] = 1.41
 
         # BottomRight Node
-        if i > RADIUS and j < (HEIGHT - RADIUS) and (not self.isAnObstacle(i - RADIUS, j + RADIUS)):
+        if i > RADIUS and j < (HEIGHT - RADIUS) and (not self.isAnObstacle(i - RADIUS, j + RADIUS)) and (not self.isOutsideArena(i - 1, j + 1)):
             newNode = Node(i - 1, j + 1)
             neighbours[newNode] = 1.41
 
@@ -409,7 +409,7 @@ while not exiting:
         pygame.display.update()
         if index != 0 and index != len(path) - 1:
             pygame.draw.circle(gridDisplay, CYAN, [prevX, HEIGHT - prevY], 10)
-        time.sleep(.1)
+        time.sleep(.05)
         prevX = x
         prevY = y
 
