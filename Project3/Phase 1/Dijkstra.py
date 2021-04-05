@@ -409,7 +409,7 @@ while not exiting:
         pygame.display.update()
         if index != 0 and index != len(path) - 1:
             pygame.draw.circle(gridDisplay, CYAN, [prevX, HEIGHT - prevY], 10)
-        time.sleep(.05)
+        time.sleep(.01)
         prevX = x
         prevY = y
 
