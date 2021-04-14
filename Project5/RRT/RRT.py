@@ -58,7 +58,7 @@ class Graph:
         Input: Current Node co-ordinates
         Output: Boolean
         """
-        if (i - self.endX) ** 2 + (j - self.endY) ** 2 - 500 <= 0:
+        if (i - self.endX) ** 2 + (j - self.endY) ** 2 - 100 <= 0:
             return True
         else:
             return False
