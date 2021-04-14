@@ -294,7 +294,7 @@ class Graph:
             child = child.parent
         return True
 
-    def visualizeAStar(self, start, end):  
+    def getPath(self, start, end):  
 
         priorityQueue = []
         heapq.heappush(priorityQueue, (start.cost, start))
@@ -377,16 +377,14 @@ clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
 canvas.generateObstacles(start, end)
 if robot.canFindPath(start, end):
-    print("Inside if")
-    robot.visualizeAStar(start, end)
+    robot.getPath(start, end)
     path.reverse()
-print(path)
 exiting = False
+
+
 #############################################
 # Running the simulation in loop
-
 while not exiting:
-    print("Inside loop")
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exiting = True
