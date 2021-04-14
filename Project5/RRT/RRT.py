@@ -32,7 +32,8 @@ class Node:
         self.costToCome = float('inf')
         self.costToGo = math.sqrt((x - endX) ** 2 + (y - endY) ** 2)
         self.cost = None
-        self.child = {}
+        self.neighbour = {}
+        self.parent = None
 
     def __lt__(self, other):
         return self.cost < other.cost
@@ -57,7 +58,7 @@ class Graph:
         Input: Current Node co-ordinates
         Output: Boolean
         """
-        if (i - self.endX) ** 2 + (j - self.endY) ** 2 - 200 <= 0:
+        if (i - self.endX) ** 2 + (j - self.endY) ** 2 - 500 <= 0:
             return True
         else:
             return False
@@ -180,7 +181,6 @@ class Graph:
             x = point[0]
             y = point[1]
             if self.isInObstacle(x, y):
-                print(point, "Inside Obstacle!")
                 return True
         return False
 
@@ -211,7 +211,6 @@ class Graph:
                 for y in range(min(y1,y2), max(y1,y2)+1):
                     if y == int(((x - x1) * (y1 - y2))/(x1-x2) + y1):
                         points.append([x, y])
-        print(points)
         return points
 
     def getRectifiedPoint(self, points, nearestNode, currentNode):
@@ -226,59 +225,95 @@ class Graph:
         return potentialNode
 
     def canFindPath(self, start, end):
+        graphGenerated = False
         self.visited[start] = True
         for _ in range(100000):
             currentNode = self.getSamplePoint()
-            print(currentNode.x, currentNode.y, "Raw child Node")
+
+            #Discard point if visited already
             if currentNode in self.visited:
                 continue
+            
+            #If the sample point is not outside the areana or inside an obstacle
             if not self.isInObstacle(currentNode.x, currentNode.y) and not self.isOutsideArena(currentNode.x, currentNode.y):
+                
+                #Getting the nearest node to the sample node generated
                 nearestNode = self.getNearestNeighbour(currentNode)
-
                 print(nearestNode.x, nearestNode.y, "Nearest Node")
+
+                #If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
                 if self.isBranchInObstacle(nearestNode, currentNode) or self.getEuclidianDistance(nearestNode, currentNode) > self.maxDistanceForNode:
                     print("Searching for new point")
                     points = self.getPoints(nearestNode, currentNode)
                     currentNode = self.getRectifiedPoint(points, nearestNode, currentNode)
-                    print(currentNode.x, currentNode.y, "Rectified child Node - while searching for new")
+
+                    #If it is visited
                     if currentNode in self.visited:
                         continue
+                
+                #If reached the goal
                 if self.isInTargetArea(currentNode.x, currentNode.y):
-                    print("Found a path!")
+                    pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
+                    pygame.display.update()
+                    nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
+                    currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
+                    currentNode.cost = currentNode.costToCome + currentNode.costToGo
+                    currentNode.parent = nearestNode
+                    graphGenerated = True
+                    print("Generated a graph!")
                     return True
+                
                 self.visited[currentNode] = True
-                nearestNode.child[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
-                print(currentNode.x, currentNode.y, "Rectified child Node")
-                pygame.draw.circle(gridDisplay, GREEN, [currentNode.x, HEIGHT - currentNode.y], 5)
-                pygame.display.update()
-                pygame.draw.circle(gridDisplay, BLUE, [nearestNode.x, HEIGHT - nearestNode.y], 5)
-                pygame.display.update()
+               
+                nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.cost = currentNode.costToCome + currentNode.costToGo
+                currentNode.parent = nearestNode
+                print(currentNode.x, currentNode.y, "Sample")
+                print(self.getEuclidianDistance(nearestNode, currentNode), "Cost to Come")
+                print(currentNode.costToGo, "Cost to Go")
                 pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                 pygame.display.update()
             else:
                 print("Bad random sample generated - either inside the obs or greater than self.maxDistance")
-                #pygame.draw.circle(gridDisplay, RED, [currentNode.x, HEIGHT - currentNode.y], 5)
-                #pygame.display.update()
+
+            if graphGenerated:
+                return True
             print("#########################")
 
+    def backTrack(self, child):
+        """
+        Description: Backtracking from the finishing node to the start node.
+        Input: Ending Node
+        Output: A animation of the path generated.
+        """
+        print(child, "This is the child")
+        while child != None:
+            path.append((child.x, child.y))
+            print(child.x, child.y, "Path")
+            child = child.parent
+        return True
+
     def visualizeAStar(self, start, end):  
+
         priorityQueue = []
         heapq.heappush(priorityQueue, (start.cost, start))
         while len(priorityQueue):
             currentNode = heapq.heappop(priorityQueue)
             currentNode = currentNode[1]
-            if self.isInTargetArea(currentNode.x, currentNode.y):                
+            print(currentNode, self.isInTargetArea(currentNode.x, currentNode.y))
+            if self.isInTargetArea(currentNode.x, currentNode.y):
+                print("We are doneeeeeeeeeee")  
+                self.backTrack(currentNode)              
                 return True
-            for neighbour, newDistance in currentNode.child.items():
-                pygame.draw.line(gridDisplay, MAGENTA, [currentNode.x, HEIGHT - currentNode.y], [neighbour.x, HEIGHT - neighbour.y], 2)
-                pygame.display.update()
-                time.sleep(0.2)
+            for neighbour, newDistance in currentNode.neighbour.items():
+                # pygame.draw.line(gridDisplay, MAGENTA, [currentNode.x, HEIGHT - currentNode.y], [neighbour.x, HEIGHT - neighbour.y], 2)
+                # pygame.display.update()
+                # time.sleep(0.01)
                 heapq.heappush(priorityQueue, (neighbour.cost, neighbour))
         return False
 
-    def generateGraph(self, start, end):
+    def generateObstacles(self, start, end):
         """
         Description: Checks if a point is in the Ellipse.
         Input: Point with co-ordinates (x,y)
@@ -340,20 +375,23 @@ pygame.display.set_caption("RRT + A* Algorithm - Rigid Robot")
 exiting = False
 clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
-canvas.generateGraph(start, end)
-robot.canFindPath(start, end)
-robot.visualizeAStar(start, end)
-
-
+canvas.generateObstacles(start, end)
+if robot.canFindPath(start, end):
+    print("Inside if")
+    robot.visualizeAStar(start, end)
+    path.reverse()
+print(path)
+exiting = False
 #############################################
 # Running the simulation in loop
 
 while not exiting:
+    print("Inside loop")
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exiting = True
 
-            # Visualizing the final path
+    # Visualizing the final path
     for index in range(len(path)):
         x, y = path[index]
         if index != 0:
