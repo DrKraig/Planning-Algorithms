@@ -34,7 +34,7 @@ class Node:
         self.cost = None
         self.neighbour = {}
         self.parent = None
-
+        self.child = None
     def __lt__(self, other):
         return self.cost < other.cost
 
@@ -224,6 +224,31 @@ class Graph:
             prevNode = point
         return potentialNode
 
+    def getneighboursWithinRadius(self, currentNode):
+        neighbours = []
+        RADIUS = 400
+        for node in self.visited:
+            distance = self.getEuclidianDistance(currentNode, node)
+            if distance < RADIUS:
+                neighbours.append(node)
+        return neighbours
+
+    def getNodeWithMinCost(self, currentNode, neighbours):
+
+        minCost = float("inf")
+        nodeWithMinCost = None
+        for node in neighbours:
+            potentialCost = node.costToCome + self.getEuclidianDistance(currentNode, node)
+            if minCost > potentialCost:
+                print("inside")
+                minCost = potentialCost
+                nodeWithMinCost = node
+        
+        nodeWithMinCost.child = currentNode
+        currentNode.parent = nodeWithMinCost
+        currentNode.costToCome = minCost
+
+        return nodeWithMinCost
     def canFindPath(self, start, end):
         graphGenerated = False
         self.visited[start] = True
@@ -237,8 +262,32 @@ class Graph:
             #If the sample point is not outside the areana or inside an obstacle
             if not self.isInObstacle(currentNode.x, currentNode.y) and not self.isOutsideArena(currentNode.x, currentNode.y):
                 
-                #Getting the nearest node to the sample node generated
-                nearestNode = self.getNearestNeighbour(currentNode)
+                #Getting the neighbours
+                neighbours = self.getneighboursWithinRadius(currentNode)
+
+                #Get the nearest node with minimum cost
+                neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours)
+                nearestNode = neighbourWithMinCost 
+
+                #Rewiring
+
+                for i in range(len(neighbours)):
+                    for j in range(len(neighbours)):
+                        if i != j:
+
+                            child = neighbours[i]
+                            parent = neighbours[j]
+
+                            if parent.child != child:
+                                if parent.costToCome + self.getEuclidianDistance(child, parent) < child.costToCome:
+                                    child.parent = parent
+                                    parent.child = child
+                                    child.costToCome = parent.costToCome + self.getEuclidianDistance(child, parent)
+                                    pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [parent.x, HEIGHT - parent.y], 2)
+                                    pygame.display.update()
+                                    pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
+                                    pygame.display.update()
+
                 print(nearestNode.x, nearestNode.y, "Nearest Node")
 
                 #If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
