@@ -35,6 +35,7 @@ class Node:
         self.neighbour = {}
         self.parent = None
         self.child = None
+
     def __lt__(self, other):
         return self.cost < other.cost
 
@@ -233,7 +234,7 @@ class Graph:
                 neighbours.append(node)
         return neighbours
 
-    def getNodeWithMinCost(self, currentNode, neighbours):
+    def getNodeWithMinCost(self, currentNode, neighbours, start):
 
         minCost = float("inf")
         nodeWithMinCost = None
@@ -244,11 +245,14 @@ class Graph:
                 minCost = potentialCost
                 nodeWithMinCost = node
         
+        if nodeWithMinCost == None:
+            nodeWithMinCost = start
+
         nodeWithMinCost.child = currentNode
         currentNode.parent = nodeWithMinCost
         currentNode.costToCome = minCost
-
         return nodeWithMinCost
+        
     def canFindPath(self, start, end):
         graphGenerated = False
         self.visited[start] = True
@@ -266,7 +270,7 @@ class Graph:
                 neighbours = self.getneighboursWithinRadius(currentNode)
 
                 #Get the nearest node with minimum cost
-                neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours)
+                neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
 
                 #Rewiring
