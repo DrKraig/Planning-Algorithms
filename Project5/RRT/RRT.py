@@ -44,7 +44,7 @@ class Graph:
         self.visited = {}
         self.endX = end.x
         self.endY = end.y
-        self.maxDistanceForNode = 200
+        self.maxDistanceForNode = 50
         self.CLEARANCE = 15
 
     def getSamplePoint(self):
@@ -227,7 +227,7 @@ class Graph:
     def canFindPath(self, start, end):
         graphGenerated = False
         self.visited[start] = True
-        for _ in range(100000):
+        for _ in range(500):
             currentNode = self.getSamplePoint()
 
             #Discard point if visited already

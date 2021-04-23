@@ -246,13 +246,24 @@ class Graph:
                 nodeWithMinCost = node
         
         if nodeWithMinCost == None:
-            nodeWithMinCost = start
+            nodeWithMinCost = self.getNearestNeighbour(currentNode)
 
         nodeWithMinCost.child = currentNode
         currentNode.parent = nodeWithMinCost
         currentNode.costToCome = minCost
         return nodeWithMinCost
-        
+
+    def getNearestNeighbour(self, currentNode):
+
+        nearestNode = None
+        minDistance = float("inf")
+        for node in self.visited:
+            currentDistance = self.getEuclidianDistance(currentNode, node)
+            if minDistance > currentDistance:
+                minDistance = currentDistance
+                nearestNode = node
+        return nearestNode
+
     def canFindPath(self, start, end):
         graphGenerated = False
         self.visited[start] = True
@@ -424,7 +435,7 @@ robot = Graph(start, end)#Graph(start, end, MAGNITUDE, RADIUS, CLEARANCE)
 path = []
 pygame.init()  # Setup Pygame
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("RRT + A* Algorithm - Rigid Robot")
+pygame.display.set_caption("RRT* + A* Algorithm - Rigid Robot")
 exiting = False
 clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
