@@ -424,8 +424,8 @@ x2 = float(input("Enter the x coordiante of the ending point: "))
 y2 = float(input("Enter the y coordiante of the ending point: "))
 print("#############################################")
 
-RPM1 = float(input("Enter one RPM of the robot:  "))
-RPM2 = float(input("Enter another RPM of the robot:  "))
+RPM1 = 100.0
+RPM2 = 70.0
 RADIUS = float(input("Enter the radius of the robot:  "))
 CLEARANCE = float(input("Enter the clearance:  "))
 
