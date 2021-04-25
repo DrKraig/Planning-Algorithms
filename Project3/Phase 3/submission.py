@@ -178,12 +178,10 @@ class Graph:
 
         if self.isOutsideArena(start.i, start.j):
             print("Starting point is outside the arena!")
-            print("Starting point should be between (15,15) and (385,285)")
             return
 
         if self.isOutsideArena(end.i, end.j):
             print("Ending point is outside the arena!")
-            print("Ending point should be between (15,15) and (385,285)")
             return
 
         print("Finding path...")
@@ -224,8 +222,8 @@ class Graph:
         visited_list = {}
         priorityQueue = []
         heapq.heappush(priorityQueue, (start.cost, start))
-        pygame.draw.circle(gridDisplay, BLACK, [start.i, HEIGHT - start.j], 5.25)
-        pygame.draw.circle(gridDisplay, BLACK, [end.i, HEIGHT - end.j], 5.25)
+        pygame.draw.circle(gridDisplay, BLACK, [50*start.i, HEIGHT - 50*start.j], 5.0)
+        pygame.draw.circle(gridDisplay, BLACK, [50*end.i, HEIGHT - 50*end.j], 5.0)
         pygame.display.update()
         while len(priorityQueue):
 
@@ -255,7 +253,7 @@ class Graph:
         Input: Current Node co-ordinates
         Output: Boolean
         """
-        if (i - self.endI) ** 2 + (j - self.endJ) ** 2 - 1 <= 0:
+        if (i - self.endI) ** 2 + (j - self.endJ) ** 2 - 0.01 <= 0:
             return True
         else:
             return False
