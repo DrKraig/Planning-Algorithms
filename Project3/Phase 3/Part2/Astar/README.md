@@ -32,7 +32,7 @@ Note:  Other libraries used are inbuilt.</br>
   <img src="https://user-images.githubusercontent.com/12711480/116009413-85750800-a5e7-11eb-962d-df89c625a66b.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 3: Starting Coordinate = (8, 5, 30), Ending Coordinate = (7, 7) </h2>
+<h2> Test Case 3: Starting Coordinate = (8, 5, 0), Ending Coordinate = (7, 7) </h2>
 
 <p align="center">
   

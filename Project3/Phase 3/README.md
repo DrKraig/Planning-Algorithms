@@ -22,7 +22,7 @@ Note:  Other libraries used are inbuilt.</br>
     6. Enjoy!
 
 
-<h2>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>
+<h2>Videos are present in the 'Output Videos' folder. </h2>
 
 ## A few instresting things about this prorgam.
   1. For each and every node, its co-ordinates, neighbours, parent and the cost that node is being stored.
