@@ -21,18 +21,18 @@ Note:  Other libraries used are inbuilt.</br>
 
 <h1> Radius = 0.105, Clerance = 0.2 </h1>
 
-<h2> Test Case 1: Starting Coordinate = (1, 1, 0), Ending Coordinate = (9, 1)</h2>
+<h2> Test Case 1: Starting Coordinate = (1, 1, 60), Ending Coordinate = (9, 1)</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/116008967-f23ad300-a5e4-11eb-9978-c3e69eb130fb.gif" alt="Logo"/>
 </p>
-<h2> Test Case 2: Starting Coordinate = (9, 9, 190), Ending Coordinate = (1, 1)</h2>
+<h2> Test Case 2: Starting Coordinate = (9, 9, 385), Ending Coordinate = (1, 1)</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/116008636-9ae83300-a5e3-11eb-9221-c0474deada17.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 3: Starting Coordinate = (6, 9, 300), Ending Coordinate = (1, 1) </h2>
+<h2> Test Case 3: Starting Coordinate = (6, 9, 30), Ending Coordinate = (1, 1) </h2>
 
 <p align="center">
   
@@ -45,7 +45,7 @@ Note:  Other libraries used are inbuilt.</br>
   <img src="https://user-images.githubusercontent.com/12711480/116008617-8c018080-a5e3-11eb-8fc9-09f06d77351b.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 5: Starting Coordinate = (6, 8, 50), Ending Coordinate = (8, 8) </h2>
+<h2> Test Case 5: Starting Coordinate = (6, 8, 0), Ending Coordinate = (8, 8) </h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/116008619-8dcb4400-a5e3-11eb-9c6c-6637638703fd.gif" alt="Logo"/>
