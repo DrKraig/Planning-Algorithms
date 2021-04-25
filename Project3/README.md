@@ -14,7 +14,8 @@ Note:  Other libraries used are inbuilt.</br>
     3. Navigate to this directory using 'cd ENPM661/Project3/'
     4. To Run Dijkstra, Navigate to 'cd Phase 1'. If OS is Ubuntu, type 'python3 Dijkstra.py'
     4. To Run AStar, Navigate to 'cd Phase 2'. If OS is Ubuntu, type 'python3 AStar.py'
-    5. Enter the parameters of the  robot
+    5. To Run AStar with Dublin Curves, Navigate to 'cd Phase 3'. If OS is Ubuntu, type 'python3 AStar.py'
+    5. Enter the parameters of the robot
     6. Enjoy!
 
 
