@@ -27,17 +27,16 @@ Note:  Other libraries used are inbuilt.</br>
   <img src="https://user-images.githubusercontent.com/12711480/116009416-860d9e80-a5e7-11eb-8965-4f7c2775f2d4.gif" alt="Logo"/>
 </p>
 
-<h2> Test Case 2: Starting Coordinate = (6, 8, 0), Ending Coordinate = (9, 9) </h2>
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/12711480/116009415-860d9e80-a5e7-11eb-8044-d994e4fc596f.gif" alt="Logo"/>
-</p>
-
-<h2> Test Case 3: Starting Coordinate = (8, 5, 0), Ending Coordinate = (7, 7) </h2>
+<h2> Test Case 2: Starting Coordinate = (8, 5, 0), Ending Coordinate = (7, 7) </h2>
 
 <p align="center">
   
   <img src="https://user-images.githubusercontent.com/12711480/116009414-860d9e80-a5e7-11eb-9ff5-97670a9dab58.gif" alt="Logo"/>
+</p>
+ <h2> Test Case 3: Starting Coordinate = (6, 8, 0), Ending Coordinate = (9, 9) </h2>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/12711480/116009415-860d9e80-a5e7-11eb-8044-d994e4fc596f.gif" alt="Logo"/>
 </p>
 
 
