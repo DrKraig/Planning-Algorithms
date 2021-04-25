@@ -19,18 +19,18 @@ Note:  Other libraries used are inbuilt.</br>
 
 <h1>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>
 
+<h1> Radius = 0.105, Clerance = 0.2 </h1>
+
 <h2> Test Case 1: Starting Coordinate = (1, 1, 0), Ending Coordinate = (9, 1)</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/116008967-f23ad300-a5e4-11eb-9978-c3e69eb130fb.gif" alt="Logo"/>
 </p>
-<h2> Test Case 2: Starting Coordinate = (9, 9, 190), Ending Coordinate = (1, 1)<</h2>
+<h2> Test Case 2: Starting Coordinate = (9, 9, 190), Ending Coordinate = (1, 1)</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/116008636-9ae83300-a5e3-11eb-9221-c0474deada17.gif" alt="Logo"/>
 </p>
-
-
 
 <h2> Test Case 3: Starting Coordinate = (6, 9, 300), Ending Coordinate = (1, 1) </h2>
 
