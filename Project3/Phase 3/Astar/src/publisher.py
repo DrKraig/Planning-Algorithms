@@ -166,7 +166,7 @@ class Graph:
         Input: Current Node co-ordinates
         Output: Boolean
         """
-        if (i - self.endI) ** 2 + (j - self.endJ) ** 2 - 1 <= 0:
+        if (i - self.endI) ** 2 + (j - self.endJ) ** 2 - 0.01 <= 0:
             return True
         else:
             return False
@@ -351,8 +351,8 @@ if __name__ == '__main__':
         y2 = float(input("Enter the y coordiante of the ending point: "))
         print("#############################################")
 
-        RPM1 = float(input("Enter one RPM of the robot:  "))
-        RPM2 = float(input("Enter another RPM of the robot:  "))
+        RPM1 = 100
+        RPM2 = 70
         RADIUS = float(input("Enter the radius of the robot:  "))
         CLEARANCE = float(input("Enter the clearance:  "))
 
