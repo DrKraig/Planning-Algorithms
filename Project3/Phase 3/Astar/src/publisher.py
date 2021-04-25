@@ -351,8 +351,8 @@ if __name__ == '__main__':
         y2 = float(input("Enter the y coordiante of the ending point: "))
         print("#############################################")
 
-        RPM1 = 100
-        RPM2 = 70
+        RPM1 = 100.0
+        RPM2 = 70.0
         RADIUS = float(input("Enter the radius of the robot:  "))
         CLEARANCE = float(input("Enter the clearance:  "))
 
