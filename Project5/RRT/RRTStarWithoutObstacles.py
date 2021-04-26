@@ -147,6 +147,7 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
+        # return False
         return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
 
     def isOutsideArena(self, x, y):
@@ -228,7 +229,7 @@ class Graph:
 
     def getneighboursWithinRadius(self, currentNode):
         neighbours = []
-        RADIUS = 400
+        RADIUS = 100
         for node in self.visited.keys():
             distance = self.getEuclidianDistance(currentNode, node)
             if distance < RADIUS:
@@ -278,13 +279,10 @@ class Graph:
 
             #If the sample point is not outside the areana or inside an obstacle
             if not self.isInObstacle(currentNode.x, currentNode.y) and not self.isOutsideArena(currentNode.x, currentNode.y):
-                
+
                 #Getting the neighbours
                 neighbours = self.getneighboursWithinRadius(currentNode)
-                
-
-                print(neighbours, "Neighbours")
-
+            
                 #Get the nearest node with minimum cost
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
@@ -293,10 +291,8 @@ class Graph:
                 # for i in range(len(neighbours)):
                 #     for j in range(len(neighbours)):
                 #         if i != j:
-
                 #             child = neighbours[i]
                 #             parent = neighbours[j]
-
                 #             if parent.child != child:
                 #                 if parent.costToCome + self.getEuclidianDistance(child, parent) < child.costToCome:
                 #                     child.parent = parent
@@ -316,30 +312,12 @@ class Graph:
                     currentNode = self.getRectifiedPoint(points, nearestNode, currentNode)
                     print(currentNode.x, currentNode.y, "corrected point")
 
-                    # pygame.draw.circle(gridDisplay, GREEN, [currentNode.x, HEIGHT - currentNode.y], 10)
-                    # pygame.display.update()
-                    # time.sleep(2)
-
-                    # for neighbour in neighbours:
-                    #     pygame.draw.circle(gridDisplay, RED, [neighbour.x, HEIGHT - neighbour.y], 10)
-                    #     pygame.display.update()
-                    # time.sleep(2)
-
-                    # pygame.draw.circle(gridDisplay, BLUE, [nearestNode.x, HEIGHT - nearestNode.y], 10)
-                    # pygame.display.update()
-                    # time.sleep(2)
-
-                    # for neighbour in neighbours:
-                    #     pygame.draw.circle(gridDisplay, WHITE, [neighbour.x, HEIGHT - neighbour.y], 10)
-                    #     pygame.display.update()
-
-
                     #If it is visited
                     if currentNode in self.visited:
                         continue
                     self.visited[currentNode] = True
                 
-                    #If reached the goal
+                #If reached the goal
                 if self.isInTargetArea(currentNode.x, currentNode.y):
                     self.visited[currentNode] = True
                     pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
@@ -353,7 +331,34 @@ class Graph:
                     return True
                     
                 self.visited[currentNode] = True
+            
+                # pygame.draw.circle(gridDisplay, GREEN, [currentNode.x, HEIGHT - currentNode.y], 10)
+                # pygame.display.update()
+                # time.sleep(1)
+
+                # for neighbour in neighbours:
+                #     pygame.draw.circle(gridDisplay, RED, [neighbour.x, HEIGHT - neighbour.y], 10)
+                #     pygame.display.update()
+                # time.sleep(1)
                 
+                # pygame.draw.circle(gridDisplay, BLUE, [nearestNode.x, HEIGHT - nearestNode.y], 10)
+                # pygame.display.update()
+                # time.sleep(1)
+
+
+                # for neighbour in neighbours:
+                #     pygame.draw.circle(gridDisplay, CYAN, [neighbour.x, HEIGHT - neighbour.y], 10)
+                #     pygame.display.update()
+                # pygame.draw.circle(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], 10)
+                # pygame.display.update()
+
+                neighbours = self.getneighboursWithinRadius(currentNode)
+            
+                #Get the nearest node with minimum cost
+                neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
+                nearestNode = neighbourWithMinCost 
+
+
                 nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.cost = currentNode.costToCome + currentNode.costToGo
@@ -363,7 +368,7 @@ class Graph:
                 print(currentNode.costToGo, "Cost to Go")
                 pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                 pygame.display.update()
-            
+                
             else:
                 print("Bad random sample generated - either inside the obs or greater than self.maxDistance")
                 # pygame.draw.circle(gridDisplay, WHITE, [currentNode.x, HEIGHT - currentNode.y], 10)
@@ -421,16 +426,12 @@ class Graph:
         pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
 
         # Roatated Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,
-                            [(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
 
         # Broken Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,
-                            [(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,
-                            [(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,
-                            [(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
 
         #Starting Circle
         pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
@@ -462,7 +463,7 @@ robot = Graph(start, end)#Graph(start, end, MAGNITUDE, RADIUS, CLEARANCE)
 path = []
 pygame.init()  # Setup Pygame
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("RRT* + A* Algorithm - Rigid Robot")
+pygame.display.set_caption("RRT* + A* Algorithm - Without Obstacles")
 exiting = False
 clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
