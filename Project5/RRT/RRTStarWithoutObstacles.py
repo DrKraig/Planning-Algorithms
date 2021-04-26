@@ -147,8 +147,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        return False
-        # return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
+        # return False
+        return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
 
     def isOutsideArena(self, x, y):
         """
@@ -229,7 +229,7 @@ class Graph:
 
     def getneighboursWithinRadius(self, currentNode):
         neighbours = []
-        RADIUS = 100
+        RADIUS = 50
         for node in self.visited.keys():
             distance = self.getEuclidianDistance(currentNode, node)
             if distance < RADIUS:
@@ -243,12 +243,11 @@ class Graph:
         for node in neighbours:
             potentialCost = node.costToCome + self.getEuclidianDistance(currentNode, node)
             if minCost > potentialCost:
-                print("inside")
                 minCost = potentialCost
                 nodeWithMinCost = node
         
         if nodeWithMinCost == None:
-            print("didnt find node with minimum cost")
+            print("didnt find node with minimum cost. Getting nearest as minimum node.")
             nodeWithMinCost = self.getNearestNeighbour(currentNode)
 
         nodeWithMinCost.child = currentNode
@@ -270,7 +269,7 @@ class Graph:
     def canFindPath(self, start, end):
         graphGenerated = False
         self.visited[start] = True
-        for _ in range(100000):
+        while not graphGenerated:
             currentNode = self.getSamplePoint()
 
             #Discard point if visited already
@@ -287,8 +286,6 @@ class Graph:
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
 
-                print(nearestNode.x, nearestNode.y, "Nearest Node")
-
                 #If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
                 if self.isBranchInObstacle(nearestNode, currentNode) or self.getEuclidianDistance(nearestNode, currentNode) > self.maxDistanceForNode:
                     print("Searching for new point")
@@ -296,13 +293,22 @@ class Graph:
                     currentNode = self.getRectifiedPoint(points, nearestNode, currentNode)
                     print(currentNode.x, currentNode.y, "corrected point")
 
+                    #Getting the neighbours
+                    neighbours = self.getneighboursWithinRadius(currentNode)
+                
+                    #Get the nearest node with minimum cost
+                    neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
+                    nearestNode = neighbourWithMinCost 
+
                     #If it is visited
-                    if currentNode in self.visited:
+                    if currentNode in self.visited or self.isInObstacle(currentNode) or self.getEuclidianDistance(nearestNode, currentNode) > self.maxDistanceForNode:
                         continue
                     self.visited[currentNode] = True
+                    
+
                 
                 #If reached the goal
-                if self.isInTargetArea(currentNode.x, currentNode.y):
+                if (self.isInTargetArea(currentNode.x, currentNode.y)) and (not self.isBranchInObstacle(nearestNode, currentNode)) and (self.getEuclidianDistance(nearestNode, currentNode) < self.maxDistanceForNode):
                     self.visited[currentNode] = True
                     pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                     pygame.display.update()
@@ -316,6 +322,7 @@ class Graph:
                     
                 self.visited[currentNode] = True
             
+                #Visualizing the first part of RRT Star. 
                 # pygame.draw.circle(gridDisplay, GREEN, [currentNode.x, HEIGHT - currentNode.y], 10)
                 # pygame.display.update()
                 # time.sleep(1)
@@ -329,7 +336,6 @@ class Graph:
                 # pygame.display.update()
                 # time.sleep(1)
 
-
                 # for neighbour in neighbours:
                 #     pygame.draw.circle(gridDisplay, CYAN, [neighbour.x, HEIGHT - neighbour.y], 10)
                 #     pygame.display.update()
@@ -342,52 +348,33 @@ class Graph:
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
 
-
                 nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.cost = currentNode.costToCome + currentNode.costToGo
                 currentNode.parent = nearestNode
-                print(currentNode.x, currentNode.y, "Sample")
-                print(self.getEuclidianDistance(nearestNode, currentNode), "Cost to Come")
-                print(currentNode.costToGo, "Cost to Go")
                 pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                 pygame.display.update()
 
-
                 #Rewiring
-                for i in range(len(neighbours)):
-                    for j in range(len(neighbours)):
-                        if i != j:
-                            print("Inside rewiring loop!")
-                            child = neighbours[i]
-                            parent = neighbours[j]
-                            print(child.x,child.y)
-                            print(parent.x,parent.y)
-                            if parent.child != child:
-                                if parent.costToCome + self.getEuclidianDistance(child, parent) < child.costToCome:
-                                    # pygame.draw.circle(gridDisplay, CYAN, [child.x, HEIGHT - child.y], 10)
-                                    # pygame.draw.circle(gridDisplay, CYAN, [child.parent.x, HEIGHT - child.parent.y], 10)
-                                    # pygame.draw.circle(gridDisplay, CYAN, [parent.x, HEIGHT - parent.y], 10)
-                                    # pygame.display.update()
-                                    print("Rewiring!!!")
-                                    pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
-                                    pygame.display.update()
-                                    #time.sleep(1)
-                                    child.parent = parent
-                                    parent.child = child
-                                    child.costToCome = parent.costToCome + self.getEuclidianDistance(child, parent)
-                                    pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [parent.x, HEIGHT - parent.y], 2)
-                                    pygame.display.update()
-                                    
-                                    #time.sleep(1)   
-                
+                # for i in range(len(neighbours)):
+                #     for j in range(len(neighbours)):
+                #         if i != j:
+                #             child = neighbours[i]
+                #             parent = neighbours[j]
+                #             if parent.child != child and child.parent != parent:
+                #                 if parent.costToCome + self.getEuclidianDistance(child, parent) < child.costToCome and not self.isBranchInObstacle(child, parent):
+                #                     pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
+                #                     pygame.display.update()
+                #                     child.parent = parent
+                #                     parent.child = child
+                #                     child.costToCome = parent.costToCome + self.getEuclidianDistance(child, parent)
+                #                     pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [parent.x, HEIGHT - parent.y], 2)
+                #                     pygame.display.update()
+                                                    
             else:
                 print("Bad random sample generated - either inside the obs or greater than self.maxDistance")
-                # pygame.draw.circle(gridDisplay, WHITE, [currentNode.x, HEIGHT - currentNode.y], 10)
-                # pygame.display.update()
-            if graphGenerated:
-                return True
-            print("#########################")
+            
+        return
 
     def backTrack(self, child):
         """
@@ -409,15 +396,11 @@ class Graph:
         while len(priorityQueue):
             currentNode = heapq.heappop(priorityQueue)
             currentNode = currentNode[1]
-            print(currentNode, self.isInTargetArea(currentNode.x, currentNode.y))
             if self.isInTargetArea(currentNode.x, currentNode.y):
                 print("We are doneeeeeeeeeee")  
                 self.backTrack(currentNode)              
                 return True
             for neighbour, newDistance in currentNode.neighbour.items():
-                # pygame.draw.line(gridDisplay, MAGENTA, [currentNode.x, HEIGHT - currentNode.y], [neighbour.x, HEIGHT - neighbour.y], 2)
-                # pygame.display.update()
-                # time.sleep(0.01)
                 heapq.heappush(priorityQueue, (neighbour.cost, neighbour))
         return False
 
@@ -432,24 +415,24 @@ class Graph:
         gridDisplay.fill(WHITE)
 
         # Circle
-        #pygame.draw.circle(gridDisplay, MAGENTA, [90, HEIGHT - 70], 35)
+        pygame.draw.circle(gridDisplay, MAGENTA, [90, HEIGHT - 70], 35)
 
         # Ellipse
-        #pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
+        pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
 
         # Roatated Rect
-        #pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
 
         # Broken Rect
-        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
-        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
-        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
 
         #Starting Circle
-        #pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
+        pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
 
         # Ending Circle
-        #pygame.draw.circle(gridDisplay, BLACK, [end.x, HEIGHT - end.y], 10)
+        pygame.draw.circle(gridDisplay, BLACK, [end.x, HEIGHT - end.y], 10)
 
 
 # x1 = int(input("Enter the x coordiante of the starting point: "))
@@ -481,7 +464,10 @@ clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
 canvas.generateObstacles(start, end)
 if robot.canFindPath(start, end):
-    robot.getPath(start, end)
+    if robot.getPath(start, end):
+        print("Printed path")
+    else:
+        print("got no path")
     path.reverse()
 exiting = False
 
@@ -500,7 +486,7 @@ while not exiting:
             pygame.draw.line(gridDisplay, MAGENTA, [prevX, HEIGHT - prevY], [x, HEIGHT - y], 2)
             pygame.display.update()
 
-        time.sleep(.1)
+        time.sleep(1)
         prevX = x
         prevY = y
 
