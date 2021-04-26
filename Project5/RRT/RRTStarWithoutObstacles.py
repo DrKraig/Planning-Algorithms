@@ -147,8 +147,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        # return False
-        return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
+        return False
+        # return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
 
     def isOutsideArena(self, x, y):
         """
@@ -287,22 +287,6 @@ class Graph:
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
 
-                #Rewiring
-                # for i in range(len(neighbours)):
-                #     for j in range(len(neighbours)):
-                #         if i != j:
-                #             child = neighbours[i]
-                #             parent = neighbours[j]
-                #             if parent.child != child:
-                #                 if parent.costToCome + self.getEuclidianDistance(child, parent) < child.costToCome:
-                #                     child.parent = parent
-                #                     parent.child = child
-                #                     child.costToCome = parent.costToCome + self.getEuclidianDistance(child, parent)
-                #                     pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [parent.x, HEIGHT - parent.y], 2)
-                #                     pygame.display.update()
-                #                     pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
-                #                     pygame.display.update()
-
                 print(nearestNode.x, nearestNode.y, "Nearest Node")
 
                 #If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
@@ -368,6 +352,34 @@ class Graph:
                 print(currentNode.costToGo, "Cost to Go")
                 pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                 pygame.display.update()
+
+
+                #Rewiring
+                for i in range(len(neighbours)):
+                    for j in range(len(neighbours)):
+                        if i != j:
+                            print("Inside rewiring loop!")
+                            child = neighbours[i]
+                            parent = neighbours[j]
+                            print(child.x,child.y)
+                            print(parent.x,parent.y)
+                            if parent.child != child:
+                                if parent.costToCome + self.getEuclidianDistance(child, parent) < child.costToCome:
+                                    # pygame.draw.circle(gridDisplay, CYAN, [child.x, HEIGHT - child.y], 10)
+                                    # pygame.draw.circle(gridDisplay, CYAN, [child.parent.x, HEIGHT - child.parent.y], 10)
+                                    # pygame.draw.circle(gridDisplay, CYAN, [parent.x, HEIGHT - parent.y], 10)
+                                    # pygame.display.update()
+                                    print("Rewiring!!!")
+                                    pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
+                                    pygame.display.update()
+                                    #time.sleep(1)
+                                    child.parent = parent
+                                    parent.child = child
+                                    child.costToCome = parent.costToCome + self.getEuclidianDistance(child, parent)
+                                    pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [parent.x, HEIGHT - parent.y], 2)
+                                    pygame.display.update()
+                                    
+                                    #time.sleep(1)   
                 
             else:
                 print("Bad random sample generated - either inside the obs or greater than self.maxDistance")
@@ -420,24 +432,24 @@ class Graph:
         gridDisplay.fill(WHITE)
 
         # Circle
-        pygame.draw.circle(gridDisplay, MAGENTA, [90, HEIGHT - 70], 35)
+        #pygame.draw.circle(gridDisplay, MAGENTA, [90, HEIGHT - 70], 35)
 
         # Ellipse
-        pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
+        #pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
 
         # Roatated Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
 
         # Broken Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
 
         #Starting Circle
-        pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
+        #pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
 
         # Ending Circle
-        pygame.draw.circle(gridDisplay, BLACK, [end.x, HEIGHT - end.y], 10)
+        #pygame.draw.circle(gridDisplay, BLACK, [end.x, HEIGHT - end.y], 10)
 
 
 # x1 = int(input("Enter the x coordiante of the starting point: "))
