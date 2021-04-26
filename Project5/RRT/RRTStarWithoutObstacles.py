@@ -147,8 +147,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        # return False
-        return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
+        return False
+        # return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
 
     def isOutsideArena(self, x, y):
         """
@@ -293,22 +293,13 @@ class Graph:
                     currentNode = self.getRectifiedPoint(points, nearestNode, currentNode)
                     print(currentNode.x, currentNode.y, "corrected point")
 
-                    #Getting the neighbours
-                    neighbours = self.getneighboursWithinRadius(currentNode)
-                
-                    #Get the nearest node with minimum cost
-                    neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
-                    nearestNode = neighbourWithMinCost 
-
                     #If it is visited
-                    if currentNode in self.visited or self.isInObstacle(currentNode) or self.getEuclidianDistance(nearestNode, currentNode) > self.maxDistanceForNode:
+                    if currentNode in self.visited:
                         continue
                     self.visited[currentNode] = True
-                    
-
                 
                 #If reached the goal
-                if (self.isInTargetArea(currentNode.x, currentNode.y)) and (not self.isBranchInObstacle(nearestNode, currentNode)) and (self.getEuclidianDistance(nearestNode, currentNode) < self.maxDistanceForNode):
+                if self.isInTargetArea(currentNode.x, currentNode.y):
                     self.visited[currentNode] = True
                     pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                     pygame.display.update()
@@ -415,24 +406,24 @@ class Graph:
         gridDisplay.fill(WHITE)
 
         # Circle
-        pygame.draw.circle(gridDisplay, MAGENTA, [90, HEIGHT - 70], 35)
+        #pygame.draw.circle(gridDisplay, MAGENTA, [90, HEIGHT - 70], 35)
 
         # Ellipse
-        pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
+        #pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
 
         # Roatated Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
 
         # Broken Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
+        #pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
 
         #Starting Circle
-        pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
+        #pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
 
         # Ending Circle
-        pygame.draw.circle(gridDisplay, BLACK, [end.x, HEIGHT - end.y], 10)
+        #pygame.draw.circle(gridDisplay, BLACK, [end.x, HEIGHT - end.y], 10)
 
 
 # x1 = int(input("Enter the x coordiante of the starting point: "))
@@ -486,7 +477,7 @@ while not exiting:
             pygame.draw.line(gridDisplay, MAGENTA, [prevX, HEIGHT - prevY], [x, HEIGHT - y], 2)
             pygame.display.update()
 
-        time.sleep(1)
+        time.sleep(.1)
         prevX = x
         prevY = y
 
