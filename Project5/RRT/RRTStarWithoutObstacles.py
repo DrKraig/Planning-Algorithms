@@ -29,7 +29,7 @@ class Node:
         """
         self.x = x
         self.y = y
-        self.costToCome = None
+        self.costToCome = 0
         self.costToGo = math.sqrt((x - endX) ** 2 + (y - endY) ** 2)
         self.cost = None
         self.neighbour = {}
@@ -250,9 +250,10 @@ class Graph:
             print("didnt find node with minimum cost. Getting nearest as minimum node.")
             nodeWithMinCost = self.getNearestNeighbour(currentNode)
 
+        #TODO: Incorrect LOGIC
         nodeWithMinCost.child = currentNode
         currentNode.parent = nodeWithMinCost
-        currentNode.costToCome = minCost
+        currentNode.costToCome = minCost if minCost != float("inf") else (self.getEuclidianDistance(currentNode, nodeWithMinCost) + nodeWithMinCost.costToCome)
         return nodeWithMinCost
 
     def getNearestNeighbour(self, currentNode):
@@ -277,7 +278,7 @@ class Graph:
                 continue
 
             #If the sample point is not outside the areana or inside an obstacle
-            if not self.isInObstacle(currentNode.x, currentNode.y) and not self.isOutsideArena(currentNode.x, currentNode.y):
+            if (not self.isInObstacle(currentNode.x, currentNode.y)) and (not self.isOutsideArena(currentNode.x, currentNode.y)):
 
                 #Getting the neighbours
                 neighbours = self.getneighboursWithinRadius(currentNode)
@@ -293,16 +294,21 @@ class Graph:
                     currentNode = self.getRectifiedPoint(points, nearestNode, currentNode)
                     print(currentNode.x, currentNode.y, "corrected point")
 
+                    #Getting new neighbours
+                    neighbours = self.getneighboursWithinRadius(currentNode)
+                    neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
+                    nearestNode = neighbourWithMinCost 
+
                     #If it is visited
                     if currentNode in self.visited:
                         continue
-                    self.visited[currentNode] = True
                 
                 #If reached the goal
-                if self.isInTargetArea(currentNode.x, currentNode.y):
+                if self.isInTargetArea(currentNode.x, currentNode.y) and (not self.isBranchInObstacle(nearestNode, currentNode)): 
                     self.visited[currentNode] = True
-                    pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
+                    pygame.draw.line(gridDisplay, MAGENTA, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 10)
                     pygame.display.update()
+                    time.sleep(10)
                     nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
                     currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
                     currentNode.cost = currentNode.costToCome + currentNode.costToGo
@@ -333,9 +339,8 @@ class Graph:
                 # pygame.draw.circle(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], 10)
                 # pygame.display.update()
 
+                #Get the neighbours
                 neighbours = self.getneighboursWithinRadius(currentNode)
-            
-                #Get the nearest node with minimum cost
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
 
