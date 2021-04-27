@@ -34,7 +34,6 @@ class Node:
         self.cost = None
         self.neighbour = {}
         self.parent = None
-        self.child = None
 
     def __lt__(self, other):
         return self.cost < other.cost
@@ -250,11 +249,10 @@ class Graph:
             print("didnt find node with minimum cost. Getting nearest as minimum node.")
             nodeWithMinCost = self.getNearestNeighbour(currentNode)
             currentNode.costToCome = (self.getEuclidianDistance(currentNode, nodeWithMinCost) + nodeWithMinCost.costToCome)
-
         else:
             currentNode.costToCome = minCost
-        nodeWithMinCost.child = currentNode
-        currentNode.parent = nodeWithMinCost
+
+        #nodeWithMinCost.child = currentNode
         return nodeWithMinCost
 
     def getNearestNeighbour(self, currentNode):
@@ -285,9 +283,6 @@ class Graph:
                 neighbours = self.getneighboursWithinRadius(currentNode)
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
-                nearestNode.child = currentNode
-                currentNode.parent = nearestNode
-                currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(currentNode, nearestNode)
 
                 #If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
                 if self.isBranchInObstacle(nearestNode, currentNode) or self.getEuclidianDistance(nearestNode, currentNode) > self.maxDistanceForNode:
@@ -300,9 +295,6 @@ class Graph:
                     neighbours = self.getneighboursWithinRadius(currentNode)
                     neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                     nearestNode = neighbourWithMinCost 
-                    nearestNode.child = currentNode
-                    currentNode.parent = nearestNode
-                    currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(currentNode, nearestNode)
 
                     #If it is visited
                     if currentNode in self.visited:
@@ -311,7 +303,7 @@ class Graph:
                 #If reached the goal
                 if self.isInTargetArea(currentNode.x, currentNode.y) and self.getEuclidianDistance(nearestNode, currentNode) < self.maxDistanceForNode and (not self.isBranchInObstacle(nearestNode, currentNode)): 
                     print("point inside ")
-                    pygame.draw.line(gridDisplay, MAGENTA, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
+                    pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                     pygame.display.update()
                     nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
                     currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
@@ -319,17 +311,14 @@ class Graph:
                     currentNode.parent = nearestNode
                     graphGenerated = True
                     self.visited[currentNode] = True
-
                     print("Generated a graph!")
+                    time.sleep(1)
                     return True
                     
-
-
                 #Get the neighbours
                 neighbours = self.getneighboursWithinRadius(currentNode)
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
                 nearestNode = neighbourWithMinCost 
-                nearestNode.child = currentNode
 
                 nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
@@ -337,7 +326,8 @@ class Graph:
                 currentNode.parent = nearestNode
                 pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
                 pygame.display.update()
-            
+                self.visited[currentNode] = True
+
                 #Visualizing the first part of RRT Star. 
                 # pygame.draw.circle(gridDisplay, GREEN, [currentNode.x, HEIGHT - currentNode.y], 10)
                 # pygame.display.update()
@@ -358,7 +348,6 @@ class Graph:
                 # pygame.draw.circle(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], 10)
                 # pygame.display.update()
                 
-                self.visited[currentNode] = True
 
                 #Rewiring
                 # for i in range(len(neighbours)):
@@ -366,12 +355,11 @@ class Graph:
                 #         if i != j:
                 #             child = neighbours[i]
                 #             parent = neighbours[j]
-                #             if parent.child != child and child.parent != parent:
+                #             if child.parent != parent:
                 #                 if parent.costToCome + self.getEuclidianDistance(child, parent) < child.costToCome and not self.isBranchInObstacle(child, parent):
                 #                     pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
                 #                     pygame.display.update()
                 #                     child.parent = parent
-                #                     parent.child = child
                 #                     child.costToCome = parent.costToCome + self.getEuclidianDistance(child, parent)
                 #                     pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [parent.x, HEIGHT - parent.y], 2)
                 #                     pygame.display.update()
@@ -389,6 +377,7 @@ class Graph:
         while child != None:
             path.append((child.x, child.y))
             print(child.x, child.y, "Path")
+            time.sleep(1)
             child = child.parent
         return True
 
@@ -467,11 +456,12 @@ clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
 canvas.generateObstacles(start, end)
 if robot.canFindPath(start, end):
+    print("generated graph")
     if robot.getPath(start, end):
         print("Printed path")
-    else:
-        print("got no path")
-    path.reverse()
+    # else:
+    #     print("got no path")
+    # path.reverse()
 exiting = False
 
 
