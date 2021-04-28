@@ -350,32 +350,8 @@ class Graph:
                 #############################################################
                 
 
-                #Rewiring
-                #O(N^2)
-                # for i in range(len(neighbours)):
-                #     for j in range(len(neighbours)):
-                #         if i != j:
-                #             #print("Rewiring Loop!")
-                #             child = neighbours[i]
-                #             potentialParent = neighbours[j]
-                #             if child.parent != potentialParent:
-                #                 if (potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)) < child.costToCome and (not self.isBranchInObstacle(child, potentialParent)):
-                #                     #print("Rewiring!")
-
-                #                     pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
-                #                     pygame.display.update()
-                #                     # time.sleep(1)
-
-                #                     child.parent = potentialParent
-                #                     child.costToCome = potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)
-
-                #                     pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [potentialParent.x, HEIGHT - potentialParent.y], 2)
-                #                     pygame.display.update()
-                #                     # time.sleep(1)
-                #                     self.generateObstacles(start, end)
-                
-                                                    
-                #O(N): Incomplete
+                #Rewiring                           
+                #O(N)
                 for i in range(len(neighbours)):
                     potentialChild = neighbours[i]
                     if (currentNode.costToCome + self.getEuclidianDistance(currentNode, potentialChild)) < potentialChild.costToCome and (not self.isBranchInObstacle(currentNode, potentialChild)):
