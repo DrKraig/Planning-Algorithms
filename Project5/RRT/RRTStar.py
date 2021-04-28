@@ -352,47 +352,46 @@ class Graph:
 
                 #Rewiring
                 #O(N^2)
-                for i in range(len(neighbours)):
-                    for j in range(len(neighbours)):
-                        if i != j:
-                            #print("Rewiring Loop!")
-                            child = neighbours[i]
-                            potentialParent = neighbours[j]
-                            if child.parent != potentialParent:
-                                if (potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)) < child.costToCome and (not self.isBranchInObstacle(child, potentialParent)):
-                                    #print("Rewiring!")
+                # for i in range(len(neighbours)):
+                #     for j in range(len(neighbours)):
+                #         if i != j:
+                #             #print("Rewiring Loop!")
+                #             child = neighbours[i]
+                #             potentialParent = neighbours[j]
+                #             if child.parent != potentialParent:
+                #                 if (potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)) < child.costToCome and (not self.isBranchInObstacle(child, potentialParent)):
+                #                     #print("Rewiring!")
 
-                                    pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
-                                    pygame.display.update()
-                                    # time.sleep(1)
+                #                     pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
+                #                     pygame.display.update()
+                #                     # time.sleep(1)
 
-                                    child.parent = potentialParent
-                                    child.costToCome = potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)
+                #                     child.parent = potentialParent
+                #                     child.costToCome = potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)
 
-                                    pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [potentialParent.x, HEIGHT - potentialParent.y], 2)
-                                    pygame.display.update()
-                                    # time.sleep(1)
-                                    self.generateObstacles(start, end)
+                #                     pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [potentialParent.x, HEIGHT - potentialParent.y], 2)
+                #                     pygame.display.update()
+                #                     # time.sleep(1)
+                #                     self.generateObstacles(start, end)
                 
                                                     
                 #O(N): Incomplete
-                # for i in range(len(neighbours)):
-                #     potentialParent = neighbours[i]
-                #     if child.parent != potentialParent:
-                #         if (potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)) < child.costToCome and (not self.isBranchInObstacle(child, potentialParent)):
-                #             #print("Rewiring!")
+                for i in range(len(neighbours)):
+                    potentialChild = neighbours[i]
+                    if (currentNode.costToCome + self.getEuclidianDistance(currentNode, potentialChild)) < potentialChild.costToCome and (not self.isBranchInObstacle(currentNode, potentialChild)):
+                        #print("Rewiring!")
 
-                #             pygame.draw.line(gridDisplay, WHITE, [child.x, HEIGHT - child.y], [child.parent.x, HEIGHT - child.parent.y], 2)
-                #             pygame.display.update()
-                #             # time.sleep(1)
+                        pygame.draw.line(gridDisplay, WHITE, [potentialChild.x, HEIGHT - potentialChild.y], [potentialChild.parent.x, HEIGHT - potentialChild.parent.y], 2)
+                        pygame.display.update()
+                        # time.sleep(1)
 
-                #             child.parent = potentialParent
-                #             child.costToCome = potentialParent.costToCome + self.getEuclidianDistance(child, potentialParent)
+                        potentialChild.parent = currentNode
+                        potentialChild.costToCome = (currentNode.costToCome + self.getEuclidianDistance(currentNode, potentialChild))
 
-                #             pygame.draw.line(gridDisplay, CYAN, [child.x, HEIGHT - child.y], [potentialParent.x, HEIGHT - potentialParent.y], 2)
-                #             pygame.display.update()
-                #             # time.sleep(1)
-                #             self.generateObstacles(start, end)
+                        pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [potentialChild.x, HEIGHT - potentialChild.y], 2)
+                        pygame.display.update()
+                        # time.sleep(1)
+                        self.generateObstacles(start, end)
 
         return
 
