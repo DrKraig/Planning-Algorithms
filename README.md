@@ -8,3 +8,4 @@ A list of all asssignments &amp; projects in ENPM661 'Planning for Autonmous Rob
     3a. Dijkstra's Algorithm on a rigid robot: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project3/Phase%201">Project 3a</a> </br>
     3b. A Star Algorithm on a rigid robot: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project3/Phase%202">Project 3b</a> </br>
     3c. A Star Algorithm - ROS TurtleBot3: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project3/Phase%203">Project 3c</a> </br>
+    4. Obstacle Avoidance using MoveIt & RViz: <a href="https://github.com/SamPusegaonkar/ENPM661/tree/main/Project4">Project 4</a> </br>
