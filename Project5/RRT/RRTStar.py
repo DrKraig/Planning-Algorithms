@@ -38,19 +38,20 @@ class Node:
     def __lt__(self, other):
         return self.cost < other.cost
 
+
 class Graph:
 
     def __init__(self, start, end):
         self.visited = {}
         self.endX = end.x
         self.endY = end.y
-        self.maxDistanceForNode = 200
+        self.maxDistanceForNode = 50
         self.CLEARANCE = 15
 
     def getSamplePoint(self):
         x = random.randint(0, 400)
         y = random.randint(0, 300)
-        return Node(x,y, self.endX, self.endY)
+        return Node(x, y, self.endX, self.endY)
 
     def isInTargetArea(self, i, j):
         """
@@ -70,7 +71,7 @@ class Graph:
         Output: True or False
         """
         r = 35 + self.CLEARANCE
-        if (x - 90) ** 2 + (y - 70) ** 2 - r**2 >= 0:
+        if (x - 90) ** 2 + (y - 70) ** 2 - r ** 2 >= 0:
             return False
         else:
             return True
@@ -81,18 +82,18 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        circ1 = (x-48)**2 + (y-108)**2 <= self.CLEARANCE**2
-        circ2 = (x-170.876)**2 + (y-194.044)**2 <= self.CLEARANCE**2
-        circ3 = (x-159.4)**2 + (y-210.432)**2 <= self.CLEARANCE**2
-        circ4 = (x-36.524)**2 + (y-124.387)**2 <= self.CLEARANCE**2
-        side1 = 0.7*x - y + 74.39 <= 0
-        eside1 = 0.7*x - y + 74.39 - 1.22*self.CLEARANCE <= 0
-        side2 = -1.43*x - y + 176.55 <= 0
-        eside2 = -1.43*x - y + 176.55 - 1.74*self.CLEARANCE <= 0
-        side3 = 0.7*x - y + 98.81 >= 0
-        eside3 = 0.7*x - y + 98.81 + 1.22*self.CLEARANCE >= 0
-        side4 = -1.43*x - y + 438.06 >= 0
-        eside4 = -1.43*x - y + 438.06 + 1.74*self.CLEARANCE >= 0
+        circ1 = (x - 48) ** 2 + (y - 108) ** 2 <= self.CLEARANCE ** 2
+        circ2 = (x - 170.876) ** 2 + (y - 194.044) ** 2 <= self.CLEARANCE ** 2
+        circ3 = (x - 159.4) ** 2 + (y - 210.432) ** 2 <= self.CLEARANCE ** 2
+        circ4 = (x - 36.524) ** 2 + (y - 124.387) ** 2 <= self.CLEARANCE ** 2
+        side1 = 0.7 * x - y + 74.39 <= 0
+        eside1 = 0.7 * x - y + 74.39 - 1.22 * self.CLEARANCE <= 0
+        side2 = -1.43 * x - y + 176.55 <= 0
+        eside2 = -1.43 * x - y + 176.55 - 1.74 * self.CLEARANCE <= 0
+        side3 = 0.7 * x - y + 98.81 >= 0
+        eside3 = 0.7 * x - y + 98.81 + 1.22 * self.CLEARANCE >= 0
+        side4 = -1.43 * x - y + 438.06 >= 0
+        eside4 = -1.43 * x - y + 438.06 + 1.74 * self.CLEARANCE >= 0
         rect1 = eside1 and side2 and eside3 and side4
         rect2 = side1 and eside2 and side3 and eside4
 
@@ -146,8 +147,9 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-        #return False
-        return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(x, y)
+        # return False
+        return self.isInEllipse(x, y) or self.isInBrokenRectangle(x, y) or self.isInCircle(x, y) or self.isInRectangle(
+            x, y)
 
     def isOutsideArena(self, x, y):
         """
@@ -155,8 +157,8 @@ class Graph:
         Input: Point with co-ordinates (x,y)
         Output: True or False
         """
-    
-        return True if x < self.CLEARANCE or y < self.CLEARANCE or x > 400-self.CLEARANCE or y > 300-self.CLEARANCE else False
+
+        return True if x < self.CLEARANCE or y < self.CLEARANCE or x > 400 - self.CLEARANCE or y > 300 - self.CLEARANCE else False
 
     def getNearestNeighbour(self, currentNode):
 
@@ -176,7 +178,7 @@ class Graph:
         currentY = currentNode.y
         return math.sqrt((parentX - currentX) ** 2 + (parentY - currentY) ** 2)
 
-    def isBranchInObstacle(self,nearestNode, currentNode):
+    def isBranchInObstacle(self, nearestNode, currentNode):
         points = self.getPoints(nearestNode, currentNode)
         for point in points:
             x = point[0]
@@ -194,23 +196,23 @@ class Graph:
         y2 = currentNode.y
         if x1 == x2:
             if y1 > y2:
-                for y in range(y1,y2, -1):
+                for y in range(y1, y2, -1):
                     points.append([x1, y])
             elif y1 < y2:
                 for y in range(y1, y2):
-                    points.append([x1, y])        
+                    points.append([x1, y])
         elif y1 == y2:
 
             if x1 > x2:
-                for x in range(x1,x2,-1):
+                for x in range(x1, x2, -1):
                     points.append([x, y1])
             elif x1 < x2:
                 for x in range(x1, x2):
                     points.append([x, y1])
         else:
-            for x in range(min(x1,x2), max(x1,x2)+1):
-                for y in range(min(y1,y2), max(y1,y2)+1):
-                    if y == int(((x - x1) * (y1 - y2))/(x1-x2) + y1):
+            for x in range(min(x1, x2), max(x1, x2) + 1):
+                for y in range(min(y1, y2), max(y1, y2) + 1):
+                    if y == int(((x - x1) * (y1 - y2)) / (x1 - x2) + y1):
                         points.append([x, y])
         return points
 
@@ -220,15 +222,16 @@ class Graph:
         for point in points:
             x = point[0]
             y = point[1]
-            potentialNode = Node(x,y, self.endX, self.endY)
-            if self.isInObstacle(x, y) or self.getEuclidianDistance(nearestNode, potentialNode) > self.maxDistanceForNode:
+            potentialNode = Node(x, y, self.endX, self.endY)
+            if self.isInObstacle(x, y) or self.getEuclidianDistance(nearestNode,
+                                                                    potentialNode) > self.maxDistanceForNode:
                 return prevNode if prev != None else nearestNode
             prevNode = point
         return potentialNode
 
     def getneighboursWithinRadius(self, currentNode):
         neighbours = []
-        RADIUS = 150
+        RADIUS = 10
         for node in self.visited.keys():
             distance = self.getEuclidianDistance(currentNode, node)
             if distance < RADIUS:
@@ -244,15 +247,16 @@ class Graph:
             if minCost > potentialCost:
                 minCost = potentialCost
                 nodeWithMinCost = node
-        
+
         if nodeWithMinCost == None:
             print("didnt find node with minimum cost. Getting nearest as minimum node.")
             nodeWithMinCost = self.getNearestNeighbour(currentNode)
-            currentNode.costToCome = (self.getEuclidianDistance(currentNode, nodeWithMinCost) + nodeWithMinCost.costToCome)
+            currentNode.costToCome = (
+                        self.getEuclidianDistance(currentNode, nodeWithMinCost) + nodeWithMinCost.costToCome)
         else:
             currentNode.costToCome = minCost
 
-        #nodeWithMinCost.child = currentNode
+        # nodeWithMinCost.child = currentNode
         return nodeWithMinCost
 
     def getNearestNeighbour(self, currentNode):
@@ -269,66 +273,63 @@ class Graph:
     def canFindPath(self, start, end):
         graphGenerated = False
         self.visited[start] = True
-        while not graphGenerated:
+        for iterations in range(10000):
             currentNode = self.getSamplePoint()
 
-            #Discard point if visited already
+            # Discard point if visited already
             if currentNode in self.visited:
                 continue
 
-            #If the sample point is not outside the areana or inside an obstacle
-            if (not self.isInObstacle(currentNode.x, currentNode.y)) and (not self.isOutsideArena(currentNode.x, currentNode.y)):
+            # If the sample point is not outside the areana or inside an obstacle
+            if (not self.isInObstacle(currentNode.x, currentNode.y)) and (
+            not self.isOutsideArena(currentNode.x, currentNode.y)):
 
-                #Getting the neighbours
+                # Getting the neighbours
                 neighbours = self.getneighboursWithinRadius(currentNode)
                 neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
-                nearestNode = neighbourWithMinCost 
+                nearestNode = neighbourWithMinCost
 
-                #If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
-                if self.isBranchInObstacle(nearestNode, currentNode) or self.getEuclidianDistance(nearestNode, currentNode) > self.maxDistanceForNode:
+                # If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
+                if self.isBranchInObstacle(nearestNode, currentNode) or self.getEuclidianDistance(nearestNode,
+                                                                                                  currentNode) > self.maxDistanceForNode:
                     print("Searching for new point")
-                    points = self.getPoints(nearestNode, currentNode)
-                    currentNode = self.getRectifiedPoint(points, nearestNode, currentNode)
-                    print(currentNode.x, currentNode.y, "corrected point")
+                    continue
 
-                    #Getting new neighbours
-                    neighbours = self.getneighboursWithinRadius(currentNode)
-                    neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
-                    nearestNode = neighbourWithMinCost 
-
-                    #If it is visited
-                    if currentNode in self.visited:
-                        continue
-                
-                #If reached the goal
-                if self.isInTargetArea(currentNode.x, currentNode.y) and (self.getEuclidianDistance(nearestNode, currentNode) < self.maxDistanceForNode) and (not self.isBranchInObstacle(nearestNode, currentNode)): 
+                # If reached the goal
+                """
+                if self.isInTargetArea(currentNode.x, currentNode.y) and (
+                        self.getEuclidianDistance(nearestNode, currentNode) < self.maxDistanceForNode) and (
+                not self.isBranchInObstacle(nearestNode, currentNode)):
                     print("point inside ")
-                    pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
+                    pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y],
+                                     [nearestNode.x, HEIGHT - nearestNode.y], 2)
                     pygame.display.update()
                     nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
-                    currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
+                    currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode,
+                                                                                                currentNode)
                     currentNode.cost = currentNode.costToCome + currentNode.costToGo
                     currentNode.parent = nearestNode
                     graphGenerated = True
                     self.visited[currentNode] = True
                     print("Generated a graph!")
                     return True
-                    
-                #Get the neighbours
-                neighbours = self.getneighboursWithinRadius(currentNode)
-                neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
-                nearestNode = neighbourWithMinCost 
+                """
+                # Get the neighbours
+                #neighbours = self.getneighboursWithinRadius(currentNode)
+                #neighbourWithMinCost = self.getNodeWithMinCost(currentNode, neighbours, start)
+                #nearestNode = neighbourWithMinCost
 
                 nearestNode.neighbour[currentNode] = self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.cost = currentNode.costToCome + currentNode.costToGo
                 currentNode.parent = nearestNode
-                pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [nearestNode.x, HEIGHT - nearestNode.y], 2)
+                pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y],
+                                 [nearestNode.x, HEIGHT - nearestNode.y], 2)
                 pygame.display.update()
                 self.visited[currentNode] = True
 
                 #############################################################
-                #Visualizing the first part of RRT Star. 
+                # Visualizing the first part of RRT Star.
                 # pygame.draw.circle(gridDisplay, GREEN, [currentNode.x, HEIGHT - currentNode.y], 10)
                 # pygame.display.update()
                 # time.sleep(1)
@@ -337,7 +338,7 @@ class Graph:
                 #     pygame.draw.circle(gridDisplay, RED, [neighbour.x, HEIGHT - neighbour.y], 10)
                 #     pygame.display.update()
                 # time.sleep(1)
-                
+
                 # pygame.draw.circle(gridDisplay, BLUE, [nearestNode.x, HEIGHT - nearestNode.y], 10)
                 # pygame.display.update()
                 # time.sleep(1)
@@ -348,28 +349,33 @@ class Graph:
                 # pygame.draw.circle(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], 10)
                 # pygame.display.update()
                 #############################################################
-                
 
-                #Rewiring                           
-                #O(N)
+                # Rewiring
+                # O(N)
+
                 for i in range(len(neighbours)):
                     potentialChild = neighbours[i]
-                    if (currentNode.costToCome + self.getEuclidianDistance(currentNode, potentialChild)) < potentialChild.costToCome and (not self.isBranchInObstacle(currentNode, potentialChild)):
-                        #print("Rewiring!")
+                    if (currentNode.costToCome + self.getEuclidianDistance(currentNode,
+                                                                           potentialChild)) < potentialChild.costToCome and (
+                    not self.isBranchInObstacle(currentNode, potentialChild)):
+                        # print("Rewiring!")
 
-                        pygame.draw.line(gridDisplay, WHITE, [potentialChild.x, HEIGHT - potentialChild.y], [potentialChild.parent.x, HEIGHT - potentialChild.parent.y], 2)
+                        pygame.draw.line(gridDisplay, WHITE, [potentialChild.x, HEIGHT - potentialChild.y],
+                                         [potentialChild.parent.x, HEIGHT - potentialChild.parent.y], 2)
                         pygame.display.update()
                         # time.sleep(1)
 
                         potentialChild.parent = currentNode
-                        potentialChild.costToCome = (currentNode.costToCome + self.getEuclidianDistance(currentNode, potentialChild))
+                        potentialChild.costToCome = (
+                                    currentNode.costToCome + self.getEuclidianDistance(currentNode, potentialChild))
 
-                        pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y], [potentialChild.x, HEIGHT - potentialChild.y], 2)
+                        pygame.draw.line(gridDisplay, CYAN, [currentNode.x, HEIGHT - currentNode.y],
+                                         [potentialChild.x, HEIGHT - potentialChild.y], 2)
                         pygame.display.update()
                         # time.sleep(1)
                         self.generateObstacles(start, end)
 
-        return
+        return True
 
     def backTrack(self, child):
         """
@@ -383,7 +389,7 @@ class Graph:
             child = child.parent
         return True
 
-    def getPath(self, start, end):  
+    def getPath(self, start, end):
 
         priorityQueue = []
         heapq.heappush(priorityQueue, (start.cost, start))
@@ -391,8 +397,8 @@ class Graph:
             currentNode = heapq.heappop(priorityQueue)
             currentNode = currentNode[1]
             if self.isInTargetArea(currentNode.x, currentNode.y):
-                print("We are doneeeeeeeeeee")  
-                self.backTrack(currentNode)              
+                print("We are doneeeeeeeeeee")
+                self.backTrack(currentNode)
                 return True
             for neighbour, newDistance in currentNode.neighbour.items():
                 heapq.heappush(priorityQueue, (neighbour.cost, neighbour))
@@ -412,14 +418,18 @@ class Graph:
         pygame.draw.ellipse(gridDisplay, MAGENTA, [186, HEIGHT - 176, 120, 60], 0)
 
         # Roatated Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,
+                            [(36, HEIGHT - 124), (160, HEIGHT - 210), (170, HEIGHT - 194), (48, HEIGHT - 108)])
 
         # Broken Rect
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
-        pygame.draw.polygon(gridDisplay, MAGENTA,[(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,
+                            [(200, HEIGHT - 280), (230, HEIGHT - 280), (230, HEIGHT - 270), (200, HEIGHT - 270)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,
+                            [(200, HEIGHT - 270), (210, HEIGHT - 270), (210, HEIGHT - 240), (200, HEIGHT - 240)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,
+                            [(200, HEIGHT - 240), (230, HEIGHT - 240), (230, HEIGHT - 230), (200, HEIGHT - 230)])
 
-        #Starting Circle
+        # Starting Circle
         pygame.draw.circle(gridDisplay, BLACK, [start.x, HEIGHT - start.y], 10)
 
         # Ending Circle
@@ -445,7 +455,7 @@ class Graph:
 end = Node(385, 285, 385, 285)
 start = Node(15, 15, 385, 285)
 start.costToCome = 0
-robot = Graph(start, end)#Graph(start, end, MAGNITUDE, RADIUS, CLEARANCE)
+robot = Graph(start, end)  # Graph(start, end, MAGNITUDE, RADIUS, CLEARANCE)
 path = []
 pygame.init()  # Setup Pygame
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -461,7 +471,6 @@ if robot.canFindPath(start, end):
         print("Printed path")
     path.reverse()
 exiting = False
-
 
 #############################################
 # Running the simulation in loop
@@ -484,5 +493,5 @@ while not exiting:
     clock.tick(2000)
     pygame.display.flip()
     exiting = True
-#pygame.quit()
+# pygame.quit()
 #############################################
