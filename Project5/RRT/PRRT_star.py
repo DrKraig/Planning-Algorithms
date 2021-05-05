@@ -32,7 +32,7 @@ class Node:
         self.x = x
         self.y = y
         self.costToCome = 0
-        self.costToGo = math.sqrt((x - endX) ** 2 + (y - endY) ** 2)
+        self.costToGo = 2.5*(math.sqrt((x - endX) ** 2 + (y - endY) ** 2))
         self.cost = None
         self.neighbour = {}
         self.parent = None
@@ -226,12 +226,13 @@ class Graph:
             F = self.APG(currentNode)
             d_min = self.getNearestObstacle(currentNode) ## this lines needs to be changed
             if d_min <= ds_obs:
-                currentNode.costToGo = self.getEuclidianDistance(currentNode, end )
+                currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
                 return currentNode
             else:
                 currentNode.x = currentNode.x + lam*F[0]
                 currentNode.y = currentNode.y + lam*F[1]
 
+        currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
         return currentNode
 
     def getEuclidianDistanceUsingPoints(self, x1, y1, x2, y2):
@@ -253,8 +254,7 @@ class Graph:
     def getAllPointsOnObstacle(self):
 
         points = []
-        CLEARANCE = 0.1
-
+        CLEARANCE = self.CLEARANCE
         #Circle 1
         r = 1 + CLEARANCE
         for theta in np.arange(0,360):
@@ -457,7 +457,7 @@ class Graph:
         for iterations in range(10000):
             currentNode = self.getSamplePoint()
 
-            currentNode =  self.RGD(currentNode, end)
+            #currentNode =  self.RGD(currentNode, end)
             print(currentNode.x, currentNode.y)
 
             # If the sample point is not outside the areana or inside an obstacle
