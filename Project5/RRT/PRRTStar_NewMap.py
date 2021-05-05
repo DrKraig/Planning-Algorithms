@@ -51,8 +51,10 @@ class Graph:
         self.CLEARANCE = 0.2
 
     def getSamplePoint(self):
-        x = np.random.uniform(0,10)
-        y = np.random.uniform(0, 10)
+        x = np.random.uniform(0,10) * 1000 
+        x = int(x)/1000
+        y = np.random.uniform(0, 10) * 1000
+        y = int(y) / 1000
         return Node(x, y, self.endX, self.endY)
 
     def isInTargetArea(self, i, j):
@@ -427,17 +429,23 @@ class Graph:
 
     def RGD(self,currentNode, end):
         k = 10
-        lam = 0.00001
+        lam = 0.001
         ds_obs = 0.001
         for n in range(k):
             F = self.APG(currentNode)
+            
+            Fx = F[0] * 1000
+            Fx = int(Fx)/ 1000
+            Fy = F[1] * 1000
+            Fy = int(Fy)/ 1000
+            print(Fx, Fy, "Fx and Fy")
             d_min = self.getNearestObstacle(currentNode) ## this lines needs to be changed
             if d_min <= ds_obs:
                 currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
                 return currentNode
             else:
-                currentNode.x = currentNode.x + lam*F[0]
-                currentNode.y = currentNode.y + lam*F[1]
+                currentNode.x = currentNode.x + lam*Fx
+                currentNode.y = currentNode.y + lam*Fy
 
         currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
         return currentNode
@@ -445,11 +453,12 @@ class Graph:
 
     def canFindPath(self, start, end):
         self.visited[start] = True
-        for iterations in range(1000):
+        for iterations in range(500):
             currentNode = self.getSamplePoint()
-            
+            print(currentNode.x, currentNode.y)
             currentNode = self.RGD(currentNode, end)
             print(currentNode.x, currentNode.y)
+            print("######################")
             # If the sample point is not outside the areana or inside an obstacle
             if (not self.isInObstacle(currentNode.x, currentNode.y)) and (
             not self.isOutsideArena(currentNode.x, currentNode.y)):
