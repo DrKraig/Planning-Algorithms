@@ -192,7 +192,6 @@ class Graph:
     def APG(self, currentNode):
         F = np.array([-2*(currentNode.x - self.endX), -2*(currentNode.y - self.endY)])
         F = F/np.linalg.norm(F)
-
         return F
 
     def RGD(self,currentNode):
@@ -200,8 +199,8 @@ class Graph:
         lam = 0.01
         ds_obs = 0.01
         for n in range(k):
-            F = APG(self,currentNode)
-            d_min = nearest_obstacle(currentNode) ## this lines needs to be changed
+            F = self.APG(currentNode)
+            d_min = self.getNearestObstacle(currentNode) ## this lines needs to be changed
             if d_min <= ds_obs:
                 return
             else:
@@ -209,6 +208,139 @@ class Graph:
                 currentNode.y = currentNode.y + lam*F[1]
         return
 
+    def getEuclidianDistanceUsingPoints(self, x1, y1, x2, y2):
+        return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+        
+    def getNearestObstacle(self, currentNode):
+        x = currentNode.x
+        y = currentNode.y
+        pointsOnObstacle = self.getAllPointsOnObstacle()
+        minDistance = float("inf")
+        minPoint = None
+        for point in pointsOnObstacle:
+            distance = self.getEuclidianDistanceUsingPoints(point[0], point[1], x,y)
+            if minDistance > distance:
+                minDistance = distance
+                minPoint = point
+        return minDistance
+
+    def getAllPointsOnObstacle(self):
+
+        points = []
+        CLEARANCE = 0.1
+
+        #Circle 1
+        r = 1 + CLEARANCE
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 2 + r*math.cos(thetaInRadians)
+            y = 2 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+
+        #Circle 2
+        r = 1 + CLEARANCE
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 2 + r*math.cos(thetaInRadians)
+            y = 8 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+
+        # #Rectangle 1
+        r = CLEARANCE
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 0.25 + r*math.cos(thetaInRadians)
+            y = 5.75 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 1.75 + r*math.cos(thetaInRadians)
+            y = 5.75 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 0.25 + r*math.cos(thetaInRadians)
+            y = 4.25 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 1.75 + r*math.cos(thetaInRadians)
+            y = 4.25 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for x in np.arange(0.25 - CLEARANCE, 1.75 + CLEARANCE, 0.1):
+            points.append([x,5.75]) 
+        for x in np.arange(0.25 - CLEARANCE, 1.75 + CLEARANCE, 0.1):
+            points.append([x,4.25])
+        for y in np.arange(4.25 - CLEARANCE, 5.75 + CLEARANCE, 0.1):
+            points.append([0.25,y])
+        for y in np.arange(4.25- CLEARANCE, 5.75 + CLEARANCE, 0.1):
+            points.append([1.75,y])
+
+        
+        #Rectangle 2
+        r = CLEARANCE
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 3.75 + r*math.cos(thetaInRadians)
+            y = 5.75 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 6.25 + r*math.cos(thetaInRadians)
+            y = 5.75 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 3.75 + r*math.cos(thetaInRadians)
+            y = 4.25 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 6.25 + r*math.cos(thetaInRadians)
+            y = 4.25 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for x in np.arange(3.75 - - CLEARANCE, 6.25 + CLEARANCE, 0.1):
+            points.append([x,5.75])
+        for x in np.arange(3.75 - CLEARANCE, 6.25 + CLEARANCE, 0.1):
+            points.append([x,3.75])
+        for y in np.arange(4.25 - CLEARANCE, 5.75 + CLEARANCE, 0.1):
+            points.append([3.75,y])
+        for y in np.arange(4.25 - CLEARANCE, 5.75 + CLEARANCE, 0.1):
+            points.append([6.25,y])
+
+        
+        #Rectangle 3
+        r = CLEARANCE
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 7.25 + r*math.cos(thetaInRadians)
+            y = 4 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 8.75 + r*math.cos(thetaInRadians)
+            y = 4 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 8.75 + r*math.cos(thetaInRadians)
+            y = 2 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for theta in np.arange(0,360):
+            thetaInRadians = (math.pi * theta) /180
+            x = 7.25 + r*math.cos(thetaInRadians)
+            y = 2 + r*math.sin(thetaInRadians)
+            points.append([x,y])
+        for x in np.arange(7.25 - CLEARANCE, 8.75 + CLEARANCE, 0.1):
+            points.append([x,2])
+        for x in np.arange(7.25 - CLEARANCE, 8.75 + CLEARANCE, 0.1):
+            points.append([x,2])
+        for y in np.arange(2 - CLEARANCE, 4 + CLEARANCE, 0.1):
+            points.append([8.75,y])
+        for y in np.arange(2 - CLEARANCE, 4+ CLEARANCE, 0.1):
+            points.append([7.25, y])
+
+        return points
 
 
     def getPoints(self, nearestNode, currentNode):
@@ -220,22 +352,22 @@ class Graph:
         y2 = currentNode.y
         if x1 == x2:
             if y1 > y2:
-                for y in range(y1, y2, -1):
+                for y in np.arange(y1, y2, -1):
                     points.append([x1, y])
             elif y1 < y2:
-                for y in range(y1, y2):
+                for y in np.arange(y1, y2):
                     points.append([x1, y])
         elif y1 == y2:
 
             if x1 > x2:
-                for x in range(x1, x2, -1):
+                for x in np.arange(x1, x2, -1):
                     points.append([x, y1])
             elif x1 < x2:
-                for x in range(x1, x2):
+                for x in np.arange(x1, x2):
                     points.append([x, y1])
         else:
-            for x in range(min(x1, x2), max(x1, x2) + 1):
-                for y in range(min(y1, y2), max(y1, y2) + 1):
+            for x in np.arange(min(x1, x2), max(x1, x2) + 1):
+                for y in np.arange(min(y1, y2), max(y1, y2) + 1):
                     if y == int(((x - x1) * (y1 - y2)) / (x1 - x2) + y1):
                         points.append([x, y])
         return points
@@ -298,6 +430,8 @@ class Graph:
         self.visited[start] = True
         for iterations in range(10000):
             currentNode = self.getSamplePoint()
+
+            self.RGD(currentNode)
 
             if currentNode in self.visited:
                 continue
@@ -438,7 +572,7 @@ pygame.init()  # Setup Pygame
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 gridDisplay.fill(WHITE)
 
-pygame.display.set_caption("RRT* + A* Algorithm - Without Obstacles")
+pygame.display.set_caption("PRRT* + A* Algorithm")
 exiting = False
 clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
