@@ -47,7 +47,7 @@ class Graph:
         self.visited = {}
         self.endX = end.x
         self.endY = end.y
-        self.maxDistanceForNode = 5
+        self.maxDistanceForNode = 8
         self.CLEARANCE = 0.2
 
     def getSamplePoint(self):
@@ -247,7 +247,7 @@ class Graph:
 
     def getneighboursWithinRadius(self, currentNode):
         neighbours = []
-        RADIUS = 1
+        RADIUS = 5
         for node in self.visited.keys():
             distance = self.getEuclidianDistance(currentNode, node)
             if distance < RADIUS:
@@ -426,7 +426,7 @@ class Graph:
 
     def RGD(self,currentNode, end):
         k = 10
-        lam = 0.001
+        lam = 0.1
         ds_obs = 0.001
         for n in range(k):
             F = self.APG(currentNode)
@@ -449,10 +449,22 @@ class Graph:
 
     def canFindPath(self, start, end):
         self.visited[start] = True
-        for iterations in range(500):
+        for iterations in range(100):
             currentNode = self.getSamplePoint()
+            prevCurrentNode = currentNode
+            pygame.draw.circle(gridDisplay, MAGENTA, [50 * currentNode.x, HEIGHT - 50 * currentNode.y], 5)
+            pygame.display.update()
+            #time.sleep(0.50)
             print(currentNode.x, currentNode.y)
             currentNode = self.RGD(currentNode, end)
+            pygame.draw.circle(gridDisplay, BLACK, [50 * currentNode.x, HEIGHT - 50 * currentNode.y], 5)
+            pygame.display.update()
+            #time.sleep(1)
+            
+            pygame.draw.line(gridDisplay, BLACK, [50*currentNode.x, HEIGHT - 50*currentNode.y],
+                                 [50*prevCurrentNode.x, HEIGHT - 50*prevCurrentNode.y], 2)
+            pygame.display.update()
+
             print(currentNode.x, currentNode.y)
             print("######################")
             # If the sample point is not outside the areana or inside an obstacle
