@@ -32,13 +32,14 @@ class Node:
         self.x = x
         self.y = y
         self.costToCome = 0
-        self.costToGo = 2.5*(math.sqrt((x - endX) ** 2 + (y - endY) ** 2))
+        self.costToGo = 2.5*math.sqrt((x - endX) ** 2 + (y - endY) ** 2)
         self.cost = None
         self.neighbour = {}
         self.parent = None
 
     def __lt__(self, other):
         return self.cost < other.cost
+
 
 class Graph:
 
@@ -50,8 +51,8 @@ class Graph:
         self.CLEARANCE = 0.2
 
     def getSamplePoint(self):
-        x = random.randint(0, 10)
-        y = random.randint(0, 10)
+        x = np.random.uniform(0,10)
+        y = np.random.uniform(0, 10)
         return Node(x, y, self.endX, self.endY)
 
     def isInTargetArea(self, i, j):
@@ -60,7 +61,7 @@ class Graph:
         Input: Current Node co-ordinates
         Output: Boolean
         """
-        if (i - self.endX) ** 2 + (j - self.endY) ** 2 - 100 <= 0:
+        if (i - self.endX) ** 2 + (j - self.endY) ** 2 - 0.01 <= 0:
             return True
         else:
             return False
@@ -167,7 +168,6 @@ class Graph:
         else:
             return False
 
-
     def isInObstacle(self, x, y):
         """
         Description: Checks if the point (x,y) is inside an obstacle or not.
@@ -185,6 +185,7 @@ class Graph:
         """
 
         return True if x < self.CLEARANCE or y < self.CLEARANCE or x > 10 - self.CLEARANCE or y > 10 - self.CLEARANCE else False
+
 
     def getNearestNeighbour(self, currentNode):
 
@@ -213,27 +214,78 @@ class Graph:
                 return True
         return False
 
-    def APG(self, currentNode):
-        F = np.array([-2*(currentNode.x - self.endX), -2*(currentNode.y - self.endY)])
-        F = F/np.linalg.norm(F)
-        return F
+    def getPoints(self, nearestNode, currentNode):
+        points = []
+        x1 = nearestNode.x
+        y1 = nearestNode.y
 
-    def RGD(self,currentNode, end):
-        k = 100
-        lam = 0.0001
-        ds_obs = 0.001
-        for n in range(k):
-            F = self.APG(currentNode)
-            d_min = self.getNearestObstacle(currentNode) ## this lines needs to be changed
-            if d_min <= ds_obs:
-                currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
-                return currentNode
-            else:
-                currentNode.x = currentNode.x + lam*F[0]
-                currentNode.y = currentNode.y + lam*F[1]
+        x2 = currentNode.x
+        y2 = currentNode.y
+        dist = self.getEuclidianDistance(nearestNode,currentNode)
 
-        currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
-        return currentNode
+        v1 = (x2-x1)/dist
+        v2 = (y2-y1)/dist
+        for mag in np.arange(0, dist, 0.01):
+            x = x1 + mag*v1
+            y = y1 + mag*v2
+            points.append([x, y])
+
+        #print(points)
+        return points
+
+    def getRectifiedPoint(self, points, nearestNode, currentNode):
+        prev = None
+        #print(points)
+        for point in points:
+            x = point[0]
+            y = point[1]
+            potentialNode = Node(x, y, self.endX, self.endY)
+            if self.isInObstacle(x, y) or self.getEuclidianDistance(nearestNode,
+                                                                    potentialNode) > self.maxDistanceForNode:
+                return prevNode if prev != None else nearestNode
+            prevNode = point
+        return potentialNode
+
+    def getneighboursWithinRadius(self, currentNode):
+        neighbours = []
+        RADIUS = 1
+        for node in self.visited.keys():
+            distance = self.getEuclidianDistance(currentNode, node)
+            if distance < RADIUS:
+                neighbours.append(node)
+        return neighbours
+
+    def getNodeWithMinCost(self, currentNode, neighbours, start):
+
+        minCost = float("inf")
+        nodeWithMinCost = None
+        for node in neighbours:
+            potentialCost = node.costToCome + self.getEuclidianDistance(currentNode, node)
+            if minCost > potentialCost:
+                minCost = potentialCost
+                nodeWithMinCost = node
+
+        if nodeWithMinCost == None:
+            print("didnt find node with minimum cost. Getting nearest as minimum node.")
+            nodeWithMinCost = self.getNearestNeighbour(currentNode)
+            currentNode.costToCome = (
+                        self.getEuclidianDistance(currentNode, nodeWithMinCost) + nodeWithMinCost.costToCome)
+        else:
+            currentNode.costToCome = minCost
+
+        # nodeWithMinCost.child = currentNode
+        return nodeWithMinCost
+
+    def getNearestNeighbour(self, currentNode):
+
+        nearestNode = None
+        minDistance = float("inf")
+        for node in self.visited:
+            currentDistance = self.getEuclidianDistance(currentNode, node)
+            if minDistance > currentDistance:
+                minDistance = currentDistance
+                nearestNode = node
+        return nearestNode if nearestNode != None else start
 
     def getEuclidianDistanceUsingPoints(self, x1, y1, x2, y2):
         return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
@@ -293,14 +345,14 @@ class Graph:
             x = 1.75 + r*math.cos(thetaInRadians)
             y = 4.25 + r*math.sin(thetaInRadians)
             points.append([x,y])
-        for x in np.arange(0.25 - CLEARANCE, 1.75 + CLEARANCE, 0.1):
-            points.append([x,5.75]) 
-        for x in np.arange(0.25 - CLEARANCE, 1.75 + CLEARANCE, 0.1):
-            points.append([x,4.25])
-        for y in np.arange(4.25 - CLEARANCE, 5.75 + CLEARANCE, 0.1):
-            points.append([0.25,y])
-        for y in np.arange(4.25- CLEARANCE, 5.75 + CLEARANCE, 0.1):
-            points.append([1.75,y])
+        for x in np.arange(0.25, 1.75, 0.1):
+            points.append([x,5.75 + CLEARANCE]) 
+        for x in np.arange(0.25 , 1.75 , 0.1):
+            points.append([x,4.25 - CLEARANCE])
+        for y in np.arange(4.25 , 5.75 , 0.1):
+            points.append([0.25 - CLEARANCE,y])
+        for y in np.arange(4.25, 5.75 , 0.1):
+            points.append([1.75 + CLEARANCE,y])
 
         
         #Rectangle 2
@@ -325,14 +377,14 @@ class Graph:
             x = 6.25 + r*math.cos(thetaInRadians)
             y = 4.25 + r*math.sin(thetaInRadians)
             points.append([x,y])
-        for x in np.arange(3.75 - - CLEARANCE, 6.25 + CLEARANCE, 0.1):
-            points.append([x,5.75])
-        for x in np.arange(3.75 - CLEARANCE, 6.25 + CLEARANCE, 0.1):
-            points.append([x,3.75])
-        for y in np.arange(4.25 - CLEARANCE, 5.75 + CLEARANCE, 0.1):
-            points.append([3.75,y])
-        for y in np.arange(4.25 - CLEARANCE, 5.75 + CLEARANCE, 0.1):
-            points.append([6.25,y])
+        for x in np.arange(3.75, 6.25, 0.1):
+            points.append([x,5.75 + CLEARANCE])
+        for x in np.arange(3.75, 6.25, 0.1):
+            points.append([x,3.75 - CLEARANCE])
+        for y in np.arange(4.25, 5.75, 0.1):
+            points.append([3.75 - CLEARANCE,y])
+        for y in np.arange(4.25, 5.75, 0.1):
+            points.append([6.25 + CLEARANCE,y])
 
         
         #Rectangle 3
@@ -357,109 +409,47 @@ class Graph:
             x = 7.25 + r*math.cos(thetaInRadians)
             y = 2 + r*math.sin(thetaInRadians)
             points.append([x,y])
-        for x in np.arange(7.25 - CLEARANCE, 8.75 + CLEARANCE, 0.1):
-            points.append([x,2])
-        for x in np.arange(7.25 - CLEARANCE, 8.75 + CLEARANCE, 0.1):
-            points.append([x,2])
-        for y in np.arange(2 - CLEARANCE, 4 + CLEARANCE, 0.1):
-            points.append([8.75,y])
-        for y in np.arange(2 - CLEARANCE, 4+ CLEARANCE, 0.1):
-            points.append([7.25, y])
+        for x in np.arange(7.25, 8.75 , 0.1):
+            points.append([x,2 - CLEARANCE])
+        for x in np.arange(7.25 , 8.75 , 0.1):
+            points.append([x,4 + CLEARANCE])
+        for y in np.arange(2 , 4, 0.1):
+            points.append([8.75 + CLEARANCE,y])
+        for y in np.arange(2, 4, 0.1):
+            points.append([7.25 - CLEARANCE, y])
 
         return points
 
+    def APG(self, currentNode):
+        F = np.array([-2*(currentNode.x - self.endX), -2*(currentNode.y - self.endY)])
+        F = F/np.linalg.norm(F)
+        return F
 
-    def getPoints(self, nearestNode, currentNode):
-        points = []
-        x1 = nearestNode.x
-        y1 = nearestNode.y
+    def RGD(self,currentNode, end):
+        k = 10
+        lam = 0.00001
+        ds_obs = 0.001
+        for n in range(k):
+            F = self.APG(currentNode)
+            d_min = self.getNearestObstacle(currentNode) ## this lines needs to be changed
+            if d_min <= ds_obs:
+                currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
+                return currentNode
+            else:
+                currentNode.x = currentNode.x + lam*F[0]
+                currentNode.y = currentNode.y + lam*F[1]
 
-        x2 = currentNode.x
-        y2 = currentNode.y
-        if x1 == x2:
-            if y1 > y2:
-                for y in np.arange(y1, y2, -1):
-                    points.append([x1, y])
-            elif y1 < y2:
-                for y in np.arange(y1, y2):
-                    points.append([x1, y])
-        elif y1 == y2:
+        currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
+        return currentNode
 
-            if x1 > x2:
-                for x in np.arange(x1, x2, -1):
-                    points.append([x, y1])
-            elif x1 < x2:
-                for x in np.arange(x1, x2):
-                    points.append([x, y1])
-        else:
-            for x in np.arange(min(x1, x2), max(x1, x2) + 1):
-                for y in np.arange(min(y1, y2), max(y1, y2) + 1):
-                    if y == int(((x - x1) * (y1 - y2)) / (x1 - x2) + y1):
-                        points.append([x, y])
-        return points
-
-    def getRectifiedPoint(self, points, nearestNode, currentNode):
-        prev = None
-        print(points)
-        for point in points:
-            x = point[0]
-            y = point[1]
-            potentialNode = Node(x, y, self.endX, self.endY)
-            if self.isInObstacle(x, y) or self.getEuclidianDistance(nearestNode,
-                                                                    potentialNode) > self.maxDistanceForNode:
-                return prevNode if prev != None else nearestNode
-            prevNode = point
-        return potentialNode
-
-    def getneighboursWithinRadius(self, currentNode):
-        neighbours = []
-        RADIUS = 1
-        for node in self.visited.keys():
-            distance = self.getEuclidianDistance(currentNode, node)
-            if distance < RADIUS:
-                neighbours.append(node)
-        return neighbours
-
-    def getNodeWithMinCost(self, currentNode, neighbours, start):
-
-        minCost = float("inf")
-        nodeWithMinCost = None
-        for node in neighbours:
-            potentialCost = node.costToCome + self.getEuclidianDistance(currentNode, node)
-            if minCost > potentialCost:
-                minCost = potentialCost
-                nodeWithMinCost = node
-
-        if nodeWithMinCost == None:
-            print("didnt find node with minimum cost. Getting nearest as minimum node.")
-            nodeWithMinCost = self.getNearestNeighbour(currentNode)
-            currentNode.costToCome = (
-                        self.getEuclidianDistance(currentNode, nodeWithMinCost) + nodeWithMinCost.costToCome)
-        else:
-            currentNode.costToCome = minCost
-
-        # nodeWithMinCost.child = currentNode
-        return nodeWithMinCost
-
-    def getNearestNeighbour(self, currentNode):
-
-        nearestNode = None
-        minDistance = float("inf")
-        for node in self.visited:
-            currentDistance = self.getEuclidianDistance(currentNode, node)
-            if minDistance > currentDistance:
-                minDistance = currentDistance
-                nearestNode = node
-        return nearestNode if nearestNode != None else start
 
     def canFindPath(self, start, end):
         self.visited[start] = True
-        for iterations in range(10000):
+        for iterations in range(1000):
             currentNode = self.getSamplePoint()
-
-            currentNode =  self.RGD(currentNode, end)
+            
+            currentNode = self.RGD(currentNode, end)
             print(currentNode.x, currentNode.y)
-
             # If the sample point is not outside the areana or inside an obstacle
             if (not self.isInObstacle(currentNode.x, currentNode.y)) and (
             not self.isOutsideArena(currentNode.x, currentNode.y)):
@@ -479,8 +469,8 @@ class Graph:
                 currentNode.costToCome = nearestNode.costToCome + self.getEuclidianDistance(nearestNode, currentNode)
                 currentNode.cost = currentNode.costToCome + currentNode.costToGo
                 currentNode.parent = nearestNode
-                pygame.draw.line(gridDisplay, CYAN, [50 *currentNode.x, HEIGHT - currentNode.y* 50],
-                                 [50 * nearestNode.x, HEIGHT - nearestNode.y * 50 ], 2)
+                pygame.draw.line(gridDisplay, CYAN, [50*currentNode.x, HEIGHT - 50*currentNode.y],
+                                 [50*nearestNode.x, HEIGHT - 50*nearestNode.y], 2)
                 pygame.display.update()
                 self.visited[currentNode] = True
 
@@ -491,8 +481,8 @@ class Graph:
                     not self.isBranchInObstacle(currentNode, potentialChild)):
                         # print("Rewiring!")
 
-                        pygame.draw.line(gridDisplay, WHITE, [50 * potentialChild.x, HEIGHT - 50 * potentialChild.y],
-                                         [50 * potentialChild.parent.x, HEIGHT - 50 * potentialChild.parent.y], 2)
+                        pygame.draw.line(gridDisplay, WHITE, [50*potentialChild.x, HEIGHT - 50*potentialChild.y],
+                                         [50*potentialChild.parent.x, HEIGHT - 50*potentialChild.parent.y], 2)
                         pygame.display.update()
                         # time.sleep(1)
 
@@ -500,11 +490,11 @@ class Graph:
                         potentialChild.costToCome = (
                                     currentNode.costToCome + self.getEuclidianDistance(currentNode, potentialChild))
 
-                        pygame.draw.line(gridDisplay, CYAN, [50 * currentNode.x, HEIGHT - 50 * currentNode.y],
-                                         [50 * potentialChild.x, HEIGHT - 50 * potentialChild.y], 2)
+                        pygame.draw.line(gridDisplay, CYAN, [50*currentNode.x, HEIGHT - 50*currentNode.y],
+                                         [50*potentialChild.x, HEIGHT - 50*potentialChild.y], 2)
                         pygame.display.update()
                         # time.sleep(1)
-                        self.generateObstacles()
+                        self.generateObstacles(start, end)
 
         return True
 
@@ -539,22 +529,33 @@ class Graph:
                 heapq.heappush(priorityQueue, (neighbour.cost, neighbour))
         return False
 
-    def generateObstacles(self):
+    def generateObstacles(self, start, end):
         """
-        Description: Generates Obstacles
+        Description: Checks if a point is in the Ellipse.
+        Input: Point with co-ordinates (x,y)
+        Output: True or False
         """
 
-        # Make background White
-        gridDisplay.fill(WHITE)
+        #gridDisplay.fill(WHITE)
 
         # Circles
         pygame.draw.circle(gridDisplay, MAGENTA, [100, HEIGHT - 100], 50)
         pygame.draw.circle(gridDisplay, MAGENTA, [100, HEIGHT - 400], 50)
 
         # Rectangles
-        pygame.draw.polygon(gridDisplay, MAGENTA, [(50*0.25, HEIGHT - 50*5.75), (50*1.75, HEIGHT - 50*5.75), (50*1.75, HEIGHT - 50*4.25), (50*0.25, HEIGHT - 50*4.25)])
-        pygame.draw.polygon(gridDisplay, MAGENTA, [(50*3.75, HEIGHT - 50*5.75), (50*6.25, HEIGHT - 50*5.75), (50*6.25, HEIGHT - 50*4.25), (50*3.75, HEIGHT - 50*4.25)])
-        pygame.draw.polygon(gridDisplay, MAGENTA, [(50*7.25, HEIGHT - 50*4), (50*8.75, HEIGHT - 50*4), (50*8.75, HEIGHT - 50*2), (50*7.25, HEIGHT - 50*2)])
+        pygame.draw.polygon(gridDisplay, MAGENTA, [(50 * 0.25, HEIGHT - 50 * 5.75), (50 * 1.75, HEIGHT - 50 * 5.75),
+                                                   (50 * 1.75, HEIGHT - 50 * 4.25), (50 * 0.25, HEIGHT - 50 * 4.25)])
+        pygame.draw.polygon(gridDisplay, MAGENTA, [(50 * 3.75, HEIGHT - 50 * 5.75), (50 * 6.25, HEIGHT - 50 * 5.75),
+                                                   (50 * 6.25, HEIGHT - 50 * 4.25), (50 * 3.75, HEIGHT - 50 * 4.25)])
+        pygame.draw.polygon(gridDisplay, MAGENTA,
+                            [(50 * 7.25, HEIGHT - 50 * 4), (50 * 8.75, HEIGHT - 50 * 4), (50 * 8.75, HEIGHT - 50 * 2),
+                             (50 * 7.25, HEIGHT - 50 * 2)])
+
+        # Starting Circle
+        pygame.draw.circle(gridDisplay, BLACK, [50*start.x, HEIGHT - 50*start.y], 10)
+
+        # Ending Circle
+        pygame.draw.circle(gridDisplay, BLACK, [50*end.x, HEIGHT - 50*end.y], 10)
 
 
 # x1 = int(input("Enter the x coordiante of the starting point: "))
@@ -582,11 +583,11 @@ pygame.init()  # Setup Pygame
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 gridDisplay.fill(WHITE)
 
-pygame.display.set_caption("PRRT* + A* Algorithm")
+pygame.display.set_caption("PRRT* + A* Algorithm ")
 exiting = False
 clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas
-canvas.generateObstacles()
+canvas.generateObstacles(start, end)
 if robot.canFindPath(start, end):
     if robot.getPath(start, end):
         print("Printed path")
@@ -604,7 +605,7 @@ while not exiting:
     for index in range(len(path)):
         x, y = path[index]
         if index != 0:
-            pygame.draw.line(gridDisplay, MAGENTA, [prevX, HEIGHT - prevY], [x, HEIGHT - y], 2)
+            pygame.draw.line(gridDisplay, MAGENTA, [50*prevX, HEIGHT - 50*prevY], [50*x, HEIGHT - 50*y], 2)
             pygame.display.update()
 
         time.sleep(.5)
