@@ -231,13 +231,10 @@ class Graph:
             x = x1 + mag*v1
             y = y1 + mag*v2
             points.append([x, y])
-
-        #print(points)
         return points
 
     def getRectifiedPoint(self, points, nearestNode, currentNode):
         prev = None
-        #print(points)
         for point in points:
             x = point[0]
             y = point[1]
@@ -434,16 +431,15 @@ class Graph:
         for n in range(k):
             F = self.APG(currentNode)
             
-            Fx = F[0] * 1000
-            Fx = int(Fx)/ 1000
-            Fy = F[1] * 1000
-            Fy = int(Fy)/ 1000
-            print(Fx, Fy, "Fx and Fy")
             d_min = self.getNearestObstacle(currentNode) ## this lines needs to be changed
             if d_min <= ds_obs:
                 currentNode.costToGo = 2.5*(math.sqrt((currentNode.x - end.x) ** 2 + (currentNode.y - end.y) ** 2))
                 return currentNode
             else:
+                Fx = F[0] * 1000
+                Fx = int(Fx)/ 1000
+                Fy = F[1] * 1000
+                Fy = int(Fy)/ 1000
                 currentNode.x = currentNode.x + lam*Fx
                 currentNode.y = currentNode.y + lam*Fy
 
