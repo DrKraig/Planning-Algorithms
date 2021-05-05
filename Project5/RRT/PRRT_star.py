@@ -40,7 +40,6 @@ class Node:
     def __lt__(self, other):
         return self.cost < other.cost
 
-
 class Graph:
 
     def __init__(self, start, end):
@@ -219,20 +218,20 @@ class Graph:
         F = F/np.linalg.norm(F)
         return F
 
-    def RGD(self,currentNode):
+    def RGD(self,currentNode, end):
         k = 100
-        lam = 0.01
-        ds_obs = 0.01
+        lam = 0.0001
+        ds_obs = 0.001
         for n in range(k):
-            print("Inside RGD")
             F = self.APG(currentNode)
             d_min = self.getNearestObstacle(currentNode) ## this lines needs to be changed
             if d_min <= ds_obs:
+                currentNode.costToGo = self.getEuclidianDistance(currentNode, end )
                 return currentNode
             else:
                 currentNode.x = currentNode.x + lam*F[0]
                 currentNode.y = currentNode.y + lam*F[1]
-        print("Outside###############")
+
         return currentNode
 
     def getEuclidianDistanceUsingPoints(self, x1, y1, x2, y2):
@@ -458,10 +457,8 @@ class Graph:
         for iterations in range(10000):
             currentNode = self.getSamplePoint()
 
-            currentNode =  self.RGD(currentNode)
-
-            if currentNode in self.visited:
-                continue
+            currentNode =  self.RGD(currentNode, end)
+            print(currentNode.x, currentNode.y)
 
             # If the sample point is not outside the areana or inside an obstacle
             if (not self.isInObstacle(currentNode.x, currentNode.y)) and (
@@ -544,9 +541,7 @@ class Graph:
 
     def generateObstacles(self):
         """
-        Description: Checks if a point is in the Ellipse.
-        Input: Point with co-ordinates (x,y)
-        Output: True or False
+        Description: Generates Obstacles
         """
 
         # Make background White
