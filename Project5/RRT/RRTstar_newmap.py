@@ -289,10 +289,10 @@ class Graph:
 
     def canFindPath(self, start, end):
         self.visited[start] = True
-        for iterations in range(1000):
+        for iterations in range(100):
             currentNode = self.getSamplePoint()
-
-           ## print(currentNode.x, currentNode.y)
+            #time.sleep(1)
+            ## print(currentNode.x, currentNode.y)
             # If the sample point is not outside the areana or inside an obstacle
             if (not self.isInObstacle(currentNode.x, currentNode.y)) and (
             not self.isOutsideArena(currentNode.x, currentNode.y)):
@@ -426,7 +426,7 @@ pygame.init()  # Setup Pygame
 gridDisplay = pygame.display.set_mode((WIDTH, HEIGHT))
 gridDisplay.fill(WHITE)
 
-pygame.display.set_caption("RRT* + A* Algorithm - Without Obstacles")
+pygame.display.set_caption("RRT* + A* Algorithm")
 exiting = False
 clock = pygame.time.Clock()
 canvas = Graph(start, end)  # Create Canvas

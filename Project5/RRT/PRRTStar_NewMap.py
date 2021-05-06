@@ -452,18 +452,17 @@ class Graph:
         for iterations in range(100):
             currentNode = self.getSamplePoint()
             prevCurrentNode = currentNode
-            pygame.draw.circle(gridDisplay, MAGENTA, [50 * currentNode.x, HEIGHT - 50 * currentNode.y], 5)
-            pygame.display.update()
+            #pygame.draw.circle(gridDisplay, MAGENTA, [50 * currentNode.x, HEIGHT - 50 * currentNode.y], 5)
+            #pygame.display.update()
             #time.sleep(0.50)
-            print(currentNode.x, currentNode.y)
+            #print(currentNode.x, currentNode.y)
             currentNode = self.RGD(currentNode, end)
-            pygame.draw.circle(gridDisplay, BLACK, [50 * currentNode.x, HEIGHT - 50 * currentNode.y], 5)
-            pygame.display.update()
+            #pygame.draw.circle(gridDisplay, BLACK, [50 * currentNode.x, HEIGHT - 50 * currentNode.y], 5)
+            #pygame.display.update()
             #time.sleep(1)
             
-            pygame.draw.line(gridDisplay, BLACK, [50*currentNode.x, HEIGHT - 50*currentNode.y],
-                                 [50*prevCurrentNode.x, HEIGHT - 50*prevCurrentNode.y], 2)
-            pygame.display.update()
+            #pygame.draw.line(gridDisplay, BLACK, [50*currentNode.x, HEIGHT - 50*currentNode.y],[50*prevCurrentNode.x, HEIGHT - 50*prevCurrentNode.y], 2)
+            #pygame.display.update()
 
             print(currentNode.x, currentNode.y)
             print("######################")
