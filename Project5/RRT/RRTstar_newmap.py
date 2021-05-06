@@ -47,7 +47,7 @@ class Graph:
         self.visited = {}
         self.endX = end.x
         self.endY = end.y
-        self.maxDistanceForNode = 5
+        self.maxDistanceForNode = 8
         self.CLEARANCE = 0.2
 
     def getSamplePoint(self):
@@ -230,7 +230,7 @@ class Graph:
             y = y1 + mag*v2
             points.append([x, y])
 
-        print(points)
+        #(points)
         return points
 
     def getRectifiedPoint(self, points, nearestNode, currentNode):
@@ -248,7 +248,7 @@ class Graph:
 
     def getneighboursWithinRadius(self, currentNode):
         neighbours = []
-        RADIUS = 1
+        RADIUS = 5
         for node in self.visited.keys():
             distance = self.getEuclidianDistance(currentNode, node)
             if distance < RADIUS:
@@ -289,7 +289,7 @@ class Graph:
 
     def canFindPath(self, start, end):
         self.visited[start] = True
-        for iterations in range(100):
+        for iterations in range(500):
             currentNode = self.getSamplePoint()
             #time.sleep(1)
             ## print(currentNode.x, currentNode.y)
@@ -303,8 +303,7 @@ class Graph:
                 nearestNode = neighbourWithMinCost
 
                 # If the branch is inside an obstacle or distance betwen sample and neareset node is greater than robot's ability
-                if self.isBranchInObstacle(nearestNode, currentNode) or self.getEuclidianDistance(nearestNode,
-                                                                                                  currentNode) > self.maxDistanceForNode:
+                if self.isBranchInObstacle(nearestNode, currentNode) or self.getEuclidianDistance(nearestNode, currentNode) > self.maxDistanceForNode:
                     print("Searching for new point")
                     continue
 
@@ -362,6 +361,7 @@ class Graph:
             currentNode = heapq.heappop(priorityQueue)
             currentNode = currentNode[1]
             if self.isInTargetArea(currentNode.x, currentNode.y):
+                print(currentNode.cost, ": is the total cost")
                 print("We are doneeeeeeeeeee")
                 self.backTrack(currentNode)
                 return True

@@ -449,7 +449,7 @@ class Graph:
 
     def canFindPath(self, start, end):
         self.visited[start] = True
-        for iterations in range(100):
+        for iterations in range(500):
             currentNode = self.getSamplePoint()
             prevCurrentNode = currentNode
             #pygame.draw.circle(gridDisplay, MAGENTA, [50 * currentNode.x, HEIGHT - 50 * currentNode.y], 5)
@@ -536,6 +536,7 @@ class Graph:
             currentNode = currentNode[1]
             if self.isInTargetArea(currentNode.x, currentNode.y):
                 print("We are doneeeeeeeeeee")
+                print(currentNode.cost, ": is the total cost")
                 self.backTrack(currentNode)
                 return True
             if tuple([currentNode.x, currentNode.y]) in visited_list:
