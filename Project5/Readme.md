@@ -12,9 +12,10 @@ Note:  Other libraries used are inbuilt.</br>
     1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
     2. Open command prompt or terminal.
     3. Navigate to this directory using 'cd ENPM661/Project3/'
-    4. To Run RRT, Navigate to 'cd PyGame'. If OS is Ubuntu, type 'python3 RRT_OldMap.py'
-    4. To Run RRT*, Navigate to 'cd PyGame'. If OS is Ubuntu, type 'python3 RRTStar_OldMap.py'
-    5. To Run AStar with Dublin Curves, Navigate to 'cd Phase 3'. If OS is Ubuntu, type 'python3 AStar.py'
+    4. To Run RRT on PyGame, Navigate to 'cd PyGame'. If OS is Ubuntu, type 'python3 RRT_OldMap.py'
+    4. To Run RRT* on PyGame, Navigate to 'cd PyGame'. If OS is Ubuntu, type 'python3 RRTStar_OldMap.py' or 'python3 RRTStar_NewMap.py'
+    4. To Run PRRT* on PyGame, Navigate to 'cd PyGame'. If OS is Ubuntu, type 'python3 PRRTStar_NewMap.py'
+    4. To Run PRRT* on ROS, Navigate to 'cd ROS'.
     5. Enter the parameters of the robot
     6. Enjoy!
 
