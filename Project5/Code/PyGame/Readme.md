@@ -19,16 +19,19 @@ Note:  Other libraries used are inbuilt.</br>
 
 <h2>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>
 
+
+
 <h2> Test Case 1: Starting Coordinate = (0.3, 0.3), Ending Coordinate = (9, 9)</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/117591930-93a54700-b104-11eb-9bda-76593ecc76ab.gif" alt="Logo"/>
 </p>
-<h2> Test Case 2: Starting Coordinate = (0.3, 9), Ending Coordinate = (0.3, 0.3) </h2>
+<h2> Test Case 2: Starting Coordinate = (0.3, 9), Ending Coordinate = (9, 9) </h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/117591789-03670200-b104-11eb-985d-75b78a4ca7ac.gif" alt="Logo"/>
 </p>
+
 
 
 ## A few instresting things about this prorgam.
