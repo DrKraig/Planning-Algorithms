@@ -5,7 +5,7 @@
     1. Python 3 should be installed on your system.
     2. PyGame - Install it using 'pip install pygame'
 
-Note:  Other libraries used are inbuilt.</br>
+Note:  Other libraries used are inbuilt. The repo also consists of a ROS package present at ./Code/ROS</br>
 
   <h2>Instructions to run the code:</h2>
   
