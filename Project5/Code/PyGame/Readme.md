@@ -20,12 +20,12 @@ Note:  Other libraries used are inbuilt.</br>
 <h2>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>
 
 
-<h2> Test Case 1 on Pygame: Starting Coordinate = (0.3, 0.3), Ending Coordinate = (9, 9)</h2>
+<h2> Test Case 1 on Pygame: Starting Coordinate = (0.3, 0.3), Ending Coordinate = (9, 9), Iterations = 100</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/12711480/117592271-f9de9980-b105-11eb-9436-53879b15a1f5.gif" alt="Logo"/>
 </p>
-<h2> Test Case 2 on Pygame: Starting Coordinate = (0.3, 9), Ending Coordinate = (9, 9) </h2>
+<h2> Test Case 2 on Pygame: Starting Coordinate = (0.3, 9), Ending Coordinate = (9, 9), Iterations = 500 </h2>
 
 
 <p align="center">
