@@ -23,17 +23,14 @@ class Queue:
             self.rear.next = item
             self.rear = self.rear.next
         self.rear.next = None
-        print("Enqueued!")
         return
 
     def DeQueue(self):
         if self.front is None:
-            print("Trying to Dequeue an empty queue")
             return None
         else:
             ans = self.front
             self.front = self.front.next
-            print("Dequeued!")
             return ans
 
 # function for unrolling a matrix into a integer (represented in hexadecimal)
@@ -62,7 +59,6 @@ def find0(matrix):
         for j in range(0, 4):
             if matrix[i][j] == 0:
                 pos = [i, j]
-    print(pos)
     return pos
 
 # function for moving position of zero to the right and returning a new child node for it
@@ -74,7 +70,6 @@ def MoveRight(node, mat, pos):
     matrix[i][j+1] = 0
     child = CreateNode(unroll(matrix))
     child.parent = node
-    print("created a right child")
     return child
 
 # function for moving position of zero to the left and returning a new child node for it
@@ -86,7 +81,6 @@ def MoveLeft(node, mat, pos):
     matrix[i][j-1] = 0
     child = CreateNode(unroll(matrix))
     child.parent = node
-    print("created a left child")
     return child
 
 # function for moving position of zero up and returning a new child node for it
@@ -98,7 +92,6 @@ def MoveUp(node, mat, pos):
     matrix[i-1][j] = 0
     child = CreateNode(unroll(matrix))
     child.parent = node
-    print("created a up child")
     return child
 
 # function for moving position of zero down and returning a new child node for it
@@ -110,7 +103,6 @@ def MoveDown(node, mat, pos):
     matrix[i+1][j] = 0
     child = CreateNode(unroll(matrix))
     child.parent = node
-    print("created a down child")
     return child
 
 queue = Queue() # creating an empty queue
@@ -192,7 +184,8 @@ while child != None:  # Storing the nodes values in an list for returning
 file1 = open("./Output/nodePath.txt", "w")
 file1.write("Each node is represented in its matrix form \n")
 file1.write("The order of states is from start to goal node \n")
-file1.write("Number steps taken are - ",length(nodelist))
+file1.write("Number steps taken are - ")
+file1.write(str(len(nodelist)-1))
 for ele in nodelist:
     file1.write("\n\n")
     file1.write(ele)
