@@ -1,224 +1,198 @@
-#https://github.com/SamPusegaonkar/ENPM661/tree/main/Project1
-
-###########################################
-#Worst Case Time complexity is O(N) - Where N is the number of states visited to reach the target state.
-
-#Explnation: A while loop is been run to store all the possible states to be explored.
-###########################################
-#Space Complexity is O(N) - Where N is the number of states.
-
-#Explnation: A hash table has been used to store all the visited states.
-###########################################
-
-
-import re
 import numpy as np
-import copy 
 
-class Tree:
-    """
-    Tree class : This class is built to store the parent property for every state that is being generated.
-    """
-    def __init__(self, node):
-        self.name = node
-        self.parent = ""
+# defining a node class
+class CreateNode:
+    def __init__(self, data):
+        self.data = data
+        self.parent = None
+        self.next = None
+        return
 
-class TileGame(Tree):
-    """
-    TileGame class : This class defines all the functions required to play the tile game given an initial state.
-    """
-    def __init__(self, initialState, filename, title):
-        
-        """
-        Description: Defining initial constants - Visited array, Rows, Cols, Target String.
-        """
-        self.initialState = initialState
-        self.rows = len(self.initialState)
-        self.cols = len(self.initialState[0])
-        self.visited = {}
-        self.filename = filename
-        self.title = title
-        self.matchingNumToString = {1:"One", 2:"Two", 3:"Three", 0:"Zero", 4:"Four", 5:"Five", 6:"Six", 7:"Seven", 8:"Eight", 9:"Nine", 10:"Ten", 11:"Eleven", 12:"Twel", 13:"Thir", 14:"Fourt", 15:"Fif"}
-        self.matchingStringToNum = {"One":1, "Two":2, "Three":3, "Zero":0, "Four":4, "Five":5, "Six":6, "Seven":7, "Eight":8, "Nine":9, "Ten":10, "Eleven":11, "Twel":12, "Thir":13, "Fourt":14, "Fif":15}
-        self.targetState = self.generateTargetState(self.initialState)
-        self.targetStateString = self.convertMatrixToString(self.targetState)
+# defining a queue class
+class Queue:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+        return
 
-    def generateTargetState(self, initialState):
+    def EnQueue(self, item):
+        if self.front == None:
+            self.front = item
+            self.rear = item
+        else:
+            self.rear.next = item
+            self.rear = self.rear.next
+        self.rear.next = None
+        print("Enqueued!")
+        return
 
-        matrix = [[0 for j in range(len(self.initialState[0]))] for i in range(len(self.initialState))]
+    def DeQueue(self):
+        if self.front is None:
+            print("Trying to Dequeue an empty queue")
+            return None
+        else:
+            ans = self.front
+            self.front = self.front.next
+            print("Dequeued!")
+            return ans
 
-        counter = 1
-        for i in range(self.rows):
-            for j in range(self.cols):
-                matrix[i][j] = counter 
-                counter += 1
-        matrix[self.rows-1][self.cols-1] = 0
-        return matrix
+# function for unrolling a matrix into a integer (represented in hexadecimal)
+def unroll(matrix):
+    k = 15
+    b = 0
+    for row in matrix:
+        for ele in row:
+            b = b + int(ele * pow(16, k))
+            k = k - 1
+    return b
 
-    def bfs(self,matrixA):
-        """
-        Input: A given matrix/ initial state of any size. (nxn)
-        Output: A text file generated with the path from the initial state to the final state.
+# function for rolling an integer (represented in hexadecimal) into a matrix
+def roll(b):
+    matrix = np.zeros((4, 4))
+    strb = '0x%0*x' % (16,b)
+    for i in range(0, 4):
+        for j in range(0, 4):
+            matrix[i][j] = int(strb[4*i+j+2], 16)
+    return matrix
 
-        """
-        currentStateString = self.convertMatrixToString(matrixA)
-        node = Tree(currentStateString)
-        statesToExplore = [node]
+# function for finding position of zero in a matrix
+def find0(matrix):
+    pos = np.array([4, 4])
+    for i in range(0, 4):
+        for j in range(0, 4):
+            if matrix[i][j] == 0:
+                pos = [i, j]
+    print(pos)
+    return pos
 
-        while len(statesToExplore):
-            currentState = statesToExplore.pop(0)
-            currentStateString = currentState.name
+# function for moving position of zero to the right and returning a new child node for it
+def MoveRight(node, mat, pos):
+    [i, j] = pos
+    matrix = np.array(mat)
+    temp = matrix[i][j+1]
+    matrix[i][j] = temp
+    matrix[i][j+1] = 0
+    child = CreateNode(unroll(matrix))
+    child.parent = node
+    print("created a right child")
+    return child
 
-            if currentStateString == self.targetStateString:
-                print("Answer Found!")
-                result = []
-                while currentState != "":
-                    result.append(str(self.convertStringToMatrix(currentState.name)))
-                    currentState = currentState.parent
-                f = open(self.filename, "w")
-                string = self.title +  ' - Given Start State\n'
-                f.write(string)
-                for matrix in reversed(result):
-                    f.write('----------------------------\n')
-                    f.write(matrix)
-                    f.write('\n')
-                f.write('Goal state')
-                f.close()
+# function for moving position of zero to the left and returning a new child node for it
+def MoveLeft(node, mat, pos):
+    [i, j] = pos
+    matrix = np.array(mat)
+    temp = matrix[i][j-1]
+    matrix[i][j] = temp
+    matrix[i][j-1] = 0
+    child = CreateNode(unroll(matrix))
+    child.parent = node
+    print("created a left child")
+    return child
 
-                return True
+# function for moving position of zero up and returning a new child node for it
+def MoveUp(node, mat, pos):
+    [i, j] = pos
+    matrix = np.array(mat)
+    temp = matrix[i-1][j]
+    matrix[i][j] = temp
+    matrix[i-1][j] = 0
+    child = CreateNode(unroll(matrix))
+    child.parent = node
+    print("created a up child")
+    return child
 
-            if currentStateString in self.visited:
-                continue
-            self.visited[currentStateString] = True
-            
-            children = self.getNewStates(currentStateString)
-            for child in children:
-                obj = Tree(child)
-                obj.name = child
-                obj.parent = currentState
-                statesToExplore.append(obj)
-            
-        return False
+# function for moving position of zero down and returning a new child node for it
+def MoveDown(node, mat, pos):
+    [i, j] = pos
+    matrix = np.array(mat)
+    temp = matrix[i+1][j]
+    matrix[i][j] = temp
+    matrix[i+1][j] = 0
+    child = CreateNode(unroll(matrix))
+    child.parent = node
+    print("created a down child")
+    return child
 
-    def getNewStates(self, currentStateString):
-        """
-        Input: The hashed state of the matrix.
-        Output: New possible states of the matrix.
+queue = Queue() # creating an empty queue
 
-        """
-        currentState = self.convertStringToMatrix(currentStateString)
-        result = []
-        i,j = self.getBlankTile(currentState)
-        
-        deepCopyState1 = copy.deepcopy(currentState) 
-        deepCopyState2 = copy.deepcopy(currentState) 
-        deepCopyState3 = copy.deepcopy(currentState) 
-        deepCopyState4 = copy.deepcopy(currentState) 
+#testcase = np.array([[1, 2, 3, 4], [5, 6, 0, 8], [9, 10, 7, 12], [13, 14, 11, 15]])  # Testcase 1
+#testcase = np.array([[1, 0, 3, 4], [5, 2, 7, 8], [9, 6, 10, 11], [13, 14, 15, 12]])  # Testcase 2
+#testcase = np.array([[0, 2, 3, 4], [1, 5, 7, 8], [9, 6, 11, 12], [13, 10, 14, 15]])  # Testcase 3
+testcase = np.array([[5, 1, 2, 3], [0, 6, 7, 4], [9, 10, 11, 8], [13, 14, 15, 12]])  # Testcase 4
+#testcase = np.array([[1, 6, 2, 3], [9, 5, 7, 4], [0, 10, 11, 8], [13, 14, 15, 12]])  # Testcase 5
 
-        if i > 0:
-            newState = self.swapTiles(i, j, deepCopyState1, 0)
-            newStateString = self.convertMatrixToString(newState)
-            if newStateString not in self.visited:
-                result.append(newStateString)
+solution = 0x123456789abcdef0  # solution for checking the child nodes
+child = None
+root_node = CreateNode(unroll(testcase))  # creating a node from our testcase
 
-        if j > 0:
-            newState = self.swapTiles(i, j, deepCopyState2, 1)
-            newStateString = self.convertMatrixToString(newState)
-            if newStateString not in self.visited:
-                result.append(newStateString)
+queue.EnQueue(root_node)  # adding the first node to queue
 
-        if i < (self.rows - 1):
-            newState = self.swapTiles(i, j, deepCopyState3, 2)
-            newStateString = self.convertMatrixToString(newState)
-            if newStateString not in self.visited:
-                result.append(newStateString) 
+while True:
+    new_node = queue.DeQueue()  # obtaining the next node from the queue
 
-        if j < (self.cols - 1):
-            newState = self.swapTiles(i, j, deepCopyState4, 3)
-            newStateString = self.convertMatrixToString(newState)
-            if newStateString not in self.visited:
-                result.append(newStateString)
-        
-        return result
+    reader = queue.front
+    bul = True
+    # check for repeation of the node in the queue
+    if reader != None:
+        while reader.next != None:
+            if reader.data == new_node.data:
+                bul = False
+                break
+            temp = reader.next
+            reader = temp
 
-    def swapTiles(self, i,j, matrix, mode):
-        """
-        Description: Swapping the number with 0 position
-        """
-        if mode == 0:   
-            matrix[i][j], matrix[i-1][j] = matrix[i-1][j], matrix[i][j]
-        elif mode == 1:
-            matrix[i][j], matrix[i][j-1] = matrix[i][j-1], matrix[i][j]
-        elif mode == 2:
-            matrix[i][j], matrix[i+1][j] = matrix[i+1][j], matrix[i][j]
-        elif mode == 3:
-            matrix[i][j], matrix[i][j+1] = matrix[i][j+1], matrix[i][j]
-        return matrix
-
-    def getBlankTile(self, matrix):
-        """
-        Description: Getting the position of the blank Tile
-        """
-        for i in range(self.rows):
-            for j in range(self.cols):
-                if matrix[i][j] == 0:
-                    return i,j
-
-    def convertMatrixToString(self, matrix):
-        """
-        Description: Hashing the matrix to string.
-        """
-        string = ""
-
-        for i in range(self.rows):
-            for j in range(self.cols):
-                num = matrix[i][j]
-                string += self.matchingNumToString[num]
-
-        return string
-    
-    def convertStringToMatrix(self, string):
-        """
-        Description: UnHashing the string to matrix.
-        """
-        matrix = []
-
-        listOfWords = re.sub( r"([A-Z])", r" \1", string).split()
-        for word in listOfWords:
-            matrix.append(self.matchingStringToNum[word])           
-
-        matrix = np.array(matrix)
-        matrix = np.reshape(matrix, (self.rows,self.cols))
-
-        return matrix
-
-
-#################################################
-
-#Test Case 1:
-matrixA = [[1,2,3,4],[5,6,0,8], [9,10,7,12], [13,14,11,15]]
-start = TileGame(matrixA, "./Output Text Files/Output1.txt", "Test Case 1")
-print(start.bfs(matrixA))
-
-#Test Case 2:
-matrixB = [[1,0,3,4],[5,2,7,8], [9,6,10,11], [13,14,15,12]]
-start = TileGame(matrixB, "./Output Text Files/Output2.txt", "Test Case 2")
-print(start.bfs(matrixB))
-
-#Test Case 3:
-matrixC = [[0,2,3,4],[1,5,7,8], [9,6,11,12], [13,10,14,15]]
-start = TileGame(matrixC, "./Output Text Files/Output3.txt", "Test Case 3")
-print(start.bfs(matrixC))
-
-#Test Case 4:
-matrixD = [[5,1,2,3],[0,6,7,4], [9,10,11,8], [13,14,15,12]]
-start = TileGame(matrixD, "./Output Text Files/Output4.txt", "Test Case 4")
-print(start.bfs(matrixD))
-
-#Test Case 5:
-matrixE = [[1,6,2,3],[9,5,7,4], [0,10,11,8], [13,14,15,12]]
-start = TileGame(matrixE, "./Output Text Files/Output5.txt", "Test Case 5")
-print(start.bfs(matrixE))
+    # if it is new find new nodes by performing actions
+    if bul:
+        current_state = roll(new_node.data)
+        p = find0(current_state)
+        # perform move up action if possible
+        if p[0] > 0:
+            child_node_u = MoveUp(new_node, current_state, p)
+            if child_node_u.data == solution:  # exit if solution is found
+                child = child_node_u
+                break
+            else:
+                queue.EnQueue(child_node_u)  # if it's not the solution add to the queue
+        # perform move down action if possible
+        if p[0] < 3:
+            child_node_d = MoveDown(new_node, current_state, p)
+            if child_node_d.data == solution:  # exit if solution is found
+                child = child_node_d
+                break
+            else:
+                queue.EnQueue(child_node_d)  # if it's not the solution add to the queue
+        # perform move right action if possible
+        if p[1] < 3:
+            child_node_r = MoveRight(new_node, current_state, p)
+            if child_node_r.data == solution:  # exit if solution is found
+                child = child_node_r
+                break
+            else:
+                queue.EnQueue(child_node_r)  # if it's not the solution add to the queue
+        # perform move left action if possible
+        if p[1] > 0:
+            child_node_l = MoveLeft(new_node, current_state, p)
+            if child_node_l.data == solution:  # exit if solution is found
+                child = child_node_l
+                break
+            else:
+                queue.EnQueue(child_node_l)  # if it's not the solution add to the queue
 
 
+count = -1
+nodelist = []
+while child != None:  # Storing the nodes values in an list for returning
+    state = roll(child.data)
+    state_string = '\n'.join('\t'.join('%d' % x for x in y) for y in state)
+    nodelist.insert(0, state_string)
+    child = child.parent
+    count = count+1
 
+# writing the output in text file
+file1 = open("./Output/nodePath.txt", "w")
+file1.write("Each node is represented in its matrix form \n")
+file1.write("The order of states is from start to goal node \n")
+file1.write("Number steps taken are - ",length(nodelist))
+for ele in nodelist:
+    file1.write("\n\n")
+    file1.write(ele)
