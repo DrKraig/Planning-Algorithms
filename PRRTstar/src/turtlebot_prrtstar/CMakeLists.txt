@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(Astar)
+project(turtlebot_prrtstar)
 
 
 find_package(catkin REQUIRED COMPONENTS
@@ -18,7 +18,6 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 add_executable(bot_controller src/bot_controller.cpp)
 target_link_libraries(bot_controller ${catkin_LIBRARIES})
-catkin_install_python(PROGRAMS src/publisher.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-catkin_install_python(PROGRAMS src/goal_broadcaster.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+catkin_install_python(PROGRAMS scripts/goal_broadcaster.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 

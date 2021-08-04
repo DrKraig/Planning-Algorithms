@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(Astar)
+project(turtlebot_astar)
 
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
@@ -13,6 +13,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-catkin_install_python(PROGRAMS src/publisher.py
+catkin_install_python(PROGRAMS scripts/publisher.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

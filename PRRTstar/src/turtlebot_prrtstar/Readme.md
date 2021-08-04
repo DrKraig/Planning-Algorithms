@@ -1,20 +1,33 @@
-<h1>Project 5 - PRRT*: RRT* with Potential Fields on ROS!</h1>
+<h1>PRRT*: RRT* with Potential Fields on ROS!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
     1. Python 3 should be installed on your system.
-    2. ROS should be installed along with Gazebo
+    2. ROS melodic should be installed along with Gazebo, turtlebot3
 
 Note:  Other libraries used are inbuilt.</br>
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project3/'
-    4. To Run PRRT* on ROS, Navigate to 'cd ROS'.
-    5. Enter the parameters of the robot
-    6. Enjoy!
+    3. Navigate to this directory using 'cd Planning-Algorithms/PRRTStar/src/'
+    4. To Run PRRT* on ROS, clone the ROS package 'turtlebot_prrtstar' to your catkin
+       workspace and enter the following script.
+      ```bash
+         source /opt/ros/melodic/setup.bash
+         cd ~/your_workspace/
+         catkin build
+         source ~/your_workspace/devel/setup.bash
+      ```
+    5. To change the bot's initial location edit the ./launch/turtlebot3_map.launch
+    6. Now run the following commands in 3 different terminal windows
+    ```
+       roslaunch turtlebot_prrtstar turtlebot3_map
+       rosrun turtlebot_prrtstar bot_controller
+       rosrun turtlebot_prrtstar goal_broadcaster.py
+    ```
+    7. Enter goal location and enjoy!
 
 
 <h2>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>

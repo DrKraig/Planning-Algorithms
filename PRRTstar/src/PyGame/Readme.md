@@ -1,17 +1,17 @@
-<h1>Project 5 - PRRT*: RRT* with Potential Fields on PyGame!</h1>
+<h1>PRRT*: RRT* with Potential Fields on PyGame!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
     1. Python 3 should be installed on your system.
-    2. ROS should be installed along with Gazebo
+    2. Pygame - Install it using 'pip install pygame'
 
 Note:  Other libraries used are inbuilt.</br>
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project3/'
+    3. Navigate to this directory using 'cd Planning-Algorithms/PRRTstar/src'
     4. To Run PRRT* on PyGame, Navigate to 'cd PyGame'. If OS is Ubuntu, type 'python3 PRRTStar_NewMap.py'
     5. Enter the parameters of the robot
     6. Enjoy!

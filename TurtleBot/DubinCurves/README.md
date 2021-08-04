@@ -1,4 +1,4 @@
-<h1>Project 3 - Implementation of AStar Algorithm with Animation! - Dublin Curves</h1>
+<h1>Implementation of AStar Algorithm with Animation! - Dubin Curves</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
@@ -9,17 +9,19 @@ Note:  Other libraries used are inbuilt.</br>
 
 <h2>Instructions to run the code:</h2>
   
-    1. Part1 Folder includes: Animation of Dublin curves in pygame
-    2. Part2 Folder includes: Animation of Dublin curves in ROS
+    1. pygame includes: Animation of Dubin curves in pygame
+    2. turtlebot_astar Folder is a ROS package
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project3/'
-    4. To Run AStar - Part 1, Navigate to 'cd Phase 3/Part1'. If OS is Ubuntu, type 'python3 AStar.py'
+    3. Navigate to this directory using 'cd Planning-Algorithms/TurtleBot/DubinCurves/'
+    4. To Run AStar on pygame, Navigate to 'cd ./pygame'. If OS is Ubuntu, type 'python3 AStar.py'
     5. Enter the parameters of the  robot
     6. Enjoy!
+    7. To Run AStar on gazebo, Checkout the instructions in ./turtlebot_astar/README.md
+
 
 
 <h2>Videos are present in the 'Output Videos' folder. </h2>

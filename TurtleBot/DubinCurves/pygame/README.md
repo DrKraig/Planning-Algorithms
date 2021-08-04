@@ -1,4 +1,4 @@
-<h1>Project 3 - Implementation of AStar Algorithm for a rigid robot with Dublin Curves in PyGame!</h1>
+<h1>Implementation of AStar Algorithm for a rigid robot with Dublin Curves in PyGame!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
@@ -9,10 +9,10 @@ Note:  Other libraries used are inbuilt.</br>
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project3/Part1'
-    4. To Run AStar, Navigate to 'cd Phase 2'. If OS is Ubuntu, type 'python3 AStar.py'
+    3. Navigate to this directory using 'cd Planning-Algorithms/TurtleBot/DubinCurves/'
+    4. To Run AStar, Navigate to 'cd pygame'. If OS is Ubuntu, type 'python3 AStar.py'
     5. Enter the parameters of the  robot
     6. Enjoy!
 

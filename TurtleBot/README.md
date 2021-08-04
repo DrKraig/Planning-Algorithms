@@ -1,22 +1,23 @@
-<h1>Project 3 - Implementation of Dijkstra's & AStar Algorithm for a rigid robot with Animation!</h1>
+<h1>Implementation of Dijkstra's & AStar Algorithm for a rigid robot with Animation!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
     1. Python 3 should be installed on your system.
     2. PyGame - Install it using 'pip install pygame'
+    3. ROS melodic with Gazebo and turtlebot3 packages are required
 
 Note:  Other libraries used are inbuilt.</br>
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project3/'
-    4. To Run Dijkstra, Navigate to 'cd Phase 1'. If OS is Ubuntu, type 'python3 Dijkstra.py'
-    4. To Run AStar, Navigate to 'cd Phase 2'. If OS is Ubuntu, type 'python3 AStar.py'
-    5. To Run AStar with Dublin Curves, Navigate to 'cd Phase 3'. If OS is Ubuntu, type 'python3 AStar.py'
-    5. Enter the parameters of the robot
-    6. Enjoy!
+    3. Navigate to this directory using 'cd Planning-Algorithms/TurtleBot/'
+    4. To Run Dijkstra, Navigate to 'cd Dijkstra'. If OS is Ubuntu, type 'python3 Dijkstra.py'
+    4. To Run AStar, Navigate to 'cd Astar'. If OS is Ubuntu, type 'python3 AStar.py'
+    5. To Run AStar with Dublin Curves on pygame, Navigate to 'cd DubinCurves/pygame'. If OS is Ubuntu, type 'python3 AStar.py'
+    6. Enter the parameters of the robot
+    7. Enjoy!
 
 
 <h2>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>

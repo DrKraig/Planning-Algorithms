@@ -1,20 +1,32 @@
-<h1>Project 3 - Implementation of AStar Algorithm for a rigid robot with Dublin Curves in ROS!</h1>
+<h1>Implementation of AStar Algorithm for a rigid robot with Dublin Curves in ROS!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
     1. Python 3 should be installed on your system.
-    2. Install ROS
+    2. Install ROS melodic along with Gazebo and turtlebot3 packages
 
 Note:  Other libraries used are inbuilt.</br>
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project3/Part2'
-    4. To Run AStar, Navigate to 'cd Phase 2'. If OS is Ubuntu, type 'python3 AStar.py'
-    5. Enter the parameters of the  robot
-    6. Enjoy!
+    3. Navigate to this directory using 'cd Planning-Algorithms/TurtleBot/DubinCurves/'
+    4. Clone the ROS package 'turtlebot_astar' to your catkin workspace.
+    5. Set up your ROS environment by following commands.
+    ```bash
+       source /opt/ros/melodic/setup.bash
+       cd ~/your_workspace/
+       catkin build
+       source ~/your_workspace/devel/setup.bash
+    ```
+    6. To change the bot's initial location edit the ./launch/turtlebot3_map.launch
+    7. Now run the following commands in 2 different terminal windows
+    ```
+       roslaunch turtlebot_astar turtlebot3_map
+       rosrun turtlebot_astar publisher.py
+    ```
+    8. Enter goal location and enjoy!
 
 
 <h1>Videos are present in the 'Output Videos' folder. The output can also be viewed below in GIF format.</h2>

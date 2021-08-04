@@ -1,4 +1,4 @@
-<h1>Project 3 - Implementation of Dijkstra's Algorithm on a rigid robot with Animation!</h1>
+<h1>Implementation of Dijkstra's Algorithm on a rigid robot with Animation!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
@@ -9,9 +9,9 @@ Note:  Other libraries used are inbuilt.</br>
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project3'
+    3. Navigate to this directory using 'cd Planning-Algorithms/TurtleBot/Dijkstra'
     4. If OS is windows, type 'python Dijkstra.py'
     4. If OS is Ubuntu, type 'python3 Dijkstra.py'
     5. Input the co-ordinates for starting & ending point

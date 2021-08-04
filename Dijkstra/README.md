@@ -1,19 +1,19 @@
-<h1>Project 2 - Implementation of Dijkstra's Algorithm for a point robot with Animation!</h1>
+<h1>Implementation of Dijkstra's Algorithm for a point robot with Animation!</h1>
 
   <h2>Pre-requisites to run the code:</h2>
 
     1. Python 3 should be installed on your system.
-    2. PyGame - Install it using 'pip install pygame'
+    2. cv2 - Install it using 'pip install cv2'
 
 Note:  Other libraries used are inbuilt.</br>
 
   <h2>Instructions to run the code:</h2>
   
-    1. Clone the repository by clicking the big green button located here: https://github.com/SamPusegaonkar/ENPM661
+    1. Clone the repository by clicking the big green button located here: https://github.com/DrKraig/Planning-Algorithms
     2. Open command prompt or terminal.
-    3. Navigate to this directory using 'cd ENPM661/Project2'
-    4. If OS is windows, type 'python Dijkstra.py'
-    4. If OS is Ubuntu, type 'python3 Dijkstra.py'
+    3. Navigate to this directory using 'cd Planning-Algorithms/Dijkstra'
+    4. If OS is windows, type 'python dijkstra_point_robot.py'
+    4. If OS is Ubuntu, type 'python3 dijkstra_point_robot.py'
     5. Input the co-ordinates for starting & ending point
     6. Enjoy!
 
