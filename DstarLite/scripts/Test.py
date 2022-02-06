@@ -40,6 +40,7 @@ class Node(Map):
         else:
             return self.k1 < other.k1
     def __ne__(self,other):
+        print("Inside this!")
         if self.posI != other.posI or self.posJ != other.posJ:
             return True
         else:
@@ -68,6 +69,7 @@ class plotter():
         self.map_img = np.zeros((m,n),dtype=np.int32)
         self.map_img[int(round(Is)),int(round(Js))] = 150
         self.map_img[int(round(Ig)),int(round(Jg))] = 25
+        self.map_img_test = np.zeros((m,n))
         self.map = Map()
         self.km = 0
         self.goal = self.map.nodes[str(Ig)+','+str(Jg)]
@@ -82,11 +84,18 @@ class plotter():
         self.ax.set_xlim(0, 30)
         self.ax.set_ylim(0, 30)
         plt.pause(0.01)
-        vertices = self.fig.ginput(n=-1,timeout=30)
+        vertices = self.fig.ginput(n=-1,timeout=5)
         for vertex in vertices:
             self.map_img[int(round(vertex[1])),int(round(vertex[0]))] = 255
         plt.pause(0.01)
     
+    def update_test_map(self):
+        for node in self.map.nodes.values():
+            if node.g == float('inf'):
+                self.map_img_test[int(node.posI)][int(node.posJ)] = 30
+            else:
+                self.map_img_test[int(node.posI)][int(node.posJ)] = node.g
+
     def heuristic(self,node):
         h = np.linalg.norm([node.posI-self.start.posI,node.posJ-self.start.posJ])
         return h
@@ -103,23 +112,31 @@ class plotter():
     def insert_in_queue(self,node,key):
         node.k1 = key[0]
         node.k2 = key[1]
-        heapq.heappush(plotter.U,node)
+        heapq.heappush(plotter.U, node)
         node.deleted = False
 
     def delete_from_queue(self,node):
         node.deleted = True
 
     def update_vertex(self,node):
+        # print("Inside update vertex")
+        # print(node.g, "G value")
+        # print(node.rhs, "RHS")
+
         if node.g != node.rhs and not node.deleted:
+            # print("Updating!")
             self.update_queue(node,self.CalculateKey(node))
         elif node.g != node.rhs and node.deleted:
+            # print("Inserting!")
             self.insert_in_queue(node,self.CalculateKey(node))
         elif node.g == node.rhs and not node.deleted:
+            # print("Deleting!")
             self.delete_from_queue(node)
 
-    def topnode():
-        while not plotter.U[0].deleted:
-            
+    def topnode(self):
+        while plotter.U[0].deleted:
+            heapq.heappop(plotter.U)
+        return plotter.U[0]
 
     def check_map_changes(self):
         # run over all grid locations in the updated map image 
@@ -133,7 +150,7 @@ class plotter():
                 # in no.isObstacle False is free and True is obstacle
                 if (node.isObstacle == True and self.map_img[row][col] == 0) or \
                    (node.isObstacle == False and self.map_img[row][col] == 255): 
-                    print("changes detected here",row,col)
+                    # print("changes detected here",row,col)
                     #Update the vertex status
                     node.isObstacle = not node.isObstacle
                     node.isChanged = True
@@ -159,35 +176,36 @@ class plotter():
             if node.isChanged:
                 if change_flag:
                     self.km += self.heuristic(self.last)
-                    self.last = copy.deepcopy(self.start)
+                    self.last = copy.copy(self.start)
                     change_flag = False
                 self.update_vertex(node)
                 node.isChanged = False
                     
     def compute_shortest_path(self):
-        # need to check for nodes deleted in in U !!!!!!
-        #
-        #
-        print("in here!")
-        while [plotter.U[0].k1,plotter.U[0].k2] < self.CalculateKey(self.start) or self.start.rhs > self.start.g:
-            print("looping")
+
+        # print("in here!")
+        while [self.topnode().k1,self.topnode().k2] < self.CalculateKey(self.start) or self.start.rhs > self.start.g:
+            # print("looping")
             u = plotter.U[0]
+            # print(u.deleted)
             k_old = [u.k1,u.k2]
             k_new = self.CalculateKey(u)
             if k_old < k_new:
+                print("0th statement")
                 self.update_queue(u,k_new)
             elif u.g > u.rhs:
+                print("1st statement")
                 u.g = u.rhs
+                print(u.g, u.rhs)
                 self.delete_from_queue(u)
-                for s in u.child.keys():
+
+                for s, c in u.child.items():
                     if s != self.goal:
-                        s.rhs = float("inf")
-                        for sp,c in s.child.items():
-                            new_rhs = c + sp.g 
-                            if s.rhs < new_rhs:
-                                s.rhs = new_rhs
+                        s.rhs = min(s.rhs, c + u.g)
+                    # print("First update vertex")
                     self.update_vertex(s)
             else:
+                # print("Node:", u.posI, u.posJ, u.g, u.rhs)
                 g_old = u.g
                 u.g = float("inf")
                 union_dict = copy.copy(u.child)
@@ -200,30 +218,39 @@ class plotter():
                                 new_rhs = cp + sp.g 
                                 if s.rhs < new_rhs:
                                     s.rhs = new_rhs
+                    print("Second update vertex")
                     self.update_vertex(s)
 
     def thread_function(self):
         print("started the thread")
         self.compute_shortest_path()
         print("startinh the loop")
+        counter = 0
         while self.start != self.goal:
-            print("beginning of the loop")
+            print("beginning of the loop", counter)
             if self.start.rhs == float("inf"):
                 print("No feasible Path")
                 break
+            # time.sleep(5)
             min_child_cost = float("inf")
             min_child = None
             for sp,c in self.start.child.items():
-                if min_child_cost < c + sp.g:
+                if min_child_cost > c + sp.g:
                     min_child_cost = c + sp.g
                     min_child = sp
             self.start = min_child
-            print("moved start")
-            self.map_img[int(round(self.self.posI)),int(round(self.self.posJ))] = 150
+            print("Current Pos: ", self.start.posI, " ", self.start.posJ)
+            print("moved start", counter)
+            self.map_img[int(round(self.start.posI)),int(round(self.start.posJ))] = 150
+            
+            time.sleep(1)
             self.check_map_changes()
-            print("computing shortest path")
+            print("computing shortest path",  counter)
             self.compute_shortest_path()
-
+            print("Computed shortest path", counter)
+            self.update_test_map()
+            counter += 1
+        print("Goal Reached!")
 def main():
     fig,ax1 = plt.subplots()
     fig.set_size_inches(6, 12)
@@ -231,11 +258,23 @@ def main():
     ax1.set_ylim(0, 30)
     ax1.axes.xaxis.set_visible(False)
     ax1.axes.yaxis.set_visible(False)
+    fig2,ax2 = plt.subplots()
+    fig2.set_size_inches(6, 12)
+    ax2.set_xlim(0, 30)
+    ax2.set_ylim(0, 30)
+    ax2.axes.xaxis.set_visible(False)
+    ax2.axes.yaxis.set_visible(False)
     drawing1 = plotter(fig,ax1,30,30,2,2,15,15)
     x = threading.Thread(target=drawing1.thread_function, args=())
     x.start()
     while True:
         drawing1.update_plot()
+        ax2.clear()
+        ax2.imshow(drawing1.map_img_test)
+        ax2.set_xlim(0, 30)
+        ax2.set_ylim(0, 30)
+        
+        plt.pause(0.01)        
     # print(Map.nodes["2,2"].child[Map.nodes["2,1"]])
     # drawing1.check_map_changes()
     # drawing1.map_img[2:4,2:4] = 1
