@@ -18,8 +18,7 @@ class Map:
                 self.nodes[hash_str]  = Node(row,col)
         for node in Map.nodes.values():
             node.getChild()
-
-    
+            
 class Node(Map):
     def __init__(self,row,col):
         self.posI = row
